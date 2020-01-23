@@ -45,6 +45,9 @@
             // guiOpenGLFrame
             // 
             this.guiOpenGLFrame.AccumBits = ((byte)(0));
+            this.guiOpenGLFrame.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiOpenGLFrame.AutoCheckErrors = false;
             this.guiOpenGLFrame.AutoFinish = false;
             this.guiOpenGLFrame.AutoMakeCurrent = true;
@@ -52,29 +55,32 @@
             this.guiOpenGLFrame.BackColor = System.Drawing.Color.Black;
             this.guiOpenGLFrame.ColorBits = ((byte)(32));
             this.guiOpenGLFrame.DepthBits = ((byte)(16));
-            this.guiOpenGLFrame.Location = new System.Drawing.Point(155, 12);
+            this.guiOpenGLFrame.Location = new System.Drawing.Point(207, 15);
+            this.guiOpenGLFrame.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guiOpenGLFrame.Name = "guiOpenGLFrame";
-            this.guiOpenGLFrame.Size = new System.Drawing.Size(500, 492);
+            this.guiOpenGLFrame.Size = new System.Drawing.Size(667, 606);
             this.guiOpenGLFrame.StencilBits = ((byte)(0));
             this.guiOpenGLFrame.TabIndex = 0;
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.MediumSpringGreen;
-            this.button1.Location = new System.Drawing.Point(7, 112);
+            this.button1.Location = new System.Drawing.Point(9, 138);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 51);
+            this.button1.Size = new System.Drawing.Size(165, 63);
             this.button1.TabIndex = 1;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.BtnStartClick);
             // 
             // radioButtonSH
             // 
             this.radioButtonSH.AutoSize = true;
-            this.radioButtonSH.Location = new System.Drawing.Point(7, 215);
+            this.radioButtonSH.Location = new System.Drawing.Point(9, 265);
+            this.radioButtonSH.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSH.Name = "radioButtonSH";
-            this.radioButtonSH.Size = new System.Drawing.Size(124, 17);
+            this.radioButtonSH.Size = new System.Drawing.Size(161, 21);
             this.radioButtonSH.TabIndex = 51;
             this.radioButtonSH.TabStop = true;
             this.radioButtonSH.Text = "Self-Healing Scenaio";
@@ -83,9 +89,10 @@
             // radioButtonSO
             // 
             this.radioButtonSO.AutoSize = true;
-            this.radioButtonSO.Location = new System.Drawing.Point(7, 238);
+            this.radioButtonSO.Location = new System.Drawing.Point(9, 293);
+            this.radioButtonSO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSO.Name = "radioButtonSO";
-            this.radioButtonSO.Size = new System.Drawing.Size(139, 17);
+            this.radioButtonSO.Size = new System.Drawing.Size(184, 21);
             this.radioButtonSO.TabIndex = 52;
             this.radioButtonSO.TabStop = true;
             this.radioButtonSO.Text = "Self-Optimizing Scenario";
@@ -94,9 +101,10 @@
             // radioButtonSP
             // 
             this.radioButtonSP.AutoSize = true;
-            this.radioButtonSP.Location = new System.Drawing.Point(7, 261);
+            this.radioButtonSP.Location = new System.Drawing.Point(9, 321);
+            this.radioButtonSP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSP.Name = "radioButtonSP";
-            this.radioButtonSP.Size = new System.Drawing.Size(139, 17);
+            this.radioButtonSP.Size = new System.Drawing.Size(182, 21);
             this.radioButtonSP.TabIndex = 53;
             this.radioButtonSP.TabStop = true;
             this.radioButtonSP.Text = "Self-Protecting Scenario";
@@ -105,9 +113,10 @@
             // radioButtonSC
             // 
             this.radioButtonSC.AutoSize = true;
-            this.radioButtonSC.Location = new System.Drawing.Point(7, 284);
+            this.radioButtonSC.Location = new System.Drawing.Point(9, 350);
+            this.radioButtonSC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSC.Name = "radioButtonSC";
-            this.radioButtonSC.Size = new System.Drawing.Size(144, 17);
+            this.radioButtonSC.Size = new System.Drawing.Size(190, 21);
             this.radioButtonSC.TabIndex = 54;
             this.radioButtonSC.TabStop = true;
             this.radioButtonSC.Text = "Self-Configuring Scenario";
@@ -116,64 +125,70 @@
             // checkBoxOurs
             // 
             this.checkBoxOurs.AutoSize = true;
-            this.checkBoxOurs.Location = new System.Drawing.Point(26, 424);
+            this.checkBoxOurs.Location = new System.Drawing.Point(35, 522);
+            this.checkBoxOurs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxOurs.Name = "checkBoxOurs";
-            this.checkBoxOurs.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxOurs.Size = new System.Drawing.Size(101, 21);
             this.checkBoxOurs.TabIndex = 56;
             this.checkBoxOurs.Text = "OurMethod";
             this.checkBoxOurs.UseVisualStyleBackColor = true;
-            this.checkBoxOurs.CheckedChanged += new System.EventHandler(this.checkBoxOurs_CheckedChanged);
+            this.checkBoxOurs.CheckedChanged += new System.EventHandler(this.CheckBoxOursCheckedChanged);
             // 
             // lblAdapting
             // 
             this.lblAdapting.AutoSize = true;
-            this.lblAdapting.Location = new System.Drawing.Point(23, 318);
+            this.lblAdapting.Location = new System.Drawing.Point(31, 391);
+            this.lblAdapting.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAdapting.Name = "lblAdapting";
-            this.lblAdapting.Size = new System.Drawing.Size(76, 13);
+            this.lblAdapting.Size = new System.Drawing.Size(101, 17);
             this.lblAdapting.TabIndex = 57;
             this.lblAdapting.Text = "adapting time: ";
             // 
             // lblOptimizing
             // 
             this.lblOptimizing.AutoSize = true;
-            this.lblOptimizing.Location = new System.Drawing.Point(23, 341);
+            this.lblOptimizing.Location = new System.Drawing.Point(31, 420);
+            this.lblOptimizing.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblOptimizing.Name = "lblOptimizing";
-            this.lblOptimizing.Size = new System.Drawing.Size(86, 13);
+            this.lblOptimizing.Size = new System.Drawing.Size(112, 17);
             this.lblOptimizing.TabIndex = 58;
             this.lblOptimizing.Text = "Message count: ";
             // 
             // labelAdapting
             // 
             this.labelAdapting.AutoSize = true;
-            this.labelAdapting.Location = new System.Drawing.Point(111, 318);
+            this.labelAdapting.Location = new System.Drawing.Point(148, 391);
+            this.labelAdapting.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelAdapting.Name = "labelAdapting";
-            this.labelAdapting.Size = new System.Drawing.Size(0, 13);
+            this.labelAdapting.Size = new System.Drawing.Size(0, 17);
             this.labelAdapting.TabIndex = 59;
             // 
             // lableOptimizing
             // 
             this.lableOptimizing.AutoSize = true;
-            this.lableOptimizing.Location = new System.Drawing.Point(111, 341);
+            this.lableOptimizing.Location = new System.Drawing.Point(148, 420);
+            this.lableOptimizing.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lableOptimizing.Name = "lableOptimizing";
-            this.lableOptimizing.Size = new System.Drawing.Size(0, 13);
+            this.lableOptimizing.Size = new System.Drawing.Size(0, 17);
             this.lableOptimizing.TabIndex = 60;
             // 
             // checkBoxMultiOff
             // 
             this.checkBoxMultiOff.AutoSize = true;
-            this.checkBoxMultiOff.Location = new System.Drawing.Point(24, 401);
+            this.checkBoxMultiOff.Location = new System.Drawing.Point(32, 494);
+            this.checkBoxMultiOff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxMultiOff.Name = "checkBoxMultiOff";
-            this.checkBoxMultiOff.Size = new System.Drawing.Size(61, 17);
+            this.checkBoxMultiOff.Size = new System.Drawing.Size(78, 21);
             this.checkBoxMultiOff.TabIndex = 61;
             this.checkBoxMultiOff.Text = "multiOff";
             this.checkBoxMultiOff.UseVisualStyleBackColor = true;
-            this.checkBoxMultiOff.CheckedChanged += new System.EventHandler(this.checkBoxMultiOff_CheckedChanged);
+            this.checkBoxMultiOff.CheckedChanged += new System.EventHandler(this.CheckBoxMultiOffCheckedChanged);
             // 
-            // Form1
+            // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(665, 519);
+            this.ClientSize = new System.Drawing.Size(887, 639);
             this.Controls.Add(this.checkBoxMultiOff);
             this.Controls.Add(this.lableOptimizing);
             this.Controls.Add(this.labelAdapting);
@@ -186,6 +201,7 @@
             this.Controls.Add(this.radioButtonSH);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.guiOpenGLFrame);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.Text = "NASA ANTS Simulation";
             this.ResumeLayout(false);

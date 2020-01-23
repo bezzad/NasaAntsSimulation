@@ -24,7 +24,7 @@ namespace Simulation
         public List<Agent> RulerList = new List<Agent>();
 
         public Area[] AreaArray = new Area[16];
-        private Program.Scenario _simulationScenario;
+        private Program.Scenario SimulationScenario => Program.Scenario.Scenario1;
 
 
         //Implementation ----------------------------------------------------
@@ -32,7 +32,6 @@ namespace Simulation
         {
             _upperBoarder = upperBorder;
             _lowerBoarder = lowerBoarder;
-            //numOfAgents = NumOfAgents;
             ContainerMedia = new Media(this);
             Time.GlobalSimulationTime = 0;
             _random = Program.R;
@@ -164,7 +163,7 @@ namespace Simulation
                 Time.Tick();
                 UpdateOrganizations();
                 if (Time.GlobalSimulationTime == 100 && 
-                    _simulationScenario == Program.Scenario.Scenario1)
+                    SimulationScenario == Program.Scenario.Scenario1)
                 {
 
                     Time.StartSimulationTime = Time.GlobalSimulationTime;

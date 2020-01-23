@@ -9,31 +9,16 @@ namespace Simulation
 {
     public class Gui
     {
-        private Random _random;
         private readonly Container _environmentContainer;
 
         private SimpleOpenGlControl _guiFrame;
-
-        //private int numOfAgent { set; get; }
-        private int _numOfOrganization;
-        private float _rColor;
-        private float _gColor;
-        private float _bColor;
-        private double _xratio;
-        private double _yratio;
-
         public Gui(Container environmentContainer)
         {
             _environmentContainer = environmentContainer;
-
-            //numOfOrganization = environmentContainer.numOfAgents;
-            // this.viewScreen = viewScreen;
-            _xratio = _yratio = 0.5;
         }
 
         private void InitialGui()
         {
-            _random = Program.R;
             if (_guiFrame.InvokeRequired)
             {
                 _guiFrame.Invoke(new MethodInvoker(InitialGui));

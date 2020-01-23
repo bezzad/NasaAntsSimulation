@@ -72,7 +72,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI.cs" />
+    <Compile Include="Gui.cs" />
     <Compile Include="Media.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="OrganizationBoundries.cs" />
