@@ -1,4 +1,4 @@
-﻿namespace Nasa.ANTS.Simulation
+﻿namespace Simulation
 {
     public enum EventType { Message, BroadcastMessage };
     public struct Event

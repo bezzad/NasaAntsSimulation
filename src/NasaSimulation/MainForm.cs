@@ -1,15 +1,14 @@
-﻿using Nasa.ANTS.Simulation;
-using System;
+﻿using System;
 using System.Threading;
 using System.Windows.Forms;
 using Tao.OpenGl;
-using Container = Nasa.ANTS.Simulation.Container;
-using Point = Nasa.ANTS.Simulation.Point;
+using Container = Simulation.Container;
+using Point = Simulation.Point;
 
 
-namespace ThesisSimulation
+namespace Simulation
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private Container _envirumentContainer;
         private Gui _animationController;
@@ -17,12 +16,12 @@ namespace ThesisSimulation
         Thread _tenvirument;
         int _clickFlag = 0;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             //viewScreen = glControl1;
-            Point p1 = new Point();
-            Point p2 = new Point();
+            var p1 = new Point();
+            var p2 = new Point();
             p1 = Program.UpperBoarder;
             p2 = Program.LowerBoarder;
 
@@ -40,7 +39,7 @@ namespace ThesisSimulation
 
         }
 
-        void run()
+        void Run()
         {
             //if (this.InvokeRequired)
             //{
@@ -48,7 +47,7 @@ namespace ThesisSimulation
             //}
             //else
             //{
-            _animationController.run();
+            _animationController.Run();
             //}
         }
 
@@ -78,12 +77,12 @@ namespace ThesisSimulation
             //GUIform gf = new GUIform(envirumentContainer);
             ///
 
-            ThreadStart ts = new ThreadStart(_envirumentContainer.run);
+            var ts = new ThreadStart(_envirumentContainer.Run);
             _tenvirument = new Thread(ts);
 
             _tenvirument.Start();
 
-            _tanimation = new Thread(_animationController.run);
+            _tanimation = new Thread(_animationController.Run);
             // animationController.RUN();
             _tanimation.Start();
 
@@ -102,7 +101,7 @@ namespace ThesisSimulation
 
 
 
-        private void m()
+        private void M()
         {
             Gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             Gl.glMatrixMode(Gl.GL_PROJECTION);

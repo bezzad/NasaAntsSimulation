@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nasa.ANTS.Simulation.Roles
+namespace Simulation.Roles
 {
     class Worker:Role
     {
@@ -23,7 +23,7 @@ namespace Nasa.ANTS.Simulation.Roles
 
         }
 
-        internal void getMessage(Message message)
+        internal void GetMessage(Message message)
         {
             if (message.RecieverAgentId == _workerAgent.AgentId)
             {
@@ -51,24 +51,24 @@ namespace Nasa.ANTS.Simulation.Roles
         {
             double minDist = 10000;
             Agent nAgent = null;
-            foreach (Agent mAgent in _container.MessangerList)
+            foreach (var mAgent in _container.MessangerList)
             {
                 //Role temptRole = (Role)mAgent.agentRole;
-                if (calculateDistance(agentPosition.Position, mAgent.getPosition().Position) <= RadioRange && calculateDistance(agentPosition.Position, mAgent.getPosition().Position) + calculateDistance(destPosition.Position, mAgent.getPosition().Position) < minDist)
+                if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)
                 {
-                  minDist =  calculateDistance(agentPosition.Position, mAgent.getPosition().Position) + calculateDistance(destPosition.Position, mAgent.getPosition().Position);
+                  minDist =  CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position);
                     nAgent = mAgent;
                 }
             }
             return nAgent;
         }
 
-        public double calculateDistance(Point position, Point position2)
+        public double CalculateDistance(Point position, Point position2)
         {
             double dest;
 
-            double x = position.X - position2.X;
-            double y = position.Y - position2.Y;
+            var x = position.X - position2.X;
+            var y = position.Y - position2.Y;
             x *= x;
             y *= y;
             dest = Math.Sqrt(x + y);

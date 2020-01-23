@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using Nasa.ANTS.Simulation.Roles;
+using Simulation.Roles;
 using Tao.OpenGl;
 using Tao.Platform.Windows;
 
-namespace Nasa.ANTS.Simulation
+namespace Simulation
 {
     public class Gui
     {
@@ -30,12 +30,12 @@ namespace Nasa.ANTS.Simulation
             _xratio = _yratio = 0.5;
         }
 
-        private void initialGui()
+        private void InitialGui()
         {
             _r = Program.R;
             if (_guiFrame.InvokeRequired)
             {
-                _guiFrame.Invoke(new MethodInvoker(delegate () { initialGui(); }));
+                _guiFrame.Invoke(new MethodInvoker(delegate () { InitialGui(); }));
             }
             else
             {
@@ -221,7 +221,7 @@ namespace Nasa.ANTS.Simulation
         }
 
 
-        private void guiDraw()
+        private void GuiDraw()
         {
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
             if (_guiFrame.InvokeRequired)
@@ -229,7 +229,7 @@ namespace Nasa.ANTS.Simulation
                 try
                 {
                     //if (Program.endOfApplication) return;
-                    _guiFrame.Invoke(new MethodInvoker(delegate () { guiDraw(); }));
+                    _guiFrame.Invoke(new MethodInvoker(delegate () { GuiDraw(); }));
                 }
                 catch
                 {
@@ -257,7 +257,7 @@ namespace Nasa.ANTS.Simulation
                     foreach (var agent in team.AgentsArray)
                     {
 
-                        tempAgentPosition = agent.getPosition();
+                        tempAgentPosition = agent.GetPosition();
                         Gl.glVertex2d(tempAgentPosition.Position.X, tempAgentPosition.Position.Y);
 
                     }
@@ -265,7 +265,7 @@ namespace Nasa.ANTS.Simulation
                     Gl.glColor3f(0, 0, 125);
                     Gl.glPointSize(5);
                     Gl.glBegin(Gl.GL_POINTS);
-                    Gl.glVertex2d(team.OrgLeader.getPosition().Position.X, team.OrgLeader.getPosition().Position.Y);
+                    Gl.glVertex2d(team.OrgLeader.GetPosition().Position.X, team.OrgLeader.GetPosition().Position.Y);
                     Gl.glEnd();
 
 
@@ -276,7 +276,7 @@ namespace Nasa.ANTS.Simulation
 
                 foreach (var messenger in _envirumentContainer.MessangerList)
                 {
-                    DrawMessenger(messenger.getPosition().Position);
+                    DrawMessenger(messenger.GetPosition().Position);
 
 
                 }
@@ -284,11 +284,11 @@ namespace Nasa.ANTS.Simulation
                 foreach (var rulerAgent in _envirumentContainer.RulerList)
                 {
                     var ruler = (Ruler)rulerAgent.AgentRole;
-                    if (ruler.IStatus == 1)
-                        DrawRuler(rulerAgent.getPosition().Position);
+                    if (ruler.Status == 1)
+                        DrawRuler(rulerAgent.GetPosition().Position);
                     else
                     {
-                        DrawDisabledRuler(rulerAgent.getPosition().Position);
+                        DrawDisabledRuler(rulerAgent.GetPosition().Position);
                     }
                 }
 
@@ -296,18 +296,18 @@ namespace Nasa.ANTS.Simulation
                 _guiFrame.SwapBuffers();
             }
         }
-        public void run()
+        public void Run()
         {
             _guiFrame = Program.GuiOpenGLcontrol;
 
-            initialGui();
+            InitialGui();
 
 
             while (true)
             {
                 if (Program.RunGui && !Program.EndOfApplication)
                 {
-                    guiDraw();
+                    GuiDraw();
                 }
 
 

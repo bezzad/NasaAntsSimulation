@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using ThesisSimulation;
 
-namespace Nasa.ANTS.Simulation.Roles
+namespace Simulation.Roles
 {
     public class Leader : Role
     {
@@ -77,7 +76,7 @@ namespace Nasa.ANTS.Simulation.Roles
             Program.BroadcastType messageType,
             Program.MessagesContent messageContent, Agent rulerAgent)
         {
-            Message message = new Message();
+            var message = new Message();
             message.CurrentSenderAgent = currentSenderAgent;
             message.CurrentSenderAgentId = currentSenderAgent.AgentId;
             message.SenderAgentId = senderAgent.AgentId;
@@ -87,7 +86,7 @@ namespace Nasa.ANTS.Simulation.Roles
 
             message.MessageContent = messageContent;
             message.MessageType = messageType;
-            Agent messengerAgent = FindNearestMessenger(this._leaderAgent.getPosition(), reciverAgent.getPosition());
+            var messengerAgent = FindNearestMessenger(this._leaderAgent.GetPosition(), reciverAgent.GetPosition());
 
             message.RulerPingReply = rulerAgent;
             if (messengerAgent == null)
@@ -101,7 +100,7 @@ namespace Nasa.ANTS.Simulation.Roles
             message.CurrentReciverAgent = messengerAgent;
             message.CurrentRecieverAgentId = messengerAgent.AgentId;
 
-            bool messageStatus = _container.ContainerMedia.sendMessage(this._leaderAgent, message.Copy());
+            var messageStatus = _container.ContainerMedia.SendMessage(this._leaderAgent, message.Copy());
         }
 
         private void SendMessage(Agent senderAgent, Agent currentSenderAgent, Agent reciverAgent,
@@ -109,7 +108,7 @@ namespace Nasa.ANTS.Simulation.Roles
             Program.BroadcastType messageType,
             Program.MessagesContent messageContent, string messageTextData)
         {
-            Message message = new Message();
+            var message = new Message();
             message.CurrentSenderAgent = currentSenderAgent;
             message.CurrentSenderAgentId = currentSenderAgent.AgentId;
             message.SenderAgentId = senderAgent.AgentId;
@@ -119,7 +118,7 @@ namespace Nasa.ANTS.Simulation.Roles
 
             message.MessageContent = messageContent;
             message.MessageType = messageType;
-            Agent messengerAgent = FindNearestMessenger(this._leaderAgent.getPosition(), reciverAgent.getPosition());
+            var messengerAgent = FindNearestMessenger(this._leaderAgent.GetPosition(), reciverAgent.GetPosition());
             message.DataMessageText = messageTextData;
             if (messengerAgent == null)
             {
@@ -133,7 +132,7 @@ namespace Nasa.ANTS.Simulation.Roles
             message.CurrentRecieverAgentId = messengerAgent.AgentId;
 
 
-            bool messageStatus = _container.ContainerMedia.sendMessage(this._leaderAgent, message.Copy());
+            var messageStatus = _container.ContainerMedia.SendMessage(this._leaderAgent, message.Copy());
 
         }
 
@@ -143,7 +142,7 @@ namespace Nasa.ANTS.Simulation.Roles
             Program.BroadcastType messageType,
             Program.MessagesContent messageContent, int iBroadcastNum)
         {
-            Message message = new Message();
+            var message = new Message();
             message.CurrentSenderAgent = currentSenderAgent;
             message.CurrentSenderAgentId = currentSenderAgent.AgentId;
             message.SenderAgentId = senderAgent.AgentId;
@@ -153,7 +152,7 @@ namespace Nasa.ANTS.Simulation.Roles
             message.MessageContent = messageContent;
             message.MessageType = messageType;
             message.NumOfBoroadcastSteps = iBroadcastNum;
-            Agent messengerAgent = FindNearestMessenger(this._leaderAgent.getPosition());
+            var messengerAgent = FindNearestMessenger(this._leaderAgent.GetPosition());
             if (messengerAgent == null)
             {
                 RadioRange += 50;
@@ -167,13 +166,13 @@ namespace Nasa.ANTS.Simulation.Roles
             message.CurrentRecieverAgentId = messengerAgent.AgentId;
 
 
-            bool messageStatus = _container.ContainerMedia.sendMessage(this._leaderAgent, message.Copy());
+            var messageStatus = _container.ContainerMedia.SendMessage(this._leaderAgent, message.Copy());
 
         }
 
 
 
-        private void enhancedAdaptToLostRuler()
+        private void EnhancedAdaptToLostRuler()
         {
             throw new NotImplementedException();
         }
@@ -182,12 +181,12 @@ namespace Nasa.ANTS.Simulation.Roles
         {
             double minDist = 10000;
             Agent nAgent = null;
-            foreach (Agent mAgent in _container.MessangerList)
+            foreach (var mAgent in _container.MessangerList)
             {
                 //Role temptRole = (Role)mAgent.agentRole;
-                if (calculateDistance(agentPosition.Position, mAgent.getPosition().Position) <= RadioRange && calculateDistance(agentPosition.Position, mAgent.getPosition().Position) + calculateDistance(destPosition.Position, mAgent.getPosition().Position) < minDist)
+                if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)
                 {
-                    minDist = calculateDistance(agentPosition.Position, mAgent.getPosition().Position) + calculateDistance(destPosition.Position, mAgent.getPosition().Position);
+                    minDist = CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position);
                     nAgent = mAgent;
                 }
             }
@@ -197,12 +196,12 @@ namespace Nasa.ANTS.Simulation.Roles
         {
             double minDist = 10000;
             Agent nAgent = null;
-            foreach (Agent mAgent in _container.MessangerList)
+            foreach (var mAgent in _container.MessangerList)
             {
                 //Role temptRole = (Role)mAgent.agentRole;
-                if (calculateDistance(agentPosition.Position, mAgent.getPosition().Position) <= RadioRange && calculateDistance(agentPosition.Position, mAgent.getPosition().Position) < minDist)
+                if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) < minDist)
                 {
-                    minDist = calculateDistance(agentPosition.Position, mAgent.getPosition().Position);
+                    minDist = CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position);
                     nAgent = mAgent;
                 }
             }
@@ -210,12 +209,12 @@ namespace Nasa.ANTS.Simulation.Roles
         }
 
 
-        public double calculateDistance(Point position, Point position2)
+        public double CalculateDistance(Point position, Point position2)
         {
             double dest;
 
-            double x = position.X - position2.X;
-            double y = position.Y - position2.Y;
+            var x = position.X - position2.X;
+            var y = position.Y - position2.Y;
             x *= x;
             y *= y;
             dest = Math.Sqrt(x + y);
@@ -252,7 +251,7 @@ namespace Nasa.ANTS.Simulation.Roles
             {
                 if (message.DataMessageText != "-1")
                 {
-                    Agent repliedRuler = message.RulerPingReply;
+                    var repliedRuler = message.RulerPingReply;
                     if (repliedRuler != RulerAgent)
                     {
                         RulerAgent = repliedRuler;
@@ -263,7 +262,7 @@ namespace Nasa.ANTS.Simulation.Roles
                     }
                     else
                     {
-                        int x = 12;
+                        var x = 12;
                     }
                 }
             }
@@ -275,7 +274,7 @@ namespace Nasa.ANTS.Simulation.Roles
             {
                 return;
             }
-            Form1 f = (Form1)Program.ActiveForm;
+            var f = (MainForm)Program.ActiveForm;
             if (f.InvokeRequired)
             {
                 //if (Program.endOfApplication) return;
@@ -290,13 +289,13 @@ namespace Nasa.ANTS.Simulation.Roles
             }
         }
 
-        internal void getMessage(Message message)
+        internal void GetMessage(Message message)
         {
             if (message.RecieverAgentId == _leaderAgent.AgentId)
             {
                 if (Program.OursExecutionMode)
                 {
-                    oursProcessMessage(message);
+                    OursProcessMessage(message);
                 }
                 else
                 {
@@ -312,7 +311,7 @@ namespace Nasa.ANTS.Simulation.Roles
 
         internal void UpdateTimeLabel(string labelTxt)
         {
-            Form1 f = (Form1)Program.ActiveForm;
+            var f = (MainForm)Program.ActiveForm;
             if (f.InvokeRequired)
             {
                 //if (Program.endOfApplication) return;
@@ -329,7 +328,7 @@ namespace Nasa.ANTS.Simulation.Roles
 
         internal void UpdateMessageLabel(string labelTxt)
         {
-            Form1 f = (Form1)Program.ActiveForm;
+            var f = (MainForm)Program.ActiveForm;
             if (f.InvokeRequired)
             {
                 //if (Program.endOfApplication) return;
@@ -361,7 +360,7 @@ namespace Nasa.ANTS.Simulation.Roles
 
 
 
-        private void oursProcessMessage(Message message)
+        private void OursProcessMessage(Message message)
         {
             if (message.MessageContent == Program.MessagesContent.PingReply)
             {
@@ -387,7 +386,7 @@ namespace Nasa.ANTS.Simulation.Roles
             {
                 if (message.DataMessageText != "-1")
                 {
-                    Agent repliedRuler = message.RulerPingReply;
+                    var repliedRuler = message.RulerPingReply;
                     if (repliedRuler != RulerAgent)
                     {
                         RulerAgent = repliedRuler;

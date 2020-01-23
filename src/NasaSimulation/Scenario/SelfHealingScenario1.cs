@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nasa.ANTS.Simulation.Scenario
+namespace Simulation.Scenario
 {
     class SelfHealingScenario1
     {

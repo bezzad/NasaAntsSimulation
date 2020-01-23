@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using Tao.Platform.Windows;
-using ThesisSimulation;
 
-namespace Nasa.ANTS.Simulation
+namespace Simulation
 {
     public static class Program
     {
@@ -45,7 +44,7 @@ namespace Nasa.ANTS.Simulation
         //agent parameter -------------------
         public static double Maxradiorange = 85;
         public static double MaxMessengerRadioRange = 170;
-        public static int ILastAgentId;
+        public static int LastAgentId;
         public static int Msgdelay = 3;
         /// <summary>
         /// The main entry point for the application.
@@ -53,14 +52,14 @@ namespace Nasa.ANTS.Simulation
         [STAThread]
         static void Main()
         {
-            setparameter();
+            Setparameter();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            ActiveForm = new Form1();
+            ActiveForm = new MainForm();
             Application.Run(ActiveForm);
         }
 
-        private static void setparameter()
+        private static void Setparameter()
         {
             LowerBoarder.X = 0;
             LowerBoarder.Y = 0;

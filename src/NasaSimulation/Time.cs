@@ -1,4 +1,4 @@
-﻿namespace Nasa.ANTS.Simulation
+﻿namespace Simulation
 {
     public static class Time
     {
@@ -10,12 +10,12 @@
         public static long OursAdaptingTime { set; get; }
         public static long OursOptimizingTime { set; get; }
 
-        public static long oneSecTick()
+        public static long OneSecTick()
         {
             GlobalSimulationTime += 1000;
             return GlobalSimulationTime;
         }
-        public static long tick()
+        public static long Tick()
         {
             GlobalSimulationTime += 1;
             return GlobalSimulationTime;

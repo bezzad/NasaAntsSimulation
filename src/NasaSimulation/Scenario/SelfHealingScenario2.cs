@@ -1,4 +1,4 @@
-﻿namespace Nasa.ANTS.Simulation.Scenario
+﻿namespace Simulation.Scenario
 {
     class SelfHealingScenario2
     {

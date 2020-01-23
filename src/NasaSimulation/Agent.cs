@@ -1,7 +1,7 @@
 ﻿using System;
-using Nasa.ANTS.Simulation.Roles;
+using Simulation.Roles;
 
-namespace Nasa.ANTS.Simulation
+namespace Simulation
 {
     public class Agent
     {
@@ -30,7 +30,7 @@ namespace Nasa.ANTS.Simulation
             _teamBoundry = orgBoundry;
             
             AgentType = agentRoleType;
-            Role temptRole = new Role();
+            var temptRole = new Role();
 
             switch (AgentType)
             {
@@ -88,7 +88,7 @@ namespace Nasa.ANTS.Simulation
             AgentType = agentRoleType;
             _upB = Program.UpperBoarder;
             _lowB = Program.LowerBoarder;
-            Role temptRole = new Role();
+            var temptRole = new Role();
             switch (AgentType)
             {
                 case Role.RolesName.Messenger:
@@ -140,7 +140,7 @@ namespace Nasa.ANTS.Simulation
             {
                 if (Program.OursExecutionMode)
                 {
-                    Leader leader = (Leader)this.AgentRole;
+                    var leader = (Leader)this.AgentRole;
                     if (Time.GlobalSimulationTime % 40 == 0)
                     {
                         leader.oursOnTimeEvent();
@@ -148,7 +148,7 @@ namespace Nasa.ANTS.Simulation
                 }
                 else
                 {
-                    Leader leader = (Leader)this.AgentRole;
+                    var leader = (Leader)this.AgentRole;
                     if (Time.GlobalSimulationTime % 40== 0)
                     {
                         leader.OnTimedEvent();
@@ -165,7 +165,7 @@ namespace Nasa.ANTS.Simulation
             {
                 if (Program.OursExecutionMode)
                 {
-                    Messenger messenger = (Messenger)this.AgentRole;
+                    var messenger = (Messenger)this.AgentRole;
                     if (Time.GlobalSimulationTime % 50 == 0 && Time.GlobalSimulationTime > 100)
                     {
                         messenger.OnTimedEvent();
@@ -202,20 +202,20 @@ namespace Nasa.ANTS.Simulation
         //}
 
         //Methods -----------------------------------------------------
-        public AgentPosition getPosition()
+        public AgentPosition GetPosition()
         {
-            AgentPosition p = new AgentPosition();
+            var p = new AgentPosition();
             p = _position;
             return p;
         }
 
 
-        public double calculateDistance(Point position, Point position2)
+        public double CalculateDistance(Point position, Point position2)
         {
             double dest;
 
-            double x = position.X - position2.X;
-            double y = position.Y - position2.Y;
+            var x = position.X - position2.X;
+            var y = position.Y - position2.Y;
             x *= x;
             y *= y;
             dest = Math.Sqrt(x + y);
@@ -229,7 +229,7 @@ namespace Nasa.ANTS.Simulation
 
             _position.Position.Y += _position.Velocity.Y/1000;
 
-            if (calculateDistance(_position.Position, _teamBoundry.OrgCenter) > _teamBoundry.Radious) 
+            if (CalculateDistance(_position.Position, _teamBoundry.OrgCenter) > _teamBoundry.Radious) 
             {
                 _position.Position.X = _teamBoundry.OrgCenter.X;
                 _position.Position.Y = _teamBoundry.OrgCenter.Y;
@@ -242,7 +242,7 @@ namespace Nasa.ANTS.Simulation
 
             if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
             {
-                updateVelocity(_position);
+                UpdateVelocity(_position);
             }
             return 0;
         }
@@ -262,10 +262,10 @@ namespace Nasa.ANTS.Simulation
 
             if (AgentType == Role.RolesName.Messenger)
             {
-                Messenger tempMessenger = (Messenger)AgentRole;
+                var tempMessenger = (Messenger)AgentRole;
 
-                double x = (double)_r.Next((int)tempMessenger.MessengerArea.MinX, (int)tempMessenger.MessengerArea.MaxX);
-                double y = (double)_r.Next((int)tempMessenger.MessengerArea.MinY, (int)tempMessenger.MessengerArea.MaxY);
+                var x = (double)_r.Next((int)tempMessenger.MessengerArea.MinX, (int)tempMessenger.MessengerArea.MaxX);
+                var y = (double)_r.Next((int)tempMessenger.MessengerArea.MinY, (int)tempMessenger.MessengerArea.MaxY);
                 if (_position.Position.X > tempMessenger.MessengerArea.MaxX) _position.Position.X = x;
                 if (_position.Position.X < tempMessenger.MessengerArea.MinX) _position.Position.X = x;
                 if (_position.Position.Y > tempMessenger.MessengerArea.MaxY) _position.Position.Y = y;
@@ -276,10 +276,10 @@ namespace Nasa.ANTS.Simulation
 
             else if (AgentType == Role.RolesName.Ruler)
             {
-                Ruler tempRuler = (Ruler)AgentRole;
+                var tempRuler = (Ruler)AgentRole;
 
-                double x = (double)_r.Next((int)tempRuler.RulerArea.MinX, (int)tempRuler.RulerArea.MaxX);
-                double y = (double)_r.Next((int)tempRuler.RulerArea.MinY, (int)tempRuler.RulerArea.MaxY);
+                var x = (double)_r.Next((int)tempRuler.RulerArea.MinX, (int)tempRuler.RulerArea.MaxX);
+                var y = (double)_r.Next((int)tempRuler.RulerArea.MinY, (int)tempRuler.RulerArea.MaxY);
                 if (_position.Position.X > tempRuler.RulerArea.MaxX) _position.Position.X = x;
                 if (_position.Position.X < tempRuler.RulerArea.MinX) _position.Position.X = x;
                 if (_position.Position.Y > tempRuler.RulerArea.MaxY) _position.Position.Y = y;
@@ -296,7 +296,7 @@ namespace Nasa.ANTS.Simulation
 
             if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
             {
-                updateVelocity(_position);
+                UpdateVelocity(_position);
             }
             return 0;
         }
@@ -312,14 +312,14 @@ namespace Nasa.ANTS.Simulation
             //if (position.Position.Y < 0) position.Position.Y = (upB.Y + lowB.Y);
 
 
-            if ((Time.GlobalSimulationTime>1000)&&((Time.GlobalSimulationTime%1000) == 0)) updateVelocity(_position);
+            if ((Time.GlobalSimulationTime>1000)&&((Time.GlobalSimulationTime%1000) == 0)) UpdateVelocity(_position);
             return 0;
         }
-        private void updateVelocity(AgentPosition position)
+        private void UpdateVelocity(AgentPosition position)
         {
-            double t1 = _r.NextDouble();
+            var t1 = _r.NextDouble();
             t1 = (t1 - 0.5) * 2; 
-            double t2 = _r.NextDouble();
+            var t2 = _r.NextDouble();
             t2 = (t2 - 0.5) * 2;
 
            
@@ -365,12 +365,12 @@ namespace Nasa.ANTS.Simulation
         //    }
         //}
 
-        private void messageNotSent()
+        private void MessageNotSent()
         {
             throw new NotImplementedException();
         }
 
-        private void sendMessage(int nextHopAgentId, Message msg)
+        private void SendMessage(int nextHopAgentId, Message msg)
         {
             //MSG.currentSenderAgentID = this.agentID;
             //MSG.currentRecieverAgentID = nextHopAgentID;
@@ -381,7 +381,7 @@ namespace Nasa.ANTS.Simulation
             //}
         }
 
-        private void mediaIsBussy()
+        private void MediaIsBussy()
         {
             throw new NotImplementedException();
         }

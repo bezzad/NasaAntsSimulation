@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Nasa.ANTS.Simulation.Roles;
+using Simulation.Roles;
 
-namespace Nasa.ANTS.Simulation
+namespace Simulation
 {
     public class Media
     {
@@ -12,52 +12,52 @@ namespace Nasa.ANTS.Simulation
         {
             _container = cont;
         }
-        public bool sendMessage(Agent sender, Message msg)
+        public bool SendMessage(Agent sender, Message msg)
         {
             MessageCount++;
             msg.MessageId = MessageCount;
             MessageList.Add(msg);
             //--- must do --- check if this agent is in forbiden area
             //------------------
-            addMessageEventToContainer(MessageCount);
+            AddMessageEventToContainer(MessageCount);
             return true;
         }
 
-        private void addMessageEventToContainer(int msgId)
+        private void AddMessageEventToContainer(int msgId)
         {
 
 
 
-            _container.addEventToQeue(msgId, Program.Msgdelay);
+            _container.AddEventToQeue(msgId, Program.Msgdelay);
         }
 
-        public bool sendToAgent(Message message, Agent reciever)
+        public bool SendToAgent(Message message, Agent reciever)
         {
             if (reciever.AgentType == Role.RolesName.Messenger)
             {
-                Messenger tempMesenger = (Messenger)reciever.AgentRole;
-                tempMesenger.getMessage(message.Copy());
+                var tempMesenger = (Messenger)reciever.AgentRole;
+                tempMesenger.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
             else if (reciever.AgentType == Role.RolesName.Worker)
             {
-                Worker tempWorker = (Worker)reciever.AgentRole;
-                tempWorker.getMessage(message.Copy());
+                var tempWorker = (Worker)reciever.AgentRole;
+                tempWorker.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
             else if (reciever.AgentType == Role.RolesName.Ruler)
             {
-                Ruler tempRuler = (Ruler)reciever.AgentRole;
+                var tempRuler = (Ruler)reciever.AgentRole;
                 tempRuler.GetandSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
             else if (reciever.AgentType == Role.RolesName.Leader)
             {
-                Leader tempLeader = (Leader)reciever.AgentRole;
-                tempLeader.getMessage(message.Copy());
+                var tempLeader = (Leader)reciever.AgentRole;
+                tempLeader.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
             return true;
@@ -65,45 +65,45 @@ namespace Nasa.ANTS.Simulation
 
 
 
-        public bool sendBroadcastToAgent(Message message, Agent reciever)
+        public bool SendBroadcastToAgent(Message message, Agent reciever)
         {
             if (reciever.AgentType == Role.RolesName.Messenger)
             {
-                Messenger tempMesenger = (Messenger)reciever.AgentRole;
-                tempMesenger.getMessage(message);
+                var tempMesenger = (Messenger)reciever.AgentRole;
+                tempMesenger.GetMessage(message);
                 MessageList.Remove(message);
             }
 
             else if (reciever.AgentType == Role.RolesName.Worker)
             {
-                Worker tempWorker = (Worker)reciever.AgentRole;
-                tempWorker.getMessage(message);
+                var tempWorker = (Worker)reciever.AgentRole;
+                tempWorker.GetMessage(message);
                 MessageList.Remove(message);
             }
 
             else if (reciever.AgentType == Role.RolesName.Ruler)
             {
-                Ruler tempRuler = (Ruler)reciever.AgentRole;
+                var tempRuler = (Ruler)reciever.AgentRole;
                 tempRuler.GetandSendMessage(message);
                 MessageList.Remove(message);
             }
 
             else if (reciever.AgentType == Role.RolesName.Leader)
             {
-                Leader tempLeader = (Leader)reciever.AgentRole;
-                tempLeader.getMessage(message);
-                bool x = MessageList.Remove(message);
+                var tempLeader = (Leader)reciever.AgentRole;
+                tempLeader.GetMessage(message);
+                var x = MessageList.Remove(message);
             }
             return true;
         }
 
-        public bool sendToAgentAndRecieve(Message message, Agent reciever)
+        public bool SendToAgentAndRecieve(Message message, Agent reciever)
         {
 
 
             if (reciever.AgentType == Role.RolesName.Ruler)
             {
-                Ruler tempRuler = (Ruler)reciever.AgentRole;
+                var tempRuler = (Ruler)reciever.AgentRole;
                 tempRuler.GetandSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
@@ -111,10 +111,10 @@ namespace Nasa.ANTS.Simulation
             return true;
         }
 
-        public bool doMessage(int msgId)
+        public bool DoMessage(int msgId)
         {
-            bool msgStatus = true;
-            Message tempMsg = MessageList.Find(
+            var msgStatus = true;
+            var tempMsg = MessageList.Find(
                 delegate (Message msg)
                 {
                     return msg.MessageId == msgId;
@@ -124,7 +124,7 @@ namespace Nasa.ANTS.Simulation
 
             if (tempMsg == null)
             {
-                int r = 0;
+                var r = 0;
             }
             switch (tempMsg.MessageType)
             {
@@ -132,31 +132,31 @@ namespace Nasa.ANTS.Simulation
                     {
                         if (tempMsg.CurrentRecieverAgentId == "-1")
                         {
-                            List<Agent> agentList = _container.getAgentsInRange(tempMsg.CurrentSenderAgent);
-                            foreach (Agent agent in agentList)
+                            var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            foreach (var agent in agentList)
                             {
 
-                                Message singleMessage = tempMsg.Copy();
+                                var singleMessage = tempMsg.Copy();
                                 singleMessage.CurrentReciverAgent = agent;
                                 singleMessage.CurrentRecieverAgentId = agent.AgentId;
                                 singleMessage.ReciverAgent = agent;
                                 singleMessage.RecieverAgentId = agent.AgentId;
-                                sendBroadcastToAgent(singleMessage, agent);
+                                SendBroadcastToAgent(singleMessage, agent);
                             }
                         }
 
                         else
                         {
-                            Agent agent = tempMsg.CurrentReciverAgent;
-                            sendToAgent(tempMsg, agent);
+                            var agent = tempMsg.CurrentReciverAgent;
+                            SendToAgent(tempMsg, agent);
                         }
                         break;
 
                     }
                 case Program.BroadcastType.SingleCast:
                     {
-                        Agent agent = tempMsg.CurrentReciverAgent;
-                        sendToAgent(tempMsg, agent);
+                        var agent = tempMsg.CurrentReciverAgent;
+                        SendToAgent(tempMsg, agent);
                         break;
                     }
 
@@ -166,45 +166,45 @@ namespace Nasa.ANTS.Simulation
                         {
                             if (tempMsg.NumOfBoroadcastSteps == 1)
                             {
-                                List<Agent> agentList = _container.getRulersInRange(tempMsg.CurrentSenderAgent);
-                                foreach (Agent agent in agentList)
+                                var agentList = _container.GetRulersInRange(tempMsg.CurrentSenderAgent);
+                                foreach (var agent in agentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Ruler && agent.AgentId != tempMsg.SenderAgentId)
                                     {
-                                        Message singleMessage = tempMsg.Copy();
+                                        var singleMessage = tempMsg.Copy();
                                         MessageCount++;
                                         singleMessage.MessageId = MessageCount;
                                         singleMessage.CurrentReciverAgent = agent;
                                         singleMessage.CurrentRecieverAgentId = agent.AgentId;
                                         singleMessage.ReciverAgent = agent;
                                         singleMessage.RecieverAgentId = agent.AgentId;
-                                        sendBroadcastToAgent(singleMessage, agent);
+                                        SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
                             }
                             else if (tempMsg.NumOfBoroadcastSteps == 2)
                             {
-                                List<Agent> agentList = _container.getRulersInRange(tempMsg.CurrentSenderAgent);
-                                foreach (Agent agent in agentList)
+                                var agentList = _container.GetRulersInRange(tempMsg.CurrentSenderAgent);
+                                foreach (var agent in agentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Ruler && agent.AgentId != tempMsg.SenderAgentId)
                                     {
-                                        Message singleMessage = tempMsg.Copy();
+                                        var singleMessage = tempMsg.Copy();
                                         MessageCount++;
                                         singleMessage.MessageId = MessageCount;
                                         singleMessage.CurrentReciverAgent = agent;
                                         singleMessage.CurrentRecieverAgentId = agent.AgentId;
                                         singleMessage.ReciverAgent = agent;
                                         singleMessage.RecieverAgentId = agent.AgentId;
-                                        sendBroadcastToAgent(singleMessage, agent);
+                                        SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
-                                List<Agent> messengerAgentList = _container.getMessangersInRange(tempMsg.CurrentSenderAgent);
-                                foreach (Agent agent in messengerAgentList)
+                                var messengerAgentList = _container.GetMessangersInRange(tempMsg.CurrentSenderAgent);
+                                foreach (var agent in messengerAgentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
                                     {
-                                        Message lostRulerMessage = tempMsg.Copy();
+                                        var lostRulerMessage = tempMsg.Copy();
                                         MessageCount++;
                                         lostRulerMessage.MessageId = MessageCount;
                                         lostRulerMessage.CurrentReciverAgent = agent;
@@ -218,7 +218,7 @@ namespace Nasa.ANTS.Simulation
 
 
                                         lostRulerMessage.MessageContent = Program.MessagesContent.LostRuler;
-                                        sendBroadcastToAgent(lostRulerMessage, agent);
+                                        SendBroadcastToAgent(lostRulerMessage, agent);
 
                                     }
                                 }
@@ -230,8 +230,8 @@ namespace Nasa.ANTS.Simulation
 
                         else
                         {
-                            Agent agent = tempMsg.CurrentReciverAgent;
-                            sendToAgent(tempMsg, agent);
+                            var agent = tempMsg.CurrentReciverAgent;
+                            SendToAgent(tempMsg, agent);
                         }
                         break;
                     }
@@ -243,45 +243,45 @@ namespace Nasa.ANTS.Simulation
                         {
                             if (tempMsg.NumOfBoroadcastSteps == 1)
                             {
-                                List<Agent> agentList = _container.getLeadersInRange(tempMsg.CurrentSenderAgent);
-                                foreach (Agent agent in agentList)
+                                var agentList = _container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
+                                foreach (var agent in agentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Leader && agent.AgentId != tempMsg.SenderAgentId)
                                     {
-                                        Message singleMessage = tempMsg.Copy();
+                                        var singleMessage = tempMsg.Copy();
                                         MessageCount++;
                                         singleMessage.MessageId = MessageCount;
                                         singleMessage.CurrentReciverAgent = agent;
                                         singleMessage.CurrentRecieverAgentId = agent.AgentId;
                                         singleMessage.ReciverAgent = agent;
                                         singleMessage.RecieverAgentId = agent.AgentId;
-                                        sendBroadcastToAgent(singleMessage, agent);
+                                        SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
                             }
                             else if (tempMsg.NumOfBoroadcastSteps == 2)
                             {
-                                List<Agent> agentList = _container.getLeadersInRange(tempMsg.CurrentSenderAgent);
-                                foreach (Agent agent in agentList)
+                                var agentList = _container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
+                                foreach (var agent in agentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Leader && agent.AgentId != tempMsg.SenderAgentId)
                                     {
-                                        Message singleMessage = tempMsg.Copy();
+                                        var singleMessage = tempMsg.Copy();
                                         MessageCount++;
                                         singleMessage.MessageId = MessageCount;
                                         singleMessage.CurrentReciverAgent = agent;
                                         singleMessage.CurrentRecieverAgentId = agent.AgentId;
                                         singleMessage.ReciverAgent = agent;
                                         singleMessage.RecieverAgentId = agent.AgentId;
-                                        sendBroadcastToAgent(singleMessage, agent);
+                                        SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
-                                List<Agent> messengerAgentList = _container.getMessangersInRange(tempMsg.CurrentSenderAgent);
-                                foreach (Agent agent in messengerAgentList)
+                                var messengerAgentList = _container.GetMessangersInRange(tempMsg.CurrentSenderAgent);
+                                foreach (var agent in messengerAgentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
                                     {
-                                        Message lostRulerMessage = tempMsg.Copy();
+                                        var lostRulerMessage = tempMsg.Copy();
                                         MessageCount++;
                                         lostRulerMessage.MessageId = MessageCount;
                                         lostRulerMessage.CurrentReciverAgent = agent;
@@ -295,7 +295,7 @@ namespace Nasa.ANTS.Simulation
 
 
                                         lostRulerMessage.MessageContent = Program.MessagesContent.LostRuler;
-                                        sendBroadcastToAgent(lostRulerMessage, agent);
+                                        SendBroadcastToAgent(lostRulerMessage, agent);
 
                                     }
                                 }
@@ -307,8 +307,8 @@ namespace Nasa.ANTS.Simulation
 
                         else
                         {
-                            Agent agent = tempMsg.CurrentReciverAgent;
-                            sendToAgent(tempMsg, agent);
+                            var agent = tempMsg.CurrentReciverAgent;
+                            SendToAgent(tempMsg, agent);
                         }
                         break;
                     }
@@ -317,19 +317,19 @@ namespace Nasa.ANTS.Simulation
                     {
                         if (tempMsg.CurrentRecieverAgentId == "-1")
                         {
-                            List<Agent> agentList = _container.getAgentsInRange(tempMsg.CurrentSenderAgent);
-                            foreach (Agent agent in agentList)
+                            var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            foreach (var agent in agentList)
                             {
                                 if (agent.AgentType == Role.RolesName.Messenger)
                                 {
-                                    Message singleMessage = tempMsg.Copy();
+                                    var singleMessage = tempMsg.Copy();
                                     MessageCount++;
                                     singleMessage.MessageId = MessageCount;
                                     singleMessage.CurrentReciverAgent = agent;
                                     singleMessage.CurrentRecieverAgentId = agent.AgentId;
                                     singleMessage.ReciverAgent = agent;
                                     singleMessage.RecieverAgentId = agent.AgentId;
-                                    sendBroadcastToAgent(singleMessage, agent);
+                                    SendBroadcastToAgent(singleMessage, agent);
                                 }
                             }
                         }
@@ -337,8 +337,8 @@ namespace Nasa.ANTS.Simulation
 
                         else
                         {
-                            Agent agent = tempMsg.CurrentReciverAgent;
-                            sendToAgent(tempMsg, agent);
+                            var agent = tempMsg.CurrentReciverAgent;
+                            SendToAgent(tempMsg, agent);
                         }
                         break;
                     }
@@ -347,19 +347,19 @@ namespace Nasa.ANTS.Simulation
                     {
                         if (tempMsg.RecieverAgentId == "-1")
                         {
-                            List<Agent> agentList = _container.getAgentsInRange(tempMsg.CurrentSenderAgent);
-                            foreach (Agent agent in agentList)
+                            var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            foreach (var agent in agentList)
                             {
                                 if (agent.AgentType == Role.RolesName.Worker)
                                 {
-                                    Message singleMessage = tempMsg.Copy();
+                                    var singleMessage = tempMsg.Copy();
                                     MessageCount++;
                                     singleMessage.MessageId = MessageCount;
                                     singleMessage.CurrentReciverAgent = agent;
                                     singleMessage.CurrentRecieverAgentId = agent.AgentId;
                                     singleMessage.ReciverAgent = agent;
                                     singleMessage.RecieverAgentId = agent.AgentId;
-                                    sendBroadcastToAgent(singleMessage, agent);
+                                    SendBroadcastToAgent(singleMessage, agent);
 
                                 }
 
@@ -368,8 +368,8 @@ namespace Nasa.ANTS.Simulation
 
                         else
                         {
-                            Agent agent = tempMsg.CurrentReciverAgent;
-                            sendToAgent(tempMsg, agent);
+                            var agent = tempMsg.CurrentReciverAgent;
+                            SendToAgent(tempMsg, agent);
                         }
                         break;
                     }
@@ -392,15 +392,15 @@ namespace Nasa.ANTS.Simulation
 
                         else if (tempMsg.CurrentRecieverAgentId == tempMsg.RecieverAgentId)
                         {
-                            Agent agent = tempMsg.CurrentReciverAgent;
+                            var agent = tempMsg.CurrentReciverAgent;
 
-                            msgStatus = sendToAgentAndRecieve(tempMsg, agent);
+                            msgStatus = SendToAgentAndRecieve(tempMsg, agent);
                         }
 
                         else
                         {
-                            Agent agent = tempMsg.CurrentReciverAgent;
-                            msgStatus = sendToAgent(tempMsg, agent);
+                            var agent = tempMsg.CurrentReciverAgent;
+                            msgStatus = SendToAgent(tempMsg, agent);
                         }
 
 

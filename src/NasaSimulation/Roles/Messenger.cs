@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nasa.ANTS.Simulation.Roles
+namespace Simulation.Roles
 {
    public class Messenger:Role
     {
@@ -23,7 +23,7 @@ namespace Nasa.ANTS.Simulation.Roles
                return;
            }
 
-           foreach (Message message in ReplyWaitingList)
+           foreach (var message in ReplyWaitingList)
            {
                if (message.RoutingTime != null)
                {
@@ -31,7 +31,7 @@ namespace Nasa.ANTS.Simulation.Roles
                    {
                        if (message.ReciverAgent.AgentType == Role.RolesName.Ruler)
                        {
-                           Message adaptListMessage = AdaptingWaitingList.Find(delegate(Message tempMessage)
+                           var adaptListMessage = AdaptingWaitingList.Find(delegate(Message tempMessage)
                            {
                                return tempMessage.SenderAgentId == message.SenderAgentId && tempMessage.RecieverAgentId == tempMessage.RecieverAgentId  ;
                            });
@@ -74,7 +74,7 @@ namespace Nasa.ANTS.Simulation.Roles
 
         }
 
-        public void oursProcessMessage(Message message)
+        public void OursProcessMessage(Message message)
         {
             if (message.MessageContent == Program.MessagesContent.ReplyRulerNum)
             {
@@ -82,12 +82,12 @@ namespace Nasa.ANTS.Simulation.Roles
                 {
                     if (AdaptingWaitingList.Count > 0)
                     {
-                        foreach(Message adaptingMessage in AdaptingWaitingList)
+                        foreach(var adaptingMessage in AdaptingWaitingList)
                         {
                             SendMessage(this._messengerAgent, this._messengerAgent, adaptingMessage.SenderAgent, adaptingMessage.SenderAgentId,
                                 Program.BroadcastType.SingleCast, Program.MessagesContent.ReplyRulerNum, message.RulerPingReply);
 
-                            Message replyListMessage = ReplyWaitingList.Find(delegate(Message tempMessage)
+                            var replyListMessage = ReplyWaitingList.Find(delegate(Message tempMessage)
                             {
                                 return tempMessage.SenderAgent  == adaptingMessage.SenderAgent;
                             });
@@ -149,11 +149,11 @@ namespace Nasa.ANTS.Simulation.Roles
 
         private void AdaptToLostMessage(Message message)
         {
-            Agent failedAgent = message.
+            var failedAgent = message.
                 ReciverAgent;
         }
 
-        internal void getMessage(Message message)
+        internal void GetMessage(Message message)
         {
             if (Program.OursExecutionMode)
             {
@@ -173,18 +173,18 @@ namespace Nasa.ANTS.Simulation.Roles
                     message.CurrentSenderAgent = this._messengerAgent;
                     message.CurrentSenderAgentId = this._messengerAgent.AgentId;
                     message.RoutingList.Add(this._messengerAgent);
-                    _container.ContainerMedia.sendMessage(this._messengerAgent, message.Copy());
+                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
                 }
                 else //must route Message
                 {
-                    if (calculateDistance(_messengerAgent.getPosition().Position, message.ReciverAgent.getPosition().Position) <= RadioRange)
+                    if (CalculateDistance(_messengerAgent.GetPosition().Position, message.ReciverAgent.GetPosition().Position) <= RadioRange)
                     {
                         message.CurrentRecieverAgentId = message.RecieverAgentId;
                         message.CurrentReciverAgent = message.ReciverAgent;
                         message.CurrentSenderAgentId = this._messengerAgent.AgentId;
                         message.CurrentSenderAgent = this._messengerAgent;
                         message.RoutingList.Add(this._messengerAgent);
-                        _container.ContainerMedia.sendMessage(this._messengerAgent, message.Copy());
+                        _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
 
                     }
                     else
@@ -195,12 +195,12 @@ namespace Nasa.ANTS.Simulation.Roles
                         //}
                         //else
                         //{
-                        Agent mAgent = FindNearestMessenger(_messengerAgent.getPosition(), message.ReciverAgent.getPosition(), message);
+                        var mAgent = FindNearestMessenger(_messengerAgent.GetPosition(), message.ReciverAgent.GetPosition(), message);
                         if (mAgent == null)
                         {
                             RadioRange += 50;
                             _messengerAgent.RadioRange += 50;
-                            getMessage(message);
+                            GetMessage(message);
                             return;
                         }
                         message.CurrentRecieverAgentId = mAgent.AgentId;
@@ -208,7 +208,7 @@ namespace Nasa.ANTS.Simulation.Roles
                         message.CurrentSenderAgent = this._messengerAgent;
                         message.CurrentSenderAgentId = this._messengerAgent.AgentId;
                         message.RoutingList.Add(this._messengerAgent);
-                        _container.ContainerMedia.sendMessage(this._messengerAgent, message.Copy());
+                        _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
                         //}
 
                     }
@@ -223,7 +223,7 @@ namespace Nasa.ANTS.Simulation.Roles
             if (message.RecieverAgentId == _messengerAgent.AgentId)
             {
                 {
-                    oursProcessMessage(message);
+                    OursProcessMessage(message);
                 }
             }
             else if(message.RecieverAgentId == "-1")
@@ -232,10 +232,10 @@ namespace Nasa.ANTS.Simulation.Roles
                     message.CurrentSenderAgent = this._messengerAgent;
                     message.CurrentSenderAgentId = this._messengerAgent.AgentId;
                     message.RoutingList.Add(this._messengerAgent);
-                    _container.ContainerMedia.sendMessage(this._messengerAgent, message.Copy());   
+                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());   
             }
 
-            else if (calculateDistance(_messengerAgent.getPosition().Position, message.ReciverAgent.getPosition().Position) <= RadioRange)
+            else if (CalculateDistance(_messengerAgent.GetPosition().Position, message.ReciverAgent.GetPosition().Position) <= RadioRange)
             {
                 if (message.MessageContent == Program.MessagesContent.Ping)
                 {
@@ -247,7 +247,7 @@ namespace Nasa.ANTS.Simulation.Roles
            
                     message.RoutingList.Add(this._messengerAgent);
                     ReplyWaitingList.Add(message.Copy());
-                    _container.ContainerMedia.sendMessage(this._messengerAgent, message.Copy());
+                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
                 }
                 else  if (message.MessageContent == Program.MessagesContent.PingReply)
                 {
@@ -256,8 +256,8 @@ namespace Nasa.ANTS.Simulation.Roles
                     message.CurrentSenderAgentId = this._messengerAgent.AgentId;
                     message.CurrentSenderAgent = this._messengerAgent;
                     message.RoutingList.Add(this._messengerAgent);
-                    _container.ContainerMedia.sendMessage(this._messengerAgent, message.Copy());
-                    foreach (Message pingMessage in ReplyWaitingList)
+                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                    foreach (var pingMessage in ReplyWaitingList)
                     {
                         if (pingMessage.ReciverAgent == message.SenderAgent)
                         {
@@ -274,7 +274,7 @@ namespace Nasa.ANTS.Simulation.Roles
                     message.CurrentSenderAgentId = this._messengerAgent.AgentId;
                     message.CurrentSenderAgent = this._messengerAgent;
                     message.RoutingList.Add(this._messengerAgent);
-                    _container.ContainerMedia.sendMessage(this._messengerAgent, message.Copy());
+                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
                 }
             }
 
@@ -282,7 +282,7 @@ namespace Nasa.ANTS.Simulation.Roles
             {
                 if (message.MessageContent == Program.MessagesContent.PingReply)
                 {
-                    foreach (Message pingMessage in ReplyWaitingList)
+                    foreach (var pingMessage in ReplyWaitingList)
                     {
                         if (pingMessage.ReciverAgent == message.SenderAgent)
                         {
@@ -294,12 +294,12 @@ namespace Nasa.ANTS.Simulation.Roles
                 }
 
 
-                Agent mAgent = FindNearestMessenger(_messengerAgent.getPosition(), message.ReciverAgent.getPosition(), message);
+                var mAgent = FindNearestMessenger(_messengerAgent.GetPosition(), message.ReciverAgent.GetPosition(), message);
                 if (mAgent == null)
                 {
                     RadioRange += 50;
                     _messengerAgent.RadioRange += 50;
-                    getMessage(message);
+                    GetMessage(message);
                     return;
                 }
                 message.CurrentRecieverAgentId = mAgent.AgentId;
@@ -307,7 +307,7 @@ namespace Nasa.ANTS.Simulation.Roles
                 message.CurrentSenderAgent = this._messengerAgent;
                 message.CurrentSenderAgentId = this._messengerAgent.AgentId;
                 message.RoutingList.Add(this._messengerAgent);
-                _container.ContainerMedia.sendMessage(this._messengerAgent, message.Copy());
+                _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
 
             }
 
@@ -315,7 +315,7 @@ namespace Nasa.ANTS.Simulation.Roles
 
         }
 
-        private void oursMultiRouting(Message message)
+        private void OursMultiRouting(Message message)
         {
 
             if (message.MessageContent == Program.MessagesContent.PingReply)
@@ -325,7 +325,7 @@ namespace Nasa.ANTS.Simulation.Roles
                 message.CurrentSenderAgentId = this._messengerAgent.AgentId;
                 message.CurrentSenderAgent = this._messengerAgent;
 
-                if (calculateDistance(this._messengerAgent.getPosition().Position, message.ReciverAgent.getPosition().Position)< RadioRange)
+                if (CalculateDistance(this._messengerAgent.GetPosition().Position, message.ReciverAgent.GetPosition().Position)< RadioRange)
                 {
                     message.CurrentRecieverAgentId = message.RecieverAgentId;
                     message.CurrentReciverAgent = message.ReciverAgent;
@@ -335,13 +335,13 @@ namespace Nasa.ANTS.Simulation.Roles
                 else
                 {
                     {
-                        Agent tempMessengerAgent = FindNearestMessenger(this._messengerAgent.getPosition(), message.ReciverAgent.getPosition(), message);
+                        var tempMessengerAgent = FindNearestMessenger(this._messengerAgent.GetPosition(), message.ReciverAgent.GetPosition(), message);
 
                         if (_messengerAgent == null)
                         {
                             RadioRange += 50;
                             _messengerAgent.RadioRange += 50;
-                            oursMultiRouting(message);
+                            OursMultiRouting(message);
 
                         }
 
@@ -354,8 +354,8 @@ namespace Nasa.ANTS.Simulation.Roles
                 message.RoutingList.Add(this._messengerAgent);
 
 
-                _container.ContainerMedia.sendMessage(this._messengerAgent, message.Copy());
-                foreach (Message pingMessage in ReplyWaitingList)
+                _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                foreach (var pingMessage in ReplyWaitingList)
                 {
                     if (pingMessage.ReciverAgent == message.SenderAgent)
                     {
@@ -372,7 +372,7 @@ namespace Nasa.ANTS.Simulation.Roles
            Program.BroadcastType messageType,
            Program.MessagesContent messageContent, Agent rulerAgent)
         {
-            Message message = new Message();
+            var message = new Message();
             message.CurrentSenderAgent = currentSenderAgent;
             message.CurrentSenderAgentId = currentSenderAgent.AgentId;
             message.SenderAgentId = senderAgent.AgentId;
@@ -384,7 +384,7 @@ namespace Nasa.ANTS.Simulation.Roles
             message.MessageType = messageType;
     
 
-            if (calculateDistance(_messengerAgent.getPosition().Position, message.ReciverAgent.getPosition().Position) <= RadioRange)
+            if (CalculateDistance(_messengerAgent.GetPosition().Position, message.ReciverAgent.GetPosition().Position) <= RadioRange)
             {
              
                 message.CurrentReciverAgent = message.ReciverAgent;
@@ -393,7 +393,7 @@ namespace Nasa.ANTS.Simulation.Roles
             }
             else
             {
-             Agent  tempMessengerAgent = FindNearestMessenger(this._messengerAgent.getPosition(), reciverAgent.getPosition(),message);
+             var  tempMessengerAgent = FindNearestMessenger(this._messengerAgent.GetPosition(), reciverAgent.GetPosition(),message);
 
             message.RulerPingReply = rulerAgent;
             if (_messengerAgent == null)
@@ -413,7 +413,7 @@ namespace Nasa.ANTS.Simulation.Roles
              
             
 
-            bool messageStatus = _container.ContainerMedia.sendMessage(message.SenderAgent, message.Copy());
+            var messageStatus = _container.ContainerMedia.SendMessage(message.SenderAgent, message.Copy());
         }
 
             //Agent messengerAgent = FindNearestMessenger(messengerAgent.getPosition(), recieverAgent.getPosition());
@@ -428,11 +428,11 @@ namespace Nasa.ANTS.Simulation.Roles
         {
             double minDist = 10000;
             Agent nAgent = null;
-            foreach (Agent mAgent in _container.MessangerList)
+            foreach (var mAgent in _container.MessangerList)
             {
                 if (mAgent != this._messengerAgent )
                 {
-                    Agent foundAgent = message.RoutingList. Find( delegate(Agent messengerAg){
+                    var foundAgent = message.RoutingList. Find( delegate(Agent messengerAg){
                        return messengerAg == mAgent;});
 
 
@@ -441,9 +441,9 @@ namespace Nasa.ANTS.Simulation.Roles
                     if (foundAgent == null)
                     {
                         //Role temptRole = (Role)mAgent.agentRole;
-                        if (calculateDistance(agentPosition.Position, mAgent.getPosition().Position) <= RadioRange && calculateDistance(agentPosition.Position, mAgent.getPosition().Position) + calculateDistance(destPosition.Position, mAgent.getPosition().Position) < minDist)
+                        if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)
                         {
-                            minDist = calculateDistance(agentPosition.Position, mAgent.getPosition().Position) + calculateDistance(destPosition.Position, mAgent.getPosition().Position);
+                            minDist = CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position);
                             nAgent = mAgent;
                         }
                     }
@@ -453,11 +453,11 @@ namespace Nasa.ANTS.Simulation.Roles
             return nAgent;
         }
        //************************************************************
-     public double calculateDistance(Point position, Point position2)
+     public double CalculateDistance(Point position, Point position2)
         {
             double dest;
-            double x = position.X - position2.X;
-            double y = position.Y - position2.Y;
+            var x = position.X - position2.X;
+            var y = position.Y - position2.Y;
             x *= x;
             y *= y;
             dest = Math.Sqrt(x + y);
@@ -470,7 +470,7 @@ namespace Nasa.ANTS.Simulation.Roles
          Program.BroadcastType messageType,
          Program.MessagesContent messageContent, int iBroadcastNum)
      {
-         Message message = new Message();
+         var message = new Message();
          message.CurrentSenderAgent = currentSenderAgent;
          message.CurrentSenderAgentId = currentSenderAgent.AgentId;
          message.SenderAgentId = senderAgent.AgentId;
@@ -484,7 +484,7 @@ namespace Nasa.ANTS.Simulation.Roles
          message.CurrentReciverAgent = null;
 
 
-         bool messageStatus = _container.ContainerMedia.sendMessage(message.SenderAgent, message.Copy());
+         var messageStatus = _container.ContainerMedia.SendMessage(message.SenderAgent, message.Copy());
 
      }
 

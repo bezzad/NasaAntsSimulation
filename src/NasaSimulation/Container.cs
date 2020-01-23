@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Nasa.ANTS.Simulation.Roles;
+using Simulation.Roles;
 
-namespace Nasa.ANTS.Simulation
+namespace Simulation
 {
     public class Container
     {
@@ -46,9 +46,9 @@ namespace Nasa.ANTS.Simulation
 
 
 
-            for (int iOrgCount = 0; iOrgCount < InitNumOfTeams; iOrgCount++)
+            for (var iOrgCount = 0; iOrgCount < InitNumOfTeams; iOrgCount++)
             {
-                OrganizationBoundries orgBoundry = InitialOrgBoundries(TeamList);
+                var orgBoundry = InitialOrgBoundries(TeamList);
                 TeamList.Add(new Team(TeamList.Count, "org" + TeamList.Count, InitNumOfWorkersInOrganization, orgBoundry, this));
             }
             InitializeAreas();
@@ -60,12 +60,12 @@ namespace Nasa.ANTS.Simulation
 
         private void InitializeAreas()
         {
-            int iArea = 0;
+            var iArea = 0;
             for (double ix = 0; ix <= 750; ix += 250)
             {
                 for (double iy = 0; iy <= 750; iy += 250)
                 {
-                    Area tempArea = new Area();
+                    var tempArea = new Area();
                     tempArea.MinX = ix;
                     tempArea.MinY = iy;
                     tempArea.MaxX = ix + 250;
@@ -81,15 +81,15 @@ namespace Nasa.ANTS.Simulation
 
         public void CreateMessangers()
         {
-            for (int i = 0; i < AreaArray.Length; i++)
+            for (var i = 0; i < AreaArray.Length; i++)
             {
-                for (int j = 0; j < InitNumOfMessengers / AreaArray.Length; j++)
+                for (var j = 0; j < InitNumOfMessengers / AreaArray.Length; j++)
                 {
 
-                    AgentPosition tempPosition = setAgentPosition();
-                    setAgentVelocity(tempPosition);
-                    string sId = "M" + i.ToString() + j.ToString();
-                    Agent tempAgent = new Agent(tempPosition, sId, Role.RolesName.Messenger, AreaArray[i], this);
+                    var tempPosition = SetAgentPosition();
+                    SetAgentVelocity(tempPosition);
+                    var sId = "M" + i.ToString() + j.ToString();
+                    var tempAgent = new Agent(tempPosition, sId, Role.RolesName.Messenger, AreaArray[i], this);
 
                     MessangerList.Add(tempAgent);
 
@@ -100,12 +100,12 @@ namespace Nasa.ANTS.Simulation
 
         public void CreateRulers()
         {
-            for (int i = 0; i < InitNumOfRulers; i++)
+            for (var i = 0; i < InitNumOfRulers; i++)
             {
-                int iarea = i;
-                AgentPosition tempPosition = setAgentPosition();
-                setAgentVelocity(tempPosition);
-                string sId = "R" + i;
+                var iarea = i;
+                var tempPosition = SetAgentPosition();
+                SetAgentVelocity(tempPosition);
+                var sId = "R" + i;
                 RulerList.Add(new Agent(tempPosition, sId, Role.RolesName.Ruler, AreaArray[iarea], this));
             }
         }
@@ -113,11 +113,11 @@ namespace Nasa.ANTS.Simulation
 
 
 
-        private void setAgentVelocity(AgentPosition agentPosition)
+        private void SetAgentVelocity(AgentPosition agentPosition)
         {
             double v = Program.Maxspeed / 2;
             v = v + ((_r.NextDouble() - 0.5) * Program.Maxspeed);
-            double degree = _r.NextDouble() * 360;
+            var degree = _r.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);
             agentPosition.Velocity.X = v * Math.Cos(degree);
 
@@ -136,10 +136,10 @@ namespace Nasa.ANTS.Simulation
             //}
         }
 
-        public void run()
+        public void Run()
         {
             Program.RunGui = true;
-            simulation();
+            Simulation();
         }
 
 
@@ -167,10 +167,10 @@ namespace Nasa.ANTS.Simulation
         //***************************************************************************
         public OrganizationBoundries InitialOrgBoundries(List<Team> teamList)
         {
-            OrganizationBoundries localOrgBoundry = createRandomOrganization();
-            foreach (Team team in teamList)
+            var localOrgBoundry = CreateRandomOrganization();
+            foreach (var team in teamList)
             {
-                if (team.OrganizationBoundries.Radious + localOrgBoundry.Radious > calculateDistance(localOrgBoundry.OrgCenter, team.OrganizationBoundries.OrgCenter))
+                if (team.OrganizationBoundries.Radious + localOrgBoundry.Radious > CalculateDistance(localOrgBoundry.OrgCenter, team.OrganizationBoundries.OrgCenter))
                 {
                     return InitialOrgBoundries(teamList);
                 }
@@ -178,40 +178,40 @@ namespace Nasa.ANTS.Simulation
             return localOrgBoundry;
         }
 
-        public double calculateDistance(Point position, Point position2)
+        public double CalculateDistance(Point position, Point position2)
         {
             double dest;
-            double x = position.X - position2.X;
-            double y = position.Y - position2.Y;
+            var x = position.X - position2.X;
+            var y = position.Y - position2.Y;
             x *= x;
             y *= y;
             dest = Math.Sqrt(x + y);
             return dest;
         }
 
-        public OrganizationBoundries createRandomOrganization()
+        public OrganizationBoundries CreateRandomOrganization()
         {
-            OrganizationBoundries localOrgBoundry = new OrganizationBoundries();
-            localOrgBoundry.OrgCenter = setAgentPosition().Position;
+            var localOrgBoundry = new OrganizationBoundries();
+            localOrgBoundry.OrgCenter = SetAgentPosition().Position;
             localOrgBoundry.Radious = 80;
             return localOrgBoundry;
         }
 
         #region Simulation
-        public void simulation()
+        public void Simulation()
         {
             while (!Program.EndOfApplication)
             {
-                Time.tick();
-                updateOrganizations();
+                Time.Tick();
+                UpdateOrganizations();
                 if (Time.GlobalSimulationTime == 100 && _simulationScenario == Program.Scenario.Scenario1)
                 {
 
                     Time.StartSimulationTime = Time.GlobalSimulationTime;
                     Program.StartMessageCount = ContainerMedia.MessageCount;
-                    int iRemoveIndex = _r.Next(0, RulerList.Count - 1);
-                    Agent lostRulerAgent = RulerList[iRemoveIndex];
-                    Ruler lostruler = (Ruler)lostRulerAgent.AgentRole;
+                    var iRemoveIndex = _r.Next(0, RulerList.Count - 1);
+                    var lostRulerAgent = RulerList[iRemoveIndex];
+                    var lostruler = (Ruler)lostRulerAgent.AgentRole;
 
                     while (lostruler.LeaderList.Count == 0)
                     {
@@ -220,7 +220,7 @@ namespace Nasa.ANTS.Simulation
                         lostruler = (Ruler)lostRulerAgent.AgentRole;
                     }
 
-                    lostruler.IStatus = 0;
+                    lostruler.Status = 0;
 
                 }
 
@@ -228,47 +228,47 @@ namespace Nasa.ANTS.Simulation
 
 
                 Thread.Sleep(Program.HezitateValue);
-                handleEvents();
+                HandleEvents();
             }
         }
-        private void handleEvents()
+        private void HandleEvents()
         {
             if (_eventQueue.Count == 0) return;
             while (_eventQueue[_eventQueue.Count - 1].EventTime == Time.GlobalSimulationTime)
             {
-                Event tempEvent = _eventQueue[_eventQueue.Count - 1];
-                doEvent(tempEvent);
+                var tempEvent = _eventQueue[_eventQueue.Count - 1];
+                DoEvent(tempEvent);
                 _eventQueue.RemoveAt(_eventQueue.Count - 1);
                 if (_eventQueue.Count == 0) return;
             }
 
         }
 
-        private void doEvent(Event tempEvent)
+        private void DoEvent(Event tempEvent)
         {
             switch (tempEvent.EventType)
             {
                 case EventType.Message:
-                    ContainerMedia.doMessage(tempEvent.MessageId);
+                    ContainerMedia.DoMessage(tempEvent.MessageId);
                     break;
 
             }
         }
 
-        private void updateOrganizations()
+        private void UpdateOrganizations()
         {
-            foreach (Team team in TeamList)
+            foreach (var team in TeamList)
             {
                 team.UpdateOrgOneMiliSec();
                 team.OrgLeader.updateOneMiliSec();
             }
 
-            foreach (Agent agent in MessangerList)
+            foreach (var agent in MessangerList)
             {
                 agent.FreeUpdateOneMiliSec();
             }
 
-            foreach (Agent agent in RulerList)
+            foreach (var agent in RulerList)
             {
                 agent.FreeUpdateOneMiliSec();
             }
@@ -284,9 +284,9 @@ namespace Nasa.ANTS.Simulation
         //}
         #endregion
 
-        private AgentPosition setAgentPosition()
+        private AgentPosition SetAgentPosition()
         {
-            AgentPosition tempAgentPosition = new AgentPosition();
+            var tempAgentPosition = new AgentPosition();
             tempAgentPosition.Position.X = (_r.NextDouble() * (_upperBoarder.X - _lowerBoarder.X)) + _lowerBoarder.X;
             tempAgentPosition.Position.Y = (_r.NextDouble() * (_upperBoarder.Y - _lowerBoarder.Y)) + _lowerBoarder.Y;
             return tempAgentPosition;
@@ -294,17 +294,17 @@ namespace Nasa.ANTS.Simulation
 
 
 
-        public bool addEventToQeue(int messageId, int timeFromNow)
+        public bool AddEventToQeue(int messageId, int timeFromNow)
         {
-            Event tempEvent = new Event();
-            long time = Time.GlobalSimulationTime;
+            var tempEvent = new Event();
+            var time = Time.GlobalSimulationTime;
 
             tempEvent.EventTime = time + timeFromNow;
 
             tempEvent.MessageId = messageId;
             tempEvent.EventType = EventType.Message;
 
-            int indexOccur = _eventQueue.FindIndex(
+            var indexOccur = _eventQueue.FindIndex(
                 delegate (Event ev)
                 {
                     return ev.EventTime > tempEvent.EventTime;
@@ -325,15 +325,15 @@ namespace Nasa.ANTS.Simulation
 
 
         #region MessengerInRange
-        internal List<Agent> getMessangersInRange(Agent agent)
+        internal List<Agent> GetMessangersInRange(Agent agent)
         {
-            List<Agent> listOfAgent = new List<Agent>();
-            Point position = agent.getPosition().Position;
+            var listOfAgent = new List<Agent>();
+            var position = agent.GetPosition().Position;
             Point tempPosition;
-            foreach (Agent messangerAgent in MessangerList)
+            foreach (var messangerAgent in MessangerList)
             {
-                tempPosition = messangerAgent.getPosition().Position;
-                if (calculateInRange(position, tempPosition, agent.RadioRange))
+                tempPosition = messangerAgent.GetPosition().Position;
+                if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     if (agent.AgentId != messangerAgent.AgentId)
                     {
@@ -347,16 +347,16 @@ namespace Nasa.ANTS.Simulation
             return listOfAgent;
         }
         //***************************************************************************
-        internal List<Agent> getLeadersInRange(Agent agent)
+        internal List<Agent> GetLeadersInRange(Agent agent)
         {
-            List<Agent> listOfAgent = new List<Agent>();
-            Point position = agent.getPosition().Position;
+            var listOfAgent = new List<Agent>();
+            var position = agent.GetPosition().Position;
             Point tempPosition;
-            foreach (Team team in TeamList)
+            foreach (var team in TeamList)
             {
-                Agent leaderAgent = team.OrgLeader;
-                tempPosition = leaderAgent.getPosition().Position;
-                if (calculateInRange(position, tempPosition, agent.RadioRange))
+                var leaderAgent = team.OrgLeader;
+                tempPosition = leaderAgent.GetPosition().Position;
+                if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     if (leaderAgent.AgentType == Role.RolesName.Leader)
                     {
@@ -368,16 +368,16 @@ namespace Nasa.ANTS.Simulation
         }
 
 
-        internal List<Agent> getRulersInRange(Agent agent)
+        internal List<Agent> GetRulersInRange(Agent agent)
         {
-            List<Agent> listOfAgent = new List<Agent>();
-            Point position = agent.getPosition().Position;
+            var listOfAgent = new List<Agent>();
+            var position = agent.GetPosition().Position;
             Point tempPosition;
-            foreach (Agent rulerAgent in RulerList)
+            foreach (var rulerAgent in RulerList)
             {
 
-                tempPosition = rulerAgent.getPosition().Position;
-                if (calculateInRange(position, tempPosition, agent.RadioRange))
+                tempPosition = rulerAgent.GetPosition().Position;
+                if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     if (rulerAgent.AgentType == Role.RolesName.Ruler)
                     {
@@ -390,15 +390,15 @@ namespace Nasa.ANTS.Simulation
 
 
         //****************************************************************************
-        internal List<Agent> getAgentsInRange(Agent agent)
+        internal List<Agent> GetAgentsInRange(Agent agent)
         {
-            List<Agent> listOfAgent = new List<Agent>();
-            Point position = agent.getPosition().Position;
+            var listOfAgent = new List<Agent>();
+            var position = agent.GetPosition().Position;
             Point tempPosition;
-            foreach (Agent messangerAgent in MessangerList)
+            foreach (var messangerAgent in MessangerList)
             {
-                tempPosition = messangerAgent.getPosition().Position;
-                if (calculateInRange(position, tempPosition, agent.RadioRange))
+                tempPosition = messangerAgent.GetPosition().Position;
+                if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     if (agent.AgentId != messangerAgent.AgentId)
                     {
@@ -409,10 +409,10 @@ namespace Nasa.ANTS.Simulation
                     }
                 }
             }
-            foreach (Agent rulerAgent in RulerList)
+            foreach (var rulerAgent in RulerList)
             {
-                tempPosition = rulerAgent.getPosition().Position;
-                if (calculateInRange(position, tempPosition, agent.RadioRange))
+                tempPosition = rulerAgent.GetPosition().Position;
+                if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     if (agent.AgentId != rulerAgent.AgentId)
                     {
@@ -423,12 +423,12 @@ namespace Nasa.ANTS.Simulation
                     }
                 }
             }
-            foreach (Team team in TeamList)
+            foreach (var team in TeamList)
             {
-                foreach (Agent workerAgent in team.AgentsArray)
+                foreach (var workerAgent in team.AgentsArray)
                 {
-                    tempPosition = workerAgent.getPosition().Position;
-                    if (calculateInRange(position, tempPosition, agent.RadioRange))
+                    tempPosition = workerAgent.GetPosition().Position;
+                    if (CalculateInRange(position, tempPosition, agent.RadioRange))
                     {
                         if (agent.AgentId != agent.AgentId)
                         {
@@ -448,10 +448,10 @@ namespace Nasa.ANTS.Simulation
 
 
 
-        private bool calculateInRange(Point position, Point position2, double radioRange)
+        private bool CalculateInRange(Point position, Point position2, double radioRange)
         {
-            double x = position.X - position2.X;
-            double y = position.Y - position2.Y;
+            var x = position.X - position2.X;
+            var y = position.Y - position2.Y;
             x *= x;
             y *= y;
             radioRange *= radioRange;

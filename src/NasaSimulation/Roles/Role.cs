@@ -1,4 +1,4 @@
-﻿namespace Nasa.ANTS.Simulation.Roles
+﻿namespace Simulation.Roles
 {
    public class Role
     {

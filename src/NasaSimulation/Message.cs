@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nasa.ANTS.Simulation
+namespace Simulation
 {
     public class Message
     {  
@@ -23,7 +23,7 @@ namespace Nasa.ANTS.Simulation
         public List<Agent> RoutingList = new List<Agent>();
         public  Message Copy()
         {
-            Message tempMessage = new Message();
+            var tempMessage = new Message();
             tempMessage.MessageId = this.MessageId;
             tempMessage.SenderAgent = this.SenderAgent;
             tempMessage.SenderAgentId = this.SenderAgentId;

@@ -1,6 +1,6 @@
-﻿namespace ThesisSimulation
+﻿namespace Simulation
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -187,7 +187,7 @@
             this.Controls.Add(this.radioButtonSH);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.guiOpenGLFrame);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "NASA ANTS Simulation";
             this.Load += new System.EventHandler(this.Form1_Load_1);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
