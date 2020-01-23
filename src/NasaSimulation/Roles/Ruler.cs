@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Simulation.Roles
 {
-    
     public class Ruler:Role
     {
         public Agent RulerAgent { set; get; }
@@ -66,7 +65,7 @@ namespace Simulation.Roles
 
         public void GetandSendMessage(Message message)
         {
-            if (message.RecieverAgentId == RulerAgent.AgentId)
+            if (message.ReceiverAgentId == RulerAgent.AgentId)
             {
                 if (message.MessageContent == Program.MessagesContent.Ping)
                 {
@@ -78,8 +77,8 @@ namespace Simulation.Roles
                             //message.returnedStatus = 1;
                             var replyMessage = new Message();
                             replyMessage.MessageType = Program.BroadcastType.SingleCast;
-                            replyMessage.RecieverAgentId = message.SenderAgentId;
-                            replyMessage.ReciverAgent = message.SenderAgent;
+                            replyMessage.ReceiverAgentId = message.SenderAgentId;
+                            replyMessage.ReceiverAgent = message.SenderAgent;
                             replyMessage.SenderAgent = this.RulerAgent;
                             replyMessage.SenderAgentId = this.RulerAgent.AgentId;
                             replyMessage.CurrentSenderAgent = this.RulerAgent;
@@ -101,8 +100,8 @@ namespace Simulation.Roles
                             //}
 
                          
-                            replyMessage.CurrentRecieverAgentId = messengerAgent.AgentId;
-                            replyMessage.CurrentReciverAgent = messengerAgent;
+                            replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
+                            replyMessage.CurrentReceiverAgent = messengerAgent;
 
 
 
@@ -124,8 +123,8 @@ namespace Simulation.Roles
                             //message.returnedStatus = 1;
                             var replyMessage = new Message();
                             replyMessage.MessageType = Program.BroadcastType.SingleCast;
-                            replyMessage.RecieverAgentId = message.SenderAgentId;
-                            replyMessage.ReciverAgent = message.SenderAgent;
+                            replyMessage.ReceiverAgentId = message.SenderAgentId;
+                            replyMessage.ReceiverAgent = message.SenderAgent;
                             replyMessage.SenderAgent = this.RulerAgent;
                             replyMessage.SenderAgentId = this.RulerAgent.AgentId;
                             replyMessage.CurrentSenderAgent = this.RulerAgent;
@@ -143,8 +142,8 @@ namespace Simulation.Roles
                             }
 
 
-                            replyMessage.CurrentRecieverAgentId = messengerAgent.AgentId;
-                            replyMessage.CurrentReciverAgent = messengerAgent;
+                            replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
+                            replyMessage.CurrentReceiverAgent = messengerAgent;
 
 
 
@@ -166,20 +165,20 @@ namespace Simulation.Roles
                     {
                         var replyMessage = new Message();
                         replyMessage.MessageType = Program.BroadcastType.SingleCast;
-                        replyMessage.RecieverAgentId = message.SenderAgentId;
-                        replyMessage.ReciverAgent = message.SenderAgent;
+                        replyMessage.ReceiverAgentId = message.SenderAgentId;
+                        replyMessage.ReceiverAgent = message.SenderAgent;
                         replyMessage.SenderAgent = this.RulerAgent;
                         replyMessage.SenderAgentId = this.RulerAgent.AgentId;
                         replyMessage.CurrentSenderAgent = this.RulerAgent;
                         replyMessage.CurrentSenderAgentId = this.RulerAgent.AgentId;
                         replyMessage.MessageContent = Program.MessagesContent.ReplyRulerNum;
                         replyMessage.RulerPingReply = this.RulerAgent;
-                        if (message.ReciverAgent.AgentType == RolesName.Messenger)
+                        if (message.ReceiverAgent.AgentType == RolesName.Messenger)
                         {
-                            if (CalculateDistance(this.RulerAgent.GetPosition().Position, replyMessage.ReciverAgent.GetPosition().Position) < this.RadioRange)
+                            if (CalculateDistance(this.RulerAgent.GetPosition().Position, replyMessage.ReceiverAgent.GetPosition().Position) < this.RadioRange)
                             {
-                                replyMessage.CurrentReciverAgent = replyMessage.ReciverAgent;
-                                replyMessage.CurrentRecieverAgentId = replyMessage.RecieverAgentId;
+                                replyMessage.CurrentReceiverAgent = replyMessage.ReceiverAgent;
+                                replyMessage.CurrentReceiverAgentId = replyMessage.ReceiverAgentId;
                             }
                             else
                             {
@@ -194,8 +193,8 @@ namespace Simulation.Roles
                                     return;
                                 }
 
-                                replyMessage.CurrentRecieverAgentId = messengerAgent.AgentId;
-                                replyMessage.CurrentReciverAgent = messengerAgent;
+                                replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
+                                replyMessage.CurrentReceiverAgent = messengerAgent;
                             }
                         }
                         else
@@ -211,8 +210,8 @@ namespace Simulation.Roles
                                 return;
                             }
 
-                            replyMessage.CurrentRecieverAgentId = messengerAgent.AgentId;
-                            replyMessage.CurrentReciverAgent = messengerAgent;
+                            replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
+                            replyMessage.CurrentReceiverAgent = messengerAgent;
 
                         }
                      
@@ -229,7 +228,7 @@ namespace Simulation.Roles
 
         internal void GetMessage(Message message)
         {
-            if (message.RecieverAgentId == RulerAgent.AgentId)
+            if (message.ReceiverAgentId == RulerAgent.AgentId)
             {
                 ProcessMessage(message);
             }

@@ -9,7 +9,7 @@ namespace Simulation
 {
     public class Gui
     {
-        private Random _r;
+        private Random _random;
         private readonly Container _envirumentContainer;
 
         private SimpleOpenGlControl _guiFrame;
@@ -32,7 +32,7 @@ namespace Simulation
 
         private void InitialGui()
         {
-            _r = Program.R;
+            _random = Program.R;
             if (_guiFrame.InvokeRequired)
             {
                 _guiFrame.Invoke(new MethodInvoker(delegate () { InitialGui(); }));
@@ -206,13 +206,13 @@ namespace Simulation
 
         }
 
-        public void DrawCircle(Point orgCenter, double radious)
+        public void DrawCircle(Point orgCenter, double Radius)
         {
             Gl.glBegin(Gl.GL_POINTS);
             for (double deg = 0; deg <= 360; deg += 0.4)
             {
-                var x = radious * Math.Sin(deg) + orgCenter.X + Program.LowerBoarder.X;
-                var y = radious * Math.Cos(deg) + orgCenter.Y + Program.LowerBoarder.Y;
+                var x = Radius * Math.Sin(deg) + orgCenter.X + Program.LowerBoarder.X;
+                var y = Radius * Math.Cos(deg) + orgCenter.Y + Program.LowerBoarder.Y;
                 Gl.glVertex2d(x, y);
             }
             Gl.glEnd();
@@ -244,7 +244,7 @@ namespace Simulation
                     Gl.glColor3f(255, 0, 0);
                     Gl.glPointSize(2);
 
-                    DrawCircle(team.OrganizationBoundries.OrgCenter, team.OrganizationBoundries.Radious);
+                    DrawCircle(team.OrganizationBoundries.OrgCenter, team.OrganizationBoundries.Radius);
 
 
 

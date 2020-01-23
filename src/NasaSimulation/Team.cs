@@ -109,10 +109,10 @@ namespace Simulation
         private AgentPosition SetAgentPosition()
         {
             var tempAgentPosition = new AgentPosition();
-            var randomRadious = _random.NextDouble() * OrganizationBoundries.Radious;
+            var randomRadius = _random.NextDouble() * OrganizationBoundries.Radius;
             double randomdegree = _random.Next(0, 360);
-            tempAgentPosition.Position.X = randomRadious * Math.Sin(randomdegree) + OrganizationBoundries.OrgCenter.X;
-            tempAgentPosition.Position.Y = randomRadious * Math.Cos(randomdegree) + OrganizationBoundries.OrgCenter.Y;
+            tempAgentPosition.Position.X = randomRadius * Math.Sin(randomdegree) + OrganizationBoundries.OrgCenter.X;
+            tempAgentPosition.Position.Y = randomRadius * Math.Cos(randomdegree) + OrganizationBoundries.OrgCenter.Y;
             return tempAgentPosition;
         }
 

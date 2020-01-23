@@ -103,7 +103,6 @@
     <Compile Include="Roles\Ruler.cs" />
     <Compile Include="Roles\Worker.cs" />
     <Compile Include="Scenario\SelfHealingScenario1.cs" />
-    <Compile Include="Scenario\SelfHealingScenario2.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Time.cs" />
   </ItemGroup>

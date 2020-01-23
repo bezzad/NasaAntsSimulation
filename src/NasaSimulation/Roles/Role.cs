@@ -1,15 +1,13 @@
 ﻿namespace Simulation.Roles
 {
-   public class Role
+    public class Role
     {
         public string RoleName { set; get; }
-        private string RoleId{set; get;}
-        private string RoleModel{set;get;}
+        private string RoleId { set; get; }
+        private string RoleModel { set; get; }
         public double RadioRange { set; get; }
 
-       public  enum RolesName{Worker, Ruler, Leader, Messenger};
-            
-        
+        public enum RolesName { Worker, Ruler, Leader, Messenger };
 
 
         public Role()

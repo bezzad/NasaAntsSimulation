@@ -229,7 +229,7 @@ namespace Simulation
 
             _position.Position.Y += _position.Velocity.Y/1000;
 
-            if (CalculateDistance(_position.Position, _teamBoundry.OrgCenter) > _teamBoundry.Radious) 
+            if (CalculateDistance(_position.Position, _teamBoundry.OrgCenter) > _teamBoundry.Radius) 
             {
                 _position.Position.X = _teamBoundry.OrgCenter.X;
                 _position.Position.Y = _teamBoundry.OrgCenter.Y;
@@ -254,7 +254,7 @@ namespace Simulation
 
             _position.Position.Y += _position.Velocity.Y / 1000;
 
-            //if (calculateDistance(position.Position, teamBoundry.orgCenter) > teamBoundry.radious)
+            //if (calculateDistance(position.Position, teamBoundry.orgCenter) > teamBoundry.Radius)
             //{
             //    position.Position.X = teamBoundry.orgCenter.X;
             //    position.Position.Y = teamBoundry.orgCenter.Y;

@@ -2,12 +2,12 @@
 
 namespace Simulation.Roles
 {
-    class Worker:Role
+    public class Worker : Role
     {
         Container _container;
-     
+
         Agent _workerAgent;
-        public Worker(Container cont,Agent agent)
+        public Worker(Container cont, Agent agent)
         {
             _container = cont;
             _workerAgent = agent;
@@ -25,13 +25,13 @@ namespace Simulation.Roles
 
         internal void GetMessage(Message message)
         {
-            if (message.RecieverAgentId == _workerAgent.AgentId)
+            if (message.ReceiverAgentId == _workerAgent.AgentId)
             {
                 ProcessMessage(message);
             }
             else //must route Message
             {
-               // SendMessage(message, recieverAgent);
+                // SendMessage(message, recieverAgent);
 
             }
         }
@@ -56,7 +56,7 @@ namespace Simulation.Roles
                 //Role temptRole = (Role)mAgent.agentRole;
                 if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)
                 {
-                  minDist =  CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position);
+                    minDist = CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position);
                     nAgent = mAgent;
                 }
             }

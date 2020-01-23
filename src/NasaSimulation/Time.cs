@@ -39,7 +39,7 @@
     public class OrganizationBoundries
     {
         public Point OrgCenter { get; set; }
-        public double Radious { get; set; }
+        public double Radius { get; set; }
     }
 
     public class AgentPosition

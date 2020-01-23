@@ -2,7 +2,7 @@
 
 namespace Simulation.Scenario
 {
-    class SelfHealingScenario1
+    public class SelfHealingScenario1
     {
         public const int InitNumOfTeams = 10;
         public const int InitNumOfRulers = 2;

@@ -81,8 +81,8 @@ namespace Simulation.Roles
             message.CurrentSenderAgentId = currentSenderAgent.AgentId;
             message.SenderAgentId = senderAgent.AgentId;
             message.SenderAgent = senderAgent;
-            message.ReciverAgent = reciverAgent;
-            message.RecieverAgentId = reciverId;
+            message.ReceiverAgent = reciverAgent;
+            message.ReceiverAgentId = reciverId;
 
             message.MessageContent = messageContent;
             message.MessageType = messageType;
@@ -97,8 +97,8 @@ namespace Simulation.Roles
                 return;
 
             }
-            message.CurrentReciverAgent = messengerAgent;
-            message.CurrentRecieverAgentId = messengerAgent.AgentId;
+            message.CurrentReceiverAgent = messengerAgent;
+            message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
             var messageStatus = _container.ContainerMedia.SendMessage(this._leaderAgent, message.Copy());
         }
@@ -113,8 +113,8 @@ namespace Simulation.Roles
             message.CurrentSenderAgentId = currentSenderAgent.AgentId;
             message.SenderAgentId = senderAgent.AgentId;
             message.SenderAgent = senderAgent;
-            message.ReciverAgent = reciverAgent;
-            message.RecieverAgentId = reciverId;
+            message.ReceiverAgent = reciverAgent;
+            message.ReceiverAgentId = reciverId;
 
             message.MessageContent = messageContent;
             message.MessageType = messageType;
@@ -128,8 +128,8 @@ namespace Simulation.Roles
                 return;
 
             }
-            message.CurrentReciverAgent = messengerAgent;
-            message.CurrentRecieverAgentId = messengerAgent.AgentId;
+            message.CurrentReceiverAgent = messengerAgent;
+            message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
 
             var messageStatus = _container.ContainerMedia.SendMessage(this._leaderAgent, message.Copy());
@@ -147,11 +147,11 @@ namespace Simulation.Roles
             message.CurrentSenderAgentId = currentSenderAgent.AgentId;
             message.SenderAgentId = senderAgent.AgentId;
             message.SenderAgent = senderAgent;
-            message.ReciverAgent = null;
-            message.RecieverAgentId = "-1";
+            message.ReceiverAgent = null;
+            message.ReceiverAgentId = "-1";
             message.MessageContent = messageContent;
             message.MessageType = messageType;
-            message.NumOfBoroadcastSteps = iBroadcastNum;
+            message.NumOfBroadcastSteps = iBroadcastNum;
             var messengerAgent = FindNearestMessenger(this._leaderAgent.GetPosition());
             if (messengerAgent == null)
             {
@@ -162,8 +162,8 @@ namespace Simulation.Roles
             }
 
 
-            message.CurrentReciverAgent = messengerAgent;
-            message.CurrentRecieverAgentId = messengerAgent.AgentId;
+            message.CurrentReceiverAgent = messengerAgent;
+            message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
 
             var messageStatus = _container.ContainerMedia.SendMessage(this._leaderAgent, message.Copy());
@@ -291,7 +291,7 @@ namespace Simulation.Roles
 
         internal void GetMessage(Message message)
         {
-            if (message.RecieverAgentId == _leaderAgent.AgentId)
+            if (message.ReceiverAgentId == _leaderAgent.AgentId)
             {
                 if (Program.OursExecutionMode)
                 {

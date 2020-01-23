@@ -8,7 +8,7 @@ namespace Simulation
     public class Container
     {
         //Prameters ---------------------------------------------------------
-        Random _r;
+        readonly Random _random;
         public Media ContainerMedia { set; get; }
         List<Event> _eventQueue = new List<Event>();
         Point _upperBoarder;
@@ -40,7 +40,7 @@ namespace Simulation
             //numOfAgents = NumOfAgents;
             ContainerMedia = new Media(this);
             Time.GlobalSimulationTime = 0;
-            _r = Program.R;
+            _random = Program.R;
 
 
 
@@ -116,8 +116,8 @@ namespace Simulation
         private void SetAgentVelocity(AgentPosition agentPosition)
         {
             double v = Program.Maxspeed / 2;
-            v = v + ((_r.NextDouble() - 0.5) * Program.Maxspeed);
-            var degree = _r.NextDouble() * 360;
+            v = v + ((_random.NextDouble() - 0.5) * Program.Maxspeed);
+            var degree = _random.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);
             agentPosition.Velocity.X = v * Math.Cos(degree);
 
@@ -149,7 +149,7 @@ namespace Simulation
         //    Area localMessengerBoundry = createRandomOrganization();
         //    foreach (Messenger messenger in MessangerList)
         //    {
-        //        if (team.organizationBoundries.radious + localOrgBoundry.radious > calculateDistance(localOrgBoundry.orgCenter, team.organizationBoundries.orgCenter))
+        //        if (team.organizationBoundries.Radius + localOrgBoundry.Radius > calculateDistance(localOrgBoundry.orgCenter, team.organizationBoundries.orgCenter))
         //        {
         //            return InitialOrgBoundries(teamList);
         //        }
@@ -170,7 +170,7 @@ namespace Simulation
             var localOrgBoundry = CreateRandomOrganization();
             foreach (var team in teamList)
             {
-                if (team.OrganizationBoundries.Radious + localOrgBoundry.Radious > CalculateDistance(localOrgBoundry.OrgCenter, team.OrganizationBoundries.OrgCenter))
+                if (team.OrganizationBoundries.Radius + localOrgBoundry.Radius > CalculateDistance(localOrgBoundry.OrgCenter, team.OrganizationBoundries.OrgCenter))
                 {
                     return InitialOrgBoundries(teamList);
                 }
@@ -193,7 +193,7 @@ namespace Simulation
         {
             var localOrgBoundry = new OrganizationBoundries();
             localOrgBoundry.OrgCenter = SetAgentPosition().Position;
-            localOrgBoundry.Radious = 80;
+            localOrgBoundry.Radius = 80;
             return localOrgBoundry;
         }
 
@@ -209,13 +209,13 @@ namespace Simulation
 
                     Time.StartSimulationTime = Time.GlobalSimulationTime;
                     Program.StartMessageCount = ContainerMedia.MessageCount;
-                    var iRemoveIndex = _r.Next(0, RulerList.Count - 1);
+                    var iRemoveIndex = _random.Next(0, RulerList.Count - 1);
                     var lostRulerAgent = RulerList[iRemoveIndex];
                     var lostruler = (Ruler)lostRulerAgent.AgentRole;
 
                     while (lostruler.LeaderList.Count == 0)
                     {
-                        iRemoveIndex = _r.Next(0, RulerList.Count - 1);
+                        iRemoveIndex = _random.Next(0, RulerList.Count - 1);
                         lostRulerAgent = RulerList[iRemoveIndex];
                         lostruler = (Ruler)lostRulerAgent.AgentRole;
                     }
@@ -287,8 +287,8 @@ namespace Simulation
         private AgentPosition SetAgentPosition()
         {
             var tempAgentPosition = new AgentPosition();
-            tempAgentPosition.Position.X = (_r.NextDouble() * (_upperBoarder.X - _lowerBoarder.X)) + _lowerBoarder.X;
-            tempAgentPosition.Position.Y = (_r.NextDouble() * (_upperBoarder.Y - _lowerBoarder.Y)) + _lowerBoarder.Y;
+            tempAgentPosition.Position.X = (_random.NextDouble() * (_upperBoarder.X - _lowerBoarder.X)) + _lowerBoarder.X;
+            tempAgentPosition.Position.Y = (_random.NextDouble() * (_upperBoarder.Y - _lowerBoarder.Y)) + _lowerBoarder.Y;
             return tempAgentPosition;
         }
 

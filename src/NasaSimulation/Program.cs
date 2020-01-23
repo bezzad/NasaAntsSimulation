@@ -18,7 +18,7 @@ namespace Simulation
         public static Point LowerBoarder = new Point();
         public static Point UpperBoarder = new Point();
         public static int ScenarioNum;
-        public static double AvgRadious = 50;
+        public static double AvgRadius = 50;
         public static int MaxPingDelay = 7;
         public enum Scenario { Scenario1, Scenario2, Scenario3, Scenario4, Scenario5 };
         public static bool BOurMethod;

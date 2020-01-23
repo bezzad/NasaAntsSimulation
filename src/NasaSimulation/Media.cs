@@ -6,7 +6,7 @@ namespace Simulation
     public class Media
     {
         public List<Message> MessageList = new List<Message>();
-        Container _container;
+        readonly Container _container;
         public int MessageCount = 1;
         public Media(Container cont)
         {
@@ -130,24 +130,24 @@ namespace Simulation
             {
                 case Program.BroadcastType.Broadcast:
                     {
-                        if (tempMsg.CurrentRecieverAgentId == "-1")
+                        if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
                             var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
 
                                 var singleMessage = tempMsg.Copy();
-                                singleMessage.CurrentReciverAgent = agent;
-                                singleMessage.CurrentRecieverAgentId = agent.AgentId;
-                                singleMessage.ReciverAgent = agent;
-                                singleMessage.RecieverAgentId = agent.AgentId;
+                                singleMessage.CurrentReceiverAgent = agent;
+                                singleMessage.CurrentReceiverAgentId = agent.AgentId;
+                                singleMessage.ReceiverAgent = agent;
+                                singleMessage.ReceiverAgentId = agent.AgentId;
                                 SendBroadcastToAgent(singleMessage, agent);
                             }
                         }
 
                         else
                         {
-                            var agent = tempMsg.CurrentReciverAgent;
+                            var agent = tempMsg.CurrentReceiverAgent;
                             SendToAgent(tempMsg, agent);
                         }
                         break;
@@ -155,16 +155,16 @@ namespace Simulation
                     }
                 case Program.BroadcastType.SingleCast:
                     {
-                        var agent = tempMsg.CurrentReciverAgent;
+                        var agent = tempMsg.CurrentReceiverAgent;
                         SendToAgent(tempMsg, agent);
                         break;
                     }
 
                 case Program.BroadcastType.MessengersToRulersBroadcast:
                     {
-                        if (tempMsg.CurrentRecieverAgentId == "-1")
+                        if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
-                            if (tempMsg.NumOfBoroadcastSteps == 1)
+                            if (tempMsg.NumOfBroadcastSteps == 1)
                             {
                                 var agentList = _container.GetRulersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
@@ -174,15 +174,15 @@ namespace Simulation
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
                                         singleMessage.MessageId = MessageCount;
-                                        singleMessage.CurrentReciverAgent = agent;
-                                        singleMessage.CurrentRecieverAgentId = agent.AgentId;
-                                        singleMessage.ReciverAgent = agent;
-                                        singleMessage.RecieverAgentId = agent.AgentId;
+                                        singleMessage.CurrentReceiverAgent = agent;
+                                        singleMessage.CurrentReceiverAgentId = agent.AgentId;
+                                        singleMessage.ReceiverAgent = agent;
+                                        singleMessage.ReceiverAgentId = agent.AgentId;
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
                             }
-                            else if (tempMsg.NumOfBoroadcastSteps == 2)
+                            else if (tempMsg.NumOfBroadcastSteps == 2)
                             {
                                 var agentList = _container.GetRulersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
@@ -192,10 +192,10 @@ namespace Simulation
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
                                         singleMessage.MessageId = MessageCount;
-                                        singleMessage.CurrentReciverAgent = agent;
-                                        singleMessage.CurrentRecieverAgentId = agent.AgentId;
-                                        singleMessage.ReciverAgent = agent;
-                                        singleMessage.RecieverAgentId = agent.AgentId;
+                                        singleMessage.CurrentReceiverAgent = agent;
+                                        singleMessage.CurrentReceiverAgentId = agent.AgentId;
+                                        singleMessage.ReceiverAgent = agent;
+                                        singleMessage.ReceiverAgentId = agent.AgentId;
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
@@ -207,13 +207,13 @@ namespace Simulation
                                         var lostRulerMessage = tempMsg.Copy();
                                         MessageCount++;
                                         lostRulerMessage.MessageId = MessageCount;
-                                        lostRulerMessage.CurrentReciverAgent = agent;
-                                        lostRulerMessage.CurrentRecieverAgentId = agent.AgentId;
-                                        lostRulerMessage.ReciverAgent = null;
-                                        lostRulerMessage.RecieverAgentId = "-1";
+                                        lostRulerMessage.CurrentReceiverAgent = agent;
+                                        lostRulerMessage.CurrentReceiverAgentId = agent.AgentId;
+                                        lostRulerMessage.ReceiverAgent = null;
+                                        lostRulerMessage.ReceiverAgentId = "-1";
 
                                         lostRulerMessage.MessageType = Program.BroadcastType.MessengersToRulersBroadcast;
-                                        lostRulerMessage.NumOfBoroadcastSteps = 1;
+                                        lostRulerMessage.NumOfBroadcastSteps = 1;
 
 
 
@@ -230,7 +230,7 @@ namespace Simulation
 
                         else
                         {
-                            var agent = tempMsg.CurrentReciverAgent;
+                            var agent = tempMsg.CurrentReceiverAgent;
                             SendToAgent(tempMsg, agent);
                         }
                         break;
@@ -239,9 +239,9 @@ namespace Simulation
 
                 case Program.BroadcastType.MessengerToLeaderBroadcast:
                     {
-                        if (tempMsg.CurrentRecieverAgentId == "-1")
+                        if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
-                            if (tempMsg.NumOfBoroadcastSteps == 1)
+                            if (tempMsg.NumOfBroadcastSteps == 1)
                             {
                                 var agentList = _container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
@@ -251,15 +251,15 @@ namespace Simulation
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
                                         singleMessage.MessageId = MessageCount;
-                                        singleMessage.CurrentReciverAgent = agent;
-                                        singleMessage.CurrentRecieverAgentId = agent.AgentId;
-                                        singleMessage.ReciverAgent = agent;
-                                        singleMessage.RecieverAgentId = agent.AgentId;
+                                        singleMessage.CurrentReceiverAgent = agent;
+                                        singleMessage.CurrentReceiverAgentId = agent.AgentId;
+                                        singleMessage.ReceiverAgent = agent;
+                                        singleMessage.ReceiverAgentId = agent.AgentId;
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
                             }
-                            else if (tempMsg.NumOfBoroadcastSteps == 2)
+                            else if (tempMsg.NumOfBroadcastSteps == 2)
                             {
                                 var agentList = _container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
@@ -269,10 +269,10 @@ namespace Simulation
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
                                         singleMessage.MessageId = MessageCount;
-                                        singleMessage.CurrentReciverAgent = agent;
-                                        singleMessage.CurrentRecieverAgentId = agent.AgentId;
-                                        singleMessage.ReciverAgent = agent;
-                                        singleMessage.RecieverAgentId = agent.AgentId;
+                                        singleMessage.CurrentReceiverAgent = agent;
+                                        singleMessage.CurrentReceiverAgentId = agent.AgentId;
+                                        singleMessage.ReceiverAgent = agent;
+                                        singleMessage.ReceiverAgentId = agent.AgentId;
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
@@ -284,13 +284,13 @@ namespace Simulation
                                         var lostRulerMessage = tempMsg.Copy();
                                         MessageCount++;
                                         lostRulerMessage.MessageId = MessageCount;
-                                        lostRulerMessage.CurrentReciverAgent = agent;
-                                        lostRulerMessage.CurrentRecieverAgentId = agent.AgentId;
-                                        lostRulerMessage.ReciverAgent = null;
-                                        lostRulerMessage.RecieverAgentId = "-1";
+                                        lostRulerMessage.CurrentReceiverAgent = agent;
+                                        lostRulerMessage.CurrentReceiverAgentId = agent.AgentId;
+                                        lostRulerMessage.ReceiverAgent = null;
+                                        lostRulerMessage.ReceiverAgentId = "-1";
 
                                         lostRulerMessage.MessageType = Program.BroadcastType.MessengerToLeaderBroadcast;
-                                        lostRulerMessage.NumOfBoroadcastSteps = 1;
+                                        lostRulerMessage.NumOfBroadcastSteps = 1;
 
 
 
@@ -307,7 +307,7 @@ namespace Simulation
 
                         else
                         {
-                            var agent = tempMsg.CurrentReciverAgent;
+                            var agent = tempMsg.CurrentReceiverAgent;
                             SendToAgent(tempMsg, agent);
                         }
                         break;
@@ -315,7 +315,7 @@ namespace Simulation
 
                 case Program.BroadcastType.MessengerToMessengersBroadcast:
                     {
-                        if (tempMsg.CurrentRecieverAgentId == "-1")
+                        if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
                             var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
@@ -325,10 +325,10 @@ namespace Simulation
                                     var singleMessage = tempMsg.Copy();
                                     MessageCount++;
                                     singleMessage.MessageId = MessageCount;
-                                    singleMessage.CurrentReciverAgent = agent;
-                                    singleMessage.CurrentRecieverAgentId = agent.AgentId;
-                                    singleMessage.ReciverAgent = agent;
-                                    singleMessage.RecieverAgentId = agent.AgentId;
+                                    singleMessage.CurrentReceiverAgent = agent;
+                                    singleMessage.CurrentReceiverAgentId = agent.AgentId;
+                                    singleMessage.ReceiverAgent = agent;
+                                    singleMessage.ReceiverAgentId = agent.AgentId;
                                     SendBroadcastToAgent(singleMessage, agent);
                                 }
                             }
@@ -337,7 +337,7 @@ namespace Simulation
 
                         else
                         {
-                            var agent = tempMsg.CurrentReciverAgent;
+                            var agent = tempMsg.CurrentReceiverAgent;
                             SendToAgent(tempMsg, agent);
                         }
                         break;
@@ -345,7 +345,7 @@ namespace Simulation
 
                 case Program.BroadcastType.MessengerToWorkersBroadcast:
                     {
-                        if (tempMsg.RecieverAgentId == "-1")
+                        if (tempMsg.ReceiverAgentId == "-1")
                         {
                             var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
@@ -355,10 +355,10 @@ namespace Simulation
                                     var singleMessage = tempMsg.Copy();
                                     MessageCount++;
                                     singleMessage.MessageId = MessageCount;
-                                    singleMessage.CurrentReciverAgent = agent;
-                                    singleMessage.CurrentRecieverAgentId = agent.AgentId;
-                                    singleMessage.ReciverAgent = agent;
-                                    singleMessage.RecieverAgentId = agent.AgentId;
+                                    singleMessage.CurrentReceiverAgent = agent;
+                                    singleMessage.CurrentReceiverAgentId = agent.AgentId;
+                                    singleMessage.ReceiverAgent = agent;
+                                    singleMessage.ReceiverAgentId = agent.AgentId;
                                     SendBroadcastToAgent(singleMessage, agent);
 
                                 }
@@ -368,7 +368,7 @@ namespace Simulation
 
                         else
                         {
-                            var agent = tempMsg.CurrentReciverAgent;
+                            var agent = tempMsg.CurrentReceiverAgent;
                             SendToAgent(tempMsg, agent);
                         }
                         break;
@@ -376,7 +376,7 @@ namespace Simulation
 
                 case Program.BroadcastType.SendRecieve:
                     {
-                        if (tempMsg.RecieverAgentId == "-1")
+                        if (tempMsg.ReceiverAgentId == "-1")
                         {
                             //List<Agent> agentList = container.getAgentsInRange(tempMSG.senderAgent);
                             //foreach (Agent agent in agentList)
@@ -390,16 +390,16 @@ namespace Simulation
                             //}
                         }
 
-                        else if (tempMsg.CurrentRecieverAgentId == tempMsg.RecieverAgentId)
+                        else if (tempMsg.CurrentReceiverAgentId == tempMsg.ReceiverAgentId)
                         {
-                            var agent = tempMsg.CurrentReciverAgent;
+                            var agent = tempMsg.CurrentReceiverAgent;
 
                             msgStatus = SendToAgentAndRecieve(tempMsg, agent);
                         }
 
                         else
                         {
-                            var agent = tempMsg.CurrentReciverAgent;
+                            var agent = tempMsg.CurrentReceiverAgent;
                             msgStatus = SendToAgent(tempMsg, agent);
                         }
 
