@@ -3,20 +3,10 @@
     public class Role
     {
         public string RoleName { set; get; }
-        private string RoleId { set; get; }
-        private string RoleModel { set; get; }
+        public string RoleId { set; get; }
+        public string RoleModel { set; get; }
         public double RadioRange { set; get; }
 
-        public enum RolesName { Worker, Ruler, Leader, Messenger };
-
-        public int AssignRole()
-        {
-            return 0;
-        }
-
-        public int ResignRole()
-        {
-            return 0;
-        }
+        public enum RolesName { Worker, Ruler, Leader, Messenger }
     }
 }

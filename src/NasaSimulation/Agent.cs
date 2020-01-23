@@ -10,47 +10,35 @@ namespace Simulation
         readonly Random _random;
         private AgentPosition _position = new AgentPosition();
         readonly Container _container;
-        public string AgentId {set; get;}
+        public string AgentId { set; get; }
         readonly OrganizationBoundries _teamBoundary;
         public object AgentRole { get; set; }
-        public Role.RolesName   AgentType ;
+        public Role.RolesName AgentType;
         Point _upB, _lowB;
         public double RadioRange { set; get; }
 
-               
+
         //Implementation --------------------------------------------------
-        public Agent(AgentPosition position, string id, Role.RolesName agentRoleType, OrganizationBoundries orgBoundary,Container cont    /*, int maxNumAgents,Container tempContainer*/)
+        public Agent(AgentPosition position, string id, Role.RolesName agentRoleType, OrganizationBoundries orgBoundary, Container cont    /*, int maxNumAgents,Container tempContainer*/)
         {
             _container = cont;
-            //numOfAgents = maxNumAgents;
             _position = position;
             AgentId = id;
-            //container = tempContainer;
             _random = Program.R;
             _teamBoundary = orgBoundary;
-            
+
             AgentType = agentRoleType;
-            var temptRole = new Role();
+            Role temptRole;
 
             switch (AgentType)
             {
-                //case Role.RolesName.Messenger:
-                //    agentRole = new Messenger(this, container);
-                //    temptRole = (Role)agentRole;
-                //    temptRole.RadioRange = Program.maxMessengerRadioRange;
-                //    break;
                 case Role.RolesName.Worker:
-                    AgentRole = new Worker(_container,this);
+                    AgentRole = new Worker(_container, this);
                     temptRole = (Role)AgentRole;
                     temptRole.RadioRange = Program.MaxRadioRange;
                     AgentRole = temptRole;
                     RadioRange = temptRole.RadioRange;
                     break;
-                //case Role.RolesName.Ruler:
-                //    agentRole = new Ruler();
-                //    temptRole = (Role)agentRole;
-                //    temptRole.RadioRange = Program.MAXRADIORANGE;
-                //    break;
                 case Role.RolesName.Leader:
                     AgentRole = new Leader(this, _container);
                     temptRole = (Role)AgentRole;
@@ -59,30 +47,12 @@ namespace Simulation
                     RadioRange = temptRole.RadioRange;
                     break;
             }
-            
-           
         }
-
-        public Agent(AgentPosition position, string id, Role.RolesName agentRoleType, Container cont)
-        {
-            _position = position;
-            AgentId = id;
-            //container = tempContainer;
-            _random = Program.R;
-            
-           
-            AgentType = agentRoleType;
-
-            _upB = Program.UpperBoarder;
-            _lowB = Program.LowerBoarder;
-        }
-
 
         public Agent(AgentPosition position, string id, Role.RolesName agentRoleType, Area agentArea, Container cont)
         {
             _position = position;
             AgentId = id;
-            //container = tempContainer;
             _container = cont;
             _random = Program.R;
             AgentType = agentRoleType;
@@ -92,33 +62,22 @@ namespace Simulation
             switch (AgentType)
             {
                 case Role.RolesName.Messenger:
-                    AgentRole = new Messenger(this, cont,agentArea);
+                    AgentRole = new Messenger(this, cont, agentArea);
                     temptRole = (Role)AgentRole;
                     temptRole.RadioRange = Program.MaxMessengerRadioRange;
                     AgentRole = temptRole;
                     RadioRange = temptRole.RadioRange;
                     break;
-                //case Role.RolesName.Worker:
-                //    agentRole = new Worker(container, this);
-                //    temptRole = (Role)agentRole;
-                //    temptRole.RadioRange = Program.MAXRADIORANGE;
-                //    break;
                 case Role.RolesName.Ruler:
-                    AgentRole = new Ruler(agentArea,cont,this);
+                    AgentRole = new Ruler(agentArea, cont, this);
                     temptRole = (Role)AgentRole;
                     temptRole.RadioRange = Program.MaxRadioRange;
                     AgentRole = temptRole;
                     RadioRange = temptRole.RadioRange;
                     break;
-                //case Role.RolesName.Leader:
-                //    agentRole = new Leader();
-                //    temptRole = (Role)agentRole;
-                //    temptRole.RadioRange = Program.MAXRADIORANGE;
-                //    break;
             }
         }
 
-        
         public void UpdateOneSec()
         {
             Movement();
@@ -141,7 +100,7 @@ namespace Simulation
                 else
                 {
                     var leader = (Leader)AgentRole;
-                    if (Time.GlobalSimulationTime % 40== 0)
+                    if (Time.GlobalSimulationTime % 40 == 0)
                     {
                         leader.OnTimedEvent();
                     }
@@ -150,7 +109,6 @@ namespace Simulation
 
 
         }
-
         public void FreeUpdateOneMillisecond()
         {
             if (AgentType == Role.RolesName.Messenger)
@@ -167,32 +125,6 @@ namespace Simulation
             FreeMovement();
         }
 
-        public void UpdateAgentType(Role.RolesName newAgentType)
-        {
-            AgentType = newAgentType;
-        }
-       
-        //public int AssignRole(Role agentRole)
-        //{
-        //    agentRoles.Add(agentRole);
-        //    return agentRoles.Count - 1;
-        //}
-
-
-
-        //private void sendMessageToAgent(int AgentID, Message msg)
-        //{
-        //    Agent nextHopAgent = getBestNextHopAgent(msg);
-        //    if (nextHopAgent == null)
-        //    {
-        //        messageNotSent();
-        //    }
-        //    else
-        //    {
-        //        sendMessage(nextHopAgent.ID, msg);
-        //    }
-        //}
-
         //Methods -----------------------------------------------------
         public AgentPosition GetPosition()
         {
@@ -202,33 +134,17 @@ namespace Simulation
         }
 
 
-        public double CalculateDistance(Point position, Point position2)
-        {
-            var x = position.X - position2.X;
-            var y = position.Y - position2.Y;
-            x *= x;
-            y *= y;
-            var dest = Math.Sqrt(x + y);
-            return dest;
-        }
-
-
         private int Movement()
         {
-            _position.Position.X += _position.Velocity.X/1000;
+            _position.Position.X += _position.Velocity.X / 1000;
 
-            _position.Position.Y += _position.Velocity.Y/1000;
+            _position.Position.Y += _position.Velocity.Y / 1000;
 
-            if (CalculateDistance(_position.Position, _teamBoundary.OrgCenter) > _teamBoundary.Radius) 
+            if (_position.Position.CalculateDistance(_teamBoundary.OrgCenter) > _teamBoundary.Radius)
             {
                 _position.Position.X = _teamBoundary.OrgCenter.X;
                 _position.Position.Y = _teamBoundary.OrgCenter.Y;
             }
-
-            //if (position.Position.X > (upB.X - lowB.X)) position.Position.X = 0;
-            //if (position.Position.X < 0) position.Position.X = (upB.X + lowB.X);
-            //if (position.Position.Y > (upB.Y - lowB.Y)) position.Position.Y = 0;
-            //if (position.Position.Y < 0) position.Position.Y = (upB.Y + lowB.Y);
 
             if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
             {
@@ -243,13 +159,7 @@ namespace Simulation
             _position.Position.X += _position.Velocity.X / 1000;
 
             _position.Position.Y += _position.Velocity.Y / 1000;
-
-            //if (calculateDistance(position.Position, teamBoundary.orgCenter) > teamBoundary.Radius)
-            //{
-            //    position.Position.X = teamBoundary.orgCenter.X;
-            //    position.Position.Y = teamBoundary.orgCenter.Y;
-            //}
-
+            
             if (AgentType == Role.RolesName.Messenger)
             {
                 var tempMessenger = (Messenger)AgentRole;
@@ -293,8 +203,8 @@ namespace Simulation
 
         private int MovementOneTick()
         {
-            _position.Position.X += (_position.Velocity.X/1000);
-            _position.Position.Y += (_position.Velocity.Y/1000);
+            _position.Position.X += (_position.Velocity.X / 1000);
+            _position.Position.Y += (_position.Velocity.Y / 1000);
 
             //if (position.Position.X > (upB.X - lowB.X)) position.Position.X = 0;
             //if (position.Position.X < 0) position.Position.X = (upB.X + lowB.X);
@@ -302,27 +212,27 @@ namespace Simulation
             //if (position.Position.Y < 0) position.Position.Y = (upB.Y + lowB.Y);
 
 
-            if ((Time.GlobalSimulationTime>1000)&&((Time.GlobalSimulationTime%1000) == 0)) UpdateVelocity(_position);
+            if ((Time.GlobalSimulationTime > 1000) && ((Time.GlobalSimulationTime % 1000) == 0)) UpdateVelocity(_position);
             return 0;
         }
         private void UpdateVelocity(AgentPosition position)
         {
             var t1 = _random.NextDouble();
-            t1 = (t1 - 0.5) * 2; 
+            t1 = (t1 - 0.5) * 2;
             var t2 = _random.NextDouble();
             t2 = (t2 - 0.5) * 2;
 
-           
 
 
-           if((position.Velocity.X *position.Velocity.X) +(position.Velocity.Y*position.Velocity.Y)>(Program.MaxSpeed*Program.MaxSpeed))
-           {
-                position.Velocity.X/=2;
-               position.Velocity.Y/=2;
-           }
 
-           position.Velocity.X += t1;
-           position.Velocity.Y += t2;
+            if ((position.Velocity.X * position.Velocity.X) + (position.Velocity.Y * position.Velocity.Y) > (Program.MaxSpeed * Program.MaxSpeed))
+            {
+                position.Velocity.X /= 2;
+                position.Velocity.Y /= 2;
+            }
+
+            position.Velocity.X += t1;
+            position.Velocity.Y += t2;
         }
 
 
@@ -378,7 +288,7 @@ namespace Simulation
         //    double bestDestination;
         // List<Agent> aroundAgent = container.getAgentsInRange(this,RadioRange);
 
-            
+
 
 
 

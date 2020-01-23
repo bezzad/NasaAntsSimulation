@@ -53,14 +53,13 @@ namespace Simulation
             {
                 for (double iy = 0; iy <= 750; iy += 250)
                 {
-                    var tempArea = new Area {MinX = ix, MinY = iy, MaxX = ix + 250, MaxY = iy + 250};
+                    var tempArea = new Area { MinX = ix, MinY = iy, MaxX = ix + 250, MaxY = iy + 250 };
                     AreaArray[iArea] = tempArea;
                     iArea++;
                 }
             }
         }
 
-        //Methods -------------------------------------------------------------
 
         public void CreateMessengers()
         {
@@ -125,33 +124,22 @@ namespace Simulation
             Simulation();
         }
 
-        //***************************************************************************
         public OrganizationBoundries InitialOrgBoundries(List<Team> teamList)
         {
             var localOrgBoundary = CreateRandomOrganization();
             foreach (var team in teamList)
             {
-                if (team.OrganizationBoundries.Radius + localOrgBoundary.Radius > CalculateDistance(localOrgBoundary.OrgCenter, team.OrganizationBoundries.OrgCenter))
+                if (team.OrganizationBoundries.Radius + localOrgBoundary.Radius > localOrgBoundary.OrgCenter.CalculateDistance(team.OrganizationBoundries.OrgCenter))
                 {
                     return InitialOrgBoundries(teamList);
                 }
             }
             return localOrgBoundary;
         }
-
-        public double CalculateDistance(Point position, Point position2)
-        {
-            var x = position.X - position2.X;
-            var y = position.Y - position2.Y;
-            x *= x;
-            y *= y;
-            var dest = Math.Sqrt(x + y);
-            return dest;
-        }
-
+        
         public OrganizationBoundries CreateRandomOrganization()
         {
-            var localOrgBoundary = new OrganizationBoundries {OrgCenter = SetAgentPosition().Position, Radius = 80};
+            var localOrgBoundary = new OrganizationBoundries { OrgCenter = SetAgentPosition().Position, Radius = 80 };
             return localOrgBoundary;
         }
 
@@ -162,7 +150,7 @@ namespace Simulation
             {
                 Time.Tick();
                 UpdateOrganizations();
-                if (Time.GlobalSimulationTime == 100 && 
+                if (Time.GlobalSimulationTime == 100 &&
                     SimulationScenario == Program.Scenario.Scenario1)
                 {
 
@@ -179,7 +167,7 @@ namespace Simulation
                         lostRuler = (Ruler)lostRulerAgent.AgentRole;
                     }
 
-                    lostRuler.Status = 0;
+                    lostRuler.Status = State.Failed;
                 }
 
                 Thread.Sleep(Program.HezitateValue);
@@ -291,7 +279,7 @@ namespace Simulation
             }
             return listOfAgent;
         }
-        
+
         internal List<Agent> GetLeadersInRange(Agent agent)
         {
             var listOfAgent = new List<Agent>();

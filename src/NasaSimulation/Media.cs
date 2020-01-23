@@ -42,14 +42,14 @@ namespace Simulation
             else if (receiver.AgentType == Role.RolesName.Worker)
             {
                 var tempWorker = (Worker)receiver.AgentRole;
-                tempWorker.GetMessage(message.Copy());
+                //tempWorker.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
             else if (receiver.AgentType == Role.RolesName.Ruler)
             {
                 var tempRuler = (Ruler)receiver.AgentRole;
-                tempRuler.GetandSendMessage(message.Copy());
+                tempRuler.GetAndSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
@@ -76,14 +76,14 @@ namespace Simulation
             else if (receiver.AgentType == Role.RolesName.Worker)
             {
                 var tempWorker = (Worker)receiver.AgentRole;
-                tempWorker.GetMessage(message);
+                // tempWorker.GetMessage(message);
                 MessageList.Remove(message);
             }
 
             else if (receiver.AgentType == Role.RolesName.Ruler)
             {
                 var tempRuler = (Ruler)receiver.AgentRole;
-                tempRuler.GetandSendMessage(message);
+                tempRuler.GetAndSendMessage(message);
                 MessageList.Remove(message);
             }
 
@@ -103,7 +103,7 @@ namespace Simulation
             if (receiver.AgentType == Role.RolesName.Ruler)
             {
                 var tempRuler = (Ruler)receiver.AgentRole;
-                tempRuler.GetandSendMessage(message.Copy());
+                tempRuler.GetAndSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
 

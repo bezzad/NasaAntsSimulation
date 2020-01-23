@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Simulation.Roles
 {
@@ -109,7 +108,7 @@ namespace Simulation.Roles
                 }
                 else //must route Message
                 {
-                    if (CalculateDistance(MessengerAgent.GetPosition().Position, message.ReceiverAgent.GetPosition().Position) <= RadioRange)
+                    if (MessengerAgent.GetPosition().Position.CalculateDistance(message.ReceiverAgent.GetPosition().Position) <= RadioRange)
                     {
                         message.CurrentReceiverAgentId = message.ReceiverAgentId;
                         message.CurrentReceiverAgent = message.ReceiverAgent;
@@ -159,7 +158,7 @@ namespace Simulation.Roles
                 Container.ContainerMedia.SendMessage(MessengerAgent, message.Copy());
             }
 
-            else if (CalculateDistance(MessengerAgent.GetPosition().Position, message.ReceiverAgent.GetPosition().Position) <= RadioRange)
+            else if (MessengerAgent.GetPosition().Position.CalculateDistance(message.ReceiverAgent.GetPosition().Position) <= RadioRange)
             {
                 if (message.MessageContent == Program.MessagesContent.Ping)
                 {
@@ -241,29 +240,26 @@ namespace Simulation.Roles
            Program.BroadcastType messageType,
            Program.MessagesContent messageContent, Agent rulerAgent)
         {
-            var message = new Message();
-            message.CurrentSenderAgent = currentSenderAgent;
-            message.CurrentSenderAgentId = currentSenderAgent.AgentId;
-            message.SenderAgentId = senderAgent.AgentId;
-            message.SenderAgent = senderAgent;
-            message.ReceiverAgent = receiverAgent;
-            message.ReceiverAgentId = receiverId;
-
-            message.MessageContent = messageContent;
-            message.MessageType = messageType;
-
-
-            if (CalculateDistance(MessengerAgent.GetPosition().Position, message.ReceiverAgent.GetPosition().Position) <= RadioRange)
+            var message = new Message
             {
+                CurrentSenderAgent = currentSenderAgent,
+                CurrentSenderAgentId = currentSenderAgent.AgentId,
+                SenderAgentId = senderAgent.AgentId,
+                SenderAgent = senderAgent,
+                ReceiverAgent = receiverAgent,
+                ReceiverAgentId = receiverId,
+                MessageContent = messageContent,
+                MessageType = messageType
+            };
 
+            if (MessengerAgent.GetPosition().Position.CalculateDistance(message.ReceiverAgent.GetPosition().Position) <= RadioRange)
+            {
                 message.CurrentReceiverAgent = message.ReceiverAgent;
                 message.CurrentReceiverAgentId = message.ReceiverAgentId;
-
             }
             else
             {
                 var tempMessengerAgent = FindNearestMessenger(MessengerAgent.GetPosition(), receiverAgent.GetPosition(), message);
-
                 message.RulerPingReply = rulerAgent;
                 if (MessengerAgent == null)
                 {
@@ -271,7 +267,6 @@ namespace Simulation.Roles
                     if (MessengerAgent != null) MessengerAgent.RadioRange += 50;
                     SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent, rulerAgent);
                     return;
-
                 }
 
                 message.CurrentReceiverAgent = tempMessengerAgent;
@@ -293,10 +288,12 @@ namespace Simulation.Roles
 
                     if (foundAgent == null)
                     {
-                        //Role temptRole = (Role)mAgent.agentRole;
-                        if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)
+                        if (agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) <= RadioRange &&
+                            agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +
+                            destPosition.Position.CalculateDistance(mAgent.GetPosition().Position) < minDist)
                         {
-                            minDist = CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position);
+                            minDist = agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +
+                                      destPosition.Position.CalculateDistance(mAgent.GetPosition().Position);
                             nAgent = mAgent;
                         }
                     }
@@ -305,21 +302,11 @@ namespace Simulation.Roles
             }
             return nAgent;
         }
-        
-        public double CalculateDistance(Point position, Point position2)
-        {
-            var x = position.X - position2.X;
-            var y = position.Y - position2.Y;
-            x *= x;
-            y *= y;
-            var dest = Math.Sqrt(x + y);
-            return dest;
-        }
 
-        private void SendBroadcastMessage(Agent senderAgent, 
+        private void SendBroadcastMessage(Agent senderAgent,
             Agent currentSenderAgent,
             Program.BroadcastType messageType,
-            Program.MessagesContent messageContent, 
+            Program.MessagesContent messageContent,
             int iBroadcastNum)
         {
             var message = new Message

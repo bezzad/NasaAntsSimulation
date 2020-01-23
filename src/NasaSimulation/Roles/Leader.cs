@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Simulation.Roles
 {
@@ -170,12 +169,12 @@ namespace Simulation.Roles
             foreach (var mAgent in _container.MessengerList)
             {
                 //Role temptRole = (Role)mAgent.agentRole;
-                if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange &&
-                    CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) +
-                    CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)
+                if (agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) <= RadioRange &&
+                    agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +
+                    destPosition.Position.CalculateDistance(mAgent.GetPosition().Position) < minDist)
                 {
-                    minDist = CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) +
-                              CalculateDistance(destPosition.Position, mAgent.GetPosition().Position);
+                    minDist = agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +
+                              destPosition.Position.CalculateDistance(mAgent.GetPosition().Position);
                     nAgent = mAgent;
                 }
             }
@@ -187,29 +186,15 @@ namespace Simulation.Roles
             Agent nAgent = null;
             foreach (var mAgent in _container.MessengerList)
             {
-                //Role temptRole = (Role)mAgent.agentRole;
-                if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange &&
-                    CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) < minDist)
+                if (agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) <= RadioRange &&
+                    agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) < minDist)
                 {
-                    minDist = CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position);
+                    minDist = agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position);
                     nAgent = mAgent;
                 }
             }
             return nAgent;
         }
-
-
-        public double CalculateDistance(Point position, Point position2)
-        {
-            var x = position.X - position2.X;
-            var y = position.Y - position2.Y;
-            x *= x;
-            y *= y;
-            var dest = Math.Sqrt(x + y);
-            return dest;
-        }
-
-
 
         public void ProcessMessage(Message message)
         {
@@ -242,7 +227,6 @@ namespace Simulation.Roles
                         RulerAgent);
                 }
             }
-
             else if (message.MessageContent == Program.MessagesContent.ReplyRulerNum)
             {
                 if (message.DataMessageText != "-1")

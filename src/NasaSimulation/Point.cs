@@ -1,4 +1,6 @@
-﻿namespace Simulation
+﻿using System;
+
+namespace Simulation
 {
     public class Point
     {
@@ -12,5 +14,13 @@
 
         public double X { set; get; }
         public double Y { set; get; }
+
+        public double CalculateDistance(Point other)
+        {
+            var x = X - other.X;
+            var y = Y - other.Y;
+            var dest = Math.Sqrt(x * x + y * y);
+            return dest;
+        }
     }
 }

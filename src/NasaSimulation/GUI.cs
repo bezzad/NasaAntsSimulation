@@ -247,7 +247,7 @@ namespace Simulation
                 foreach (var rulerAgent in _environmentContainer.RulerList)
                 {
                     var ruler = (Ruler) rulerAgent.AgentRole;
-                    if (ruler.Status == 1)
+                    if (ruler.Status == State.Stable)
                         DrawRuler(rulerAgent.GetPosition().Position);
                     else
                     {
