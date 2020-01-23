@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nasa.ANTS.Simulation", "NasaSimulation\Nasa.ANTS.Simulation.csproj", "{4A6B51E7-2035-4688-8F75-3F21E9845DA6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B109B9C-D613-446B-9449-486CD51A4CDB}"
+	ProjectSection(SolutionItems) = preProject
+		..\document\document.docx = ..\document\document.docx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
