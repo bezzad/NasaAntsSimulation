@@ -8,8 +8,8 @@ namespace Simulation
     {
         //------------------------my parameter --------------
         public static int HezitateValue = 0;
-        public static SimpleOpenGlControl GuiOpenGLcontrol;
-        public static int Maxspeed = 10;
+        public static SimpleOpenGlControl GuiOpenGlControl;
+        public static int MaxSpeed = 10;
         public static Form ActiveForm;
         public static Form GuiForm;
         public static bool RunGui = false;
@@ -52,14 +52,14 @@ namespace Simulation
         [STAThread]
         static void Main()
         {
-            Setparameter();
+            SetParameter();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             ActiveForm = new MainForm();
             Application.Run(ActiveForm);
         }
 
-        private static void Setparameter()
+        private static void SetParameter()
         {
             LowerBoarder.X = 0;
             LowerBoarder.Y = 0;

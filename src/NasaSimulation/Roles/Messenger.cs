@@ -29,7 +29,7 @@ namespace Simulation.Roles
                {
                    if ((Time.GlobalSimulationTime - message.RoutingTime) > 50 && message.RoutingTime != -1)
                    {
-                       if (message.ReceiverAgent.AgentType == Role.RolesName.Ruler)
+                       if (message.ReceiverAgent.AgentType == RolesName.Ruler)
                        {
                            var adaptListMessage = AdaptingWaitingList.Find(delegate(Message tempMessage)
                            {
@@ -40,14 +40,14 @@ namespace Simulation.Roles
                            {
                               // message.routingTime = Time.GlobalSimulationTime;
                                AdaptingWaitingList.Add(message.Copy());
-                               SendBroadcastMessage(this._messengerAgent, this._messengerAgent, Program.BroadcastType.MessengersToRulersBroadcast,
+                               SendBroadcastMessage(_messengerAgent, _messengerAgent, Program.BroadcastType.MessengersToRulersBroadcast,
                                Program.MessagesContent.LostRuler, 1);
                            }
 
                            else
                            {
                                message.RoutingTime = Time.GlobalSimulationTime;
-                               SendBroadcastMessage(this._messengerAgent, this._messengerAgent, Program.BroadcastType.MessengersToRulersBroadcast,
+                               SendBroadcastMessage(_messengerAgent, _messengerAgent, Program.BroadcastType.MessengersToRulersBroadcast,
                                Program.MessagesContent.LostRuler, 2);
                            }
                        }
@@ -84,7 +84,7 @@ namespace Simulation.Roles
                     {
                         foreach(var adaptingMessage in AdaptingWaitingList)
                         {
-                            SendMessage(this._messengerAgent, this._messengerAgent, adaptingMessage.SenderAgent, adaptingMessage.SenderAgentId,
+                            SendMessage(_messengerAgent, _messengerAgent, adaptingMessage.SenderAgent, adaptingMessage.SenderAgentId,
                                 Program.BroadcastType.SingleCast, Program.MessagesContent.ReplyRulerNum, message.RulerPingReply);
 
                             var replyListMessage = ReplyWaitingList.Find(delegate(Message tempMessage)
@@ -170,10 +170,10 @@ namespace Simulation.Roles
                 else if (message.ReceiverAgentId == "-1")
                 {
                     message.CurrentReceiverAgentId = "-1";
-                    message.CurrentSenderAgent = this._messengerAgent;
-                    message.CurrentSenderAgentId = this._messengerAgent.AgentId;
-                    message.RoutingList.Add(this._messengerAgent);
-                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                    message.CurrentSenderAgent = _messengerAgent;
+                    message.CurrentSenderAgentId = _messengerAgent.AgentId;
+                    message.RoutingList.Add(_messengerAgent);
+                    _container.ContainerMedia.SendMessage(_messengerAgent, message.Copy());
                 }
                 else //must route Message
                 {
@@ -181,10 +181,10 @@ namespace Simulation.Roles
                     {
                         message.CurrentReceiverAgentId = message.ReceiverAgentId;
                         message.CurrentReceiverAgent = message.ReceiverAgent;
-                        message.CurrentSenderAgentId = this._messengerAgent.AgentId;
-                        message.CurrentSenderAgent = this._messengerAgent;
-                        message.RoutingList.Add(this._messengerAgent);
-                        _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                        message.CurrentSenderAgentId = _messengerAgent.AgentId;
+                        message.CurrentSenderAgent = _messengerAgent;
+                        message.RoutingList.Add(_messengerAgent);
+                        _container.ContainerMedia.SendMessage(_messengerAgent, message.Copy());
 
                     }
                     else
@@ -205,10 +205,10 @@ namespace Simulation.Roles
                         }
                         message.CurrentReceiverAgentId = mAgent.AgentId;
                         message.CurrentReceiverAgent = mAgent;
-                        message.CurrentSenderAgent = this._messengerAgent;
-                        message.CurrentSenderAgentId = this._messengerAgent.AgentId;
-                        message.RoutingList.Add(this._messengerAgent);
-                        _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                        message.CurrentSenderAgent = _messengerAgent;
+                        message.CurrentSenderAgentId = _messengerAgent.AgentId;
+                        message.RoutingList.Add(_messengerAgent);
+                        _container.ContainerMedia.SendMessage(_messengerAgent, message.Copy());
                         //}
 
                     }
@@ -229,10 +229,10 @@ namespace Simulation.Roles
             else if(message.ReceiverAgentId == "-1")
             {
                     message.CurrentReceiverAgentId = "-1";
-                    message.CurrentSenderAgent = this._messengerAgent;
-                    message.CurrentSenderAgentId = this._messengerAgent.AgentId;
-                    message.RoutingList.Add(this._messengerAgent);
-                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());   
+                    message.CurrentSenderAgent = _messengerAgent;
+                    message.CurrentSenderAgentId = _messengerAgent.AgentId;
+                    message.RoutingList.Add(_messengerAgent);
+                    _container.ContainerMedia.SendMessage(_messengerAgent, message.Copy());   
             }
 
             else if (CalculateDistance(_messengerAgent.GetPosition().Position, message.ReceiverAgent.GetPosition().Position) <= RadioRange)
@@ -242,21 +242,21 @@ namespace Simulation.Roles
                     message.RoutingTime = Time.GlobalSimulationTime;
                     message.CurrentReceiverAgentId = message.ReceiverAgentId;
                     message.CurrentReceiverAgent = message.ReceiverAgent;
-                    message.CurrentSenderAgentId = this._messengerAgent.AgentId;
-                    message.CurrentSenderAgent = this._messengerAgent;
+                    message.CurrentSenderAgentId = _messengerAgent.AgentId;
+                    message.CurrentSenderAgent = _messengerAgent;
            
-                    message.RoutingList.Add(this._messengerAgent);
+                    message.RoutingList.Add(_messengerAgent);
                     ReplyWaitingList.Add(message.Copy());
-                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                    _container.ContainerMedia.SendMessage(_messengerAgent, message.Copy());
                 }
                 else  if (message.MessageContent == Program.MessagesContent.PingReply)
                 {
                     message.CurrentReceiverAgentId = message.ReceiverAgentId;
                     message.CurrentReceiverAgent = message.ReceiverAgent;
-                    message.CurrentSenderAgentId = this._messengerAgent.AgentId;
-                    message.CurrentSenderAgent = this._messengerAgent;
-                    message.RoutingList.Add(this._messengerAgent);
-                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                    message.CurrentSenderAgentId = _messengerAgent.AgentId;
+                    message.CurrentSenderAgent = _messengerAgent;
+                    message.RoutingList.Add(_messengerAgent);
+                    _container.ContainerMedia.SendMessage(_messengerAgent, message.Copy());
                     foreach (var pingMessage in ReplyWaitingList)
                     {
                         if (pingMessage.ReceiverAgent == message.SenderAgent)
@@ -271,10 +271,10 @@ namespace Simulation.Roles
                 {
                     message.CurrentReceiverAgentId = message.ReceiverAgentId;
                     message.CurrentReceiverAgent = message.ReceiverAgent;
-                    message.CurrentSenderAgentId = this._messengerAgent.AgentId;
-                    message.CurrentSenderAgent = this._messengerAgent;
-                    message.RoutingList.Add(this._messengerAgent);
-                    _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                    message.CurrentSenderAgentId = _messengerAgent.AgentId;
+                    message.CurrentSenderAgent = _messengerAgent;
+                    message.RoutingList.Add(_messengerAgent);
+                    _container.ContainerMedia.SendMessage(_messengerAgent, message.Copy());
                 }
             }
 
@@ -304,10 +304,10 @@ namespace Simulation.Roles
                 }
                 message.CurrentReceiverAgentId = mAgent.AgentId;
                 message.CurrentReceiverAgent = mAgent;
-                message.CurrentSenderAgent = this._messengerAgent;
-                message.CurrentSenderAgentId = this._messengerAgent.AgentId;
-                message.RoutingList.Add(this._messengerAgent);
-                _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                message.CurrentSenderAgent = _messengerAgent;
+                message.CurrentSenderAgentId = _messengerAgent.AgentId;
+                message.RoutingList.Add(_messengerAgent);
+                _container.ContainerMedia.SendMessage(_messengerAgent, message.Copy());
 
             }
 
@@ -322,10 +322,10 @@ namespace Simulation.Roles
             {
 
               
-                message.CurrentSenderAgentId = this._messengerAgent.AgentId;
-                message.CurrentSenderAgent = this._messengerAgent;
+                message.CurrentSenderAgentId = _messengerAgent.AgentId;
+                message.CurrentSenderAgent = _messengerAgent;
 
-                if (CalculateDistance(this._messengerAgent.GetPosition().Position, message.ReceiverAgent.GetPosition().Position)< RadioRange)
+                if (CalculateDistance(_messengerAgent.GetPosition().Position, message.ReceiverAgent.GetPosition().Position)< RadioRange)
                 {
                     message.CurrentReceiverAgentId = message.ReceiverAgentId;
                     message.CurrentReceiverAgent = message.ReceiverAgent;
@@ -335,7 +335,7 @@ namespace Simulation.Roles
                 else
                 {
                     {
-                        var tempMessengerAgent = FindNearestMessenger(this._messengerAgent.GetPosition(), message.ReceiverAgent.GetPosition(), message);
+                        var tempMessengerAgent = FindNearestMessenger(_messengerAgent.GetPosition(), message.ReceiverAgent.GetPosition(), message);
 
                         if (_messengerAgent == null)
                         {
@@ -351,10 +351,10 @@ namespace Simulation.Roles
 
                 }
                
-                message.RoutingList.Add(this._messengerAgent);
+                message.RoutingList.Add(_messengerAgent);
 
 
-                _container.ContainerMedia.SendMessage(this._messengerAgent, message.Copy());
+                _container.ContainerMedia.SendMessage(_messengerAgent, message.Copy());
                 foreach (var pingMessage in ReplyWaitingList)
                 {
                     if (pingMessage.ReceiverAgent == message.SenderAgent)
@@ -393,7 +393,7 @@ namespace Simulation.Roles
             }
             else
             {
-             var  tempMessengerAgent = FindNearestMessenger(this._messengerAgent.GetPosition(), reciverAgent.GetPosition(),message);
+             var  tempMessengerAgent = FindNearestMessenger(_messengerAgent.GetPosition(), reciverAgent.GetPosition(),message);
 
             message.RulerPingReply = rulerAgent;
             if (_messengerAgent == null)
@@ -430,7 +430,7 @@ namespace Simulation.Roles
             Agent nAgent = null;
             foreach (var mAgent in _container.MessangerList)
             {
-                if (mAgent != this._messengerAgent )
+                if (mAgent != _messengerAgent )
                 {
                     var foundAgent = message.RoutingList. Find( delegate(Agent messengerAg){
                        return messengerAg == mAgent;});

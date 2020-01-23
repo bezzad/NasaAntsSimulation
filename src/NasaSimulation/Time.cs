@@ -21,43 +21,4 @@
             return GlobalSimulationTime;
         }
     }
-
-    public class Point
-    {
-        public double X { set; get; }
-        public double Y { set; get; }
-    }
-
-    public class Area
-    {
-        public double MinX { set; get; }
-        public double MinY { set; get; }
-        public double MaxX { set; get; }
-        public double MaxY { set; get; }
-    }
-
-    public class OrganizationBoundries
-    {
-        public Point OrgCenter { get; set; }
-        public double Radius { get; set; }
-    }
-
-    public class AgentPosition
-    {
-        public Point Position = new Point();
-        public Point Velocity = new Point();
-    }
-
-    public class AgentEvent
-    {
-        public int AgentId;
-        public Point Position = new Point();
-        public double Velocity;
-    }
-
-    public class ForbidenArea
-    {
-        public double Range;
-        Point _position;
-    }
 }

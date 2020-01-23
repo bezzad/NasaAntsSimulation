@@ -1,6 +1,5 @@
 ﻿namespace Simulation
 {
-    public enum EventType { Message, BroadcastMessage };
     public struct Event
     {
         public EventType EventType { set; get; }

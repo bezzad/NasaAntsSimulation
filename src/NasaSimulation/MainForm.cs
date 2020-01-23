@@ -34,7 +34,7 @@ namespace Simulation
 
 
             guiOpenGLFrame.InitializeContexts();
-            Program.GuiOpenGLcontrol = guiOpenGLFrame;
+            Program.GuiOpenGlControl = guiOpenGLFrame;
 
 
         }

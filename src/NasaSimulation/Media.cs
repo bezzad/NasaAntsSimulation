@@ -17,7 +17,7 @@ namespace Simulation
             MessageCount++;
             msg.MessageId = MessageCount;
             MessageList.Add(msg);
-            //--- must do --- check if this agent is in forbiden area
+            //--- must do --- check if this agent is in forbidden area
             //------------------
             AddMessageEventToContainer(MessageCount);
             return true;
@@ -31,32 +31,32 @@ namespace Simulation
             _container.AddEventToQeue(msgId, Program.Msgdelay);
         }
 
-        public bool SendToAgent(Message message, Agent reciever)
+        public bool SendToAgent(Message message, Agent receiver)
         {
-            if (reciever.AgentType == Role.RolesName.Messenger)
+            if (receiver.AgentType == Role.RolesName.Messenger)
             {
-                var tempMesenger = (Messenger)reciever.AgentRole;
-                tempMesenger.GetMessage(message.Copy());
+                var tempMessenger = (Messenger)receiver.AgentRole;
+                tempMessenger.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Worker)
+            else if (receiver.AgentType == Role.RolesName.Worker)
             {
-                var tempWorker = (Worker)reciever.AgentRole;
+                var tempWorker = (Worker)receiver.AgentRole;
                 tempWorker.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Ruler)
+            else if (receiver.AgentType == Role.RolesName.Ruler)
             {
-                var tempRuler = (Ruler)reciever.AgentRole;
+                var tempRuler = (Ruler)receiver.AgentRole;
                 tempRuler.GetandSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Leader)
+            else if (receiver.AgentType == Role.RolesName.Leader)
             {
-                var tempLeader = (Leader)reciever.AgentRole;
+                var tempLeader = (Leader)receiver.AgentRole;
                 tempLeader.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
@@ -65,45 +65,45 @@ namespace Simulation
 
 
 
-        public bool SendBroadcastToAgent(Message message, Agent reciever)
+        public bool SendBroadcastToAgent(Message message, Agent receiver)
         {
-            if (reciever.AgentType == Role.RolesName.Messenger)
+            if (receiver.AgentType == Role.RolesName.Messenger)
             {
-                var tempMesenger = (Messenger)reciever.AgentRole;
-                tempMesenger.GetMessage(message);
+                var tempMessenger = (Messenger)receiver.AgentRole;
+                tempMessenger.GetMessage(message);
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Worker)
+            else if (receiver.AgentType == Role.RolesName.Worker)
             {
-                var tempWorker = (Worker)reciever.AgentRole;
+                var tempWorker = (Worker)receiver.AgentRole;
                 tempWorker.GetMessage(message);
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Ruler)
+            else if (receiver.AgentType == Role.RolesName.Ruler)
             {
-                var tempRuler = (Ruler)reciever.AgentRole;
+                var tempRuler = (Ruler)receiver.AgentRole;
                 tempRuler.GetandSendMessage(message);
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Leader)
+            else if (receiver.AgentType == Role.RolesName.Leader)
             {
-                var tempLeader = (Leader)reciever.AgentRole;
+                var tempLeader = (Leader)receiver.AgentRole;
                 tempLeader.GetMessage(message);
                 var x = MessageList.Remove(message);
             }
             return true;
         }
 
-        public bool SendToAgentAndRecieve(Message message, Agent reciever)
+        public bool SendToAgentAndReceive(Message message, Agent receiver)
         {
 
 
-            if (reciever.AgentType == Role.RolesName.Ruler)
+            if (receiver.AgentType == Role.RolesName.Ruler)
             {
-                var tempRuler = (Ruler)reciever.AgentRole;
+                var tempRuler = (Ruler)receiver.AgentRole;
                 tempRuler.GetandSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
@@ -115,11 +115,8 @@ namespace Simulation
         {
             var msgStatus = true;
             var tempMsg = MessageList.Find(
-                delegate (Message msg)
-                {
-                    return msg.MessageId == msgId;
-                }
-                );
+                msg => msg.MessageId == msgId
+            );
 
 
             if (tempMsg == null)
@@ -360,12 +357,9 @@ namespace Simulation
                                     singleMessage.ReceiverAgent = agent;
                                     singleMessage.ReceiverAgentId = agent.AgentId;
                                     SendBroadcastToAgent(singleMessage, agent);
-
                                 }
-
                             }
                         }
-
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
@@ -394,7 +388,7 @@ namespace Simulation
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
 
-                            msgStatus = SendToAgentAndRecieve(tempMsg, agent);
+                            msgStatus = SendToAgentAndReceive(tempMsg, agent);
                         }
 
                         else
@@ -402,33 +396,10 @@ namespace Simulation
                             var agent = tempMsg.CurrentReceiverAgent;
                             msgStatus = SendToAgent(tempMsg, agent);
                         }
-
-
                         break;
-
                     }
-
-
-
-
-
-
-
             }
-
             return msgStatus;
-
         }
-
-
-
-
-
     }
-
-
-
-
-
 }
-

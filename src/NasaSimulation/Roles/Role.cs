@@ -9,24 +9,14 @@
 
         public enum RolesName { Worker, Ruler, Leader, Messenger };
 
-
-        public Role()
-        {
-
-        }
-
         public int AssignRole()
         {
-
             return 0;
-
         }
 
         public int ResignRole()
         {
-
             return 0;
-
         }
     }
 }

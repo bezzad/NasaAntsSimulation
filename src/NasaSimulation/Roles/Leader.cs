@@ -12,7 +12,7 @@ namespace Simulation.Roles
         //0 is corrupted 1 is OK and 2 is under ruler correction
         int _iStatus = 1;
         long _pingTime = -1;
-        long _startPartialAdaptationTime = 9223372036854775807;
+        long _startPartialAdaptationTime = long.MaxValue;
 
 
         public Leader(Agent agent, Container cont)
@@ -36,7 +36,7 @@ namespace Simulation.Roles
                 {
                     _iStatus = 2;
                     _startPartialAdaptationTime = Time.GlobalSimulationTime;
-                    SendBroadcastMessage(this._leaderAgent, this._leaderAgent, Program.BroadcastType.MessengerToLeaderBroadcast,
+                    SendBroadcastMessage(_leaderAgent, _leaderAgent, Program.BroadcastType.MessengerToLeaderBroadcast,
                         Program.MessagesContent.LostRuler, 1);
                 }
             }
@@ -45,14 +45,14 @@ namespace Simulation.Roles
             else if (RulerAgent != null && _iStatus == 1)
             {
                 _pingTime = Time.GlobalSimulationTime;
-                SendMessage(this._leaderAgent, this._leaderAgent, this.RulerAgent, this.RulerAgent.AgentId, Program.BroadcastType.SendRecieve,
+                SendMessage(_leaderAgent, _leaderAgent, RulerAgent, RulerAgent.AgentId, Program.BroadcastType.SendRecieve,
                          Program.MessagesContent.Ping, "");
                 _iStatus = 3;
             }
 
             else if (_iStatus == 2 && Time.GlobalSimulationTime - _startPartialAdaptationTime > 200)
             {
-                if (Program.MultiOff == true)
+                if (Program.MultiOff)
                 {
                     Program.EndOfSimulation = true;
                     UpdateTimeLabel("MVal");
@@ -60,7 +60,7 @@ namespace Simulation.Roles
 
                 }
                 _startPartialAdaptationTime = Time.GlobalSimulationTime;
-                SendBroadcastMessage(this._leaderAgent, this._leaderAgent, Program.BroadcastType.MessengerToLeaderBroadcast,
+                SendBroadcastMessage(_leaderAgent, _leaderAgent, Program.BroadcastType.MessengerToLeaderBroadcast,
                         Program.MessagesContent.LostRuler, 2);
             }
 
@@ -86,7 +86,7 @@ namespace Simulation.Roles
 
             message.MessageContent = messageContent;
             message.MessageType = messageType;
-            var messengerAgent = FindNearestMessenger(this._leaderAgent.GetPosition(), reciverAgent.GetPosition());
+            var messengerAgent = FindNearestMessenger(_leaderAgent.GetPosition(), reciverAgent.GetPosition());
 
             message.RulerPingReply = rulerAgent;
             if (messengerAgent == null)
@@ -100,11 +100,11 @@ namespace Simulation.Roles
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
-            var messageStatus = _container.ContainerMedia.SendMessage(this._leaderAgent, message.Copy());
+            var messageStatus = _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
         }
 
-        private void SendMessage(Agent senderAgent, Agent currentSenderAgent, Agent reciverAgent,
-            string reciverId,
+        private void SendMessage(Agent senderAgent, Agent currentSenderAgent, Agent receiverAgent,
+            string receiverId,
             Program.BroadcastType messageType,
             Program.MessagesContent messageContent, string messageTextData)
         {
@@ -113,18 +113,18 @@ namespace Simulation.Roles
             message.CurrentSenderAgentId = currentSenderAgent.AgentId;
             message.SenderAgentId = senderAgent.AgentId;
             message.SenderAgent = senderAgent;
-            message.ReceiverAgent = reciverAgent;
-            message.ReceiverAgentId = reciverId;
+            message.ReceiverAgent = receiverAgent;
+            message.ReceiverAgentId = receiverId;
 
             message.MessageContent = messageContent;
             message.MessageType = messageType;
-            var messengerAgent = FindNearestMessenger(this._leaderAgent.GetPosition(), reciverAgent.GetPosition());
+            var messengerAgent = FindNearestMessenger(_leaderAgent.GetPosition(), receiverAgent.GetPosition());
             message.DataMessageText = messageTextData;
             if (messengerAgent == null)
             {
                 RadioRange += 50;
                 _leaderAgent.RadioRange += 50;
-                SendMessage(senderAgent, currentSenderAgent, reciverAgent, reciverId, messageType, messageContent, messageTextData);
+                SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent, messageTextData);
                 return;
 
             }
@@ -132,7 +132,7 @@ namespace Simulation.Roles
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
 
-            var messageStatus = _container.ContainerMedia.SendMessage(this._leaderAgent, message.Copy());
+            var messageStatus = _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
 
         }
 
@@ -152,7 +152,7 @@ namespace Simulation.Roles
             message.MessageContent = messageContent;
             message.MessageType = messageType;
             message.NumOfBroadcastSteps = iBroadcastNum;
-            var messengerAgent = FindNearestMessenger(this._leaderAgent.GetPosition());
+            var messengerAgent = FindNearestMessenger(_leaderAgent.GetPosition());
             if (messengerAgent == null)
             {
                 RadioRange += 50;
@@ -166,7 +166,7 @@ namespace Simulation.Roles
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
 
-            var messageStatus = _container.ContainerMedia.SendMessage(this._leaderAgent, message.Copy());
+            var messageStatus = _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
 
         }
 
@@ -237,13 +237,13 @@ namespace Simulation.Roles
             {
                 if (_iStatus == 0 || _iStatus == 2)
                 {
-                    SendMessage(this._leaderAgent, this._leaderAgent, message.SenderAgent, message.SenderAgentId, Program.BroadcastType.SingleCast,
+                    SendMessage(_leaderAgent, _leaderAgent, message.SenderAgent, message.SenderAgentId, Program.BroadcastType.SingleCast,
                         Program.MessagesContent.ReplyRulerNum, "-1");
                 }
                 else
                 {
-                    SendMessage(this._leaderAgent, this._leaderAgent, message.SenderAgent, message.SenderAgentId, Program.BroadcastType.SingleCast,
-                       Program.MessagesContent.ReplyRulerNum, this.RulerAgent);
+                    SendMessage(_leaderAgent, _leaderAgent, message.SenderAgent, message.SenderAgentId, Program.BroadcastType.SingleCast,
+                       Program.MessagesContent.ReplyRulerNum, RulerAgent);
                 }
             }
 
@@ -255,7 +255,7 @@ namespace Simulation.Roles
                     if (repliedRuler != RulerAgent)
                     {
                         RulerAgent = repliedRuler;
-                        this._iStatus = 1;
+                        _iStatus = 1;
                         _startPartialAdaptationTime = 9223372036854775807;
                         _pingTime = -1;
                         MeasureAdaptingTime();
@@ -351,7 +351,7 @@ namespace Simulation.Roles
             if (RulerAgent != null && _iStatus == 1)
             {
                 _pingTime = Time.GlobalSimulationTime;
-                SendMessage(this._leaderAgent, this._leaderAgent, this.RulerAgent, this.RulerAgent.AgentId, Program.BroadcastType.SendRecieve,
+                SendMessage(_leaderAgent, _leaderAgent, RulerAgent, RulerAgent.AgentId, Program.BroadcastType.SendRecieve,
                          Program.MessagesContent.Ping, "");
                 _iStatus = 3;
             }
@@ -391,7 +391,7 @@ namespace Simulation.Roles
                     {
                         RulerAgent = repliedRuler;
 
-                        this._iStatus = 1;
+                        _iStatus = 1;
                         _startPartialAdaptationTime = 9223372036854775807;
                         _pingTime = -1;
                         MeasureAdaptingTime();

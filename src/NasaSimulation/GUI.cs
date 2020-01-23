@@ -10,9 +10,10 @@ namespace Simulation
     public class Gui
     {
         private Random _random;
-        private readonly Container _envirumentContainer;
+        private readonly Container _environmentContainer;
 
         private SimpleOpenGlControl _guiFrame;
+
         //private int numOfAgent { set; get; }
         private int _numOfOrganization;
         private float _rColor;
@@ -21,11 +22,11 @@ namespace Simulation
         private double _xratio;
         private double _yratio;
 
-        public Gui(Container envirumentContaniner)
+        public Gui(Container environmentContainer)
         {
-            _envirumentContainer = envirumentContaniner;
+            _environmentContainer = environmentContainer;
 
-            //numOfOrganization = envirumentContainer.numOfAgents;
+            //numOfOrganization = environmentContainer.numOfAgents;
             // this.viewScreen = viewScreen;
             _xratio = _yratio = 0.5;
         }
@@ -35,7 +36,7 @@ namespace Simulation
             _random = Program.R;
             if (_guiFrame.InvokeRequired)
             {
-                _guiFrame.Invoke(new MethodInvoker(delegate () { InitialGui(); }));
+                _guiFrame.Invoke(new MethodInvoker(InitialGui));
             }
             else
             {
@@ -43,7 +44,8 @@ namespace Simulation
                 Gl.glMatrixMode(Gl.GL_PROJECTION);
                 Gl.glLoadIdentity();
                 Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
-                Gl.glOrtho(Program.LowerBoarder.X - 50, Program.UpperBoarder.X + 50, Program.LowerBoarder.Y - 50, Program.UpperBoarder.Y + 50, 0.0, 1.0);
+                Gl.glOrtho(Program.LowerBoarder.X - 50, Program.UpperBoarder.X + 50, Program.LowerBoarder.Y - 50,
+                    Program.UpperBoarder.Y + 50, 0.0, 1.0);
             }
         }
 
@@ -120,18 +122,11 @@ namespace Simulation
             p6.X = rulerCenter.X - 10;
             p6.Y = rulerCenter.Y + 5;
 
-
-
-
-
             Gl.glBegin(Gl.GL_POLYGON);
-
 
             Gl.glVertex2d(p1.X, p1.Y);
             Gl.glVertex2d(p2.X, p2.Y);
             Gl.glVertex2d(p3.X, p3.Y);
-
-
 
             Gl.glVertex2d(p4.X, p4.Y);
 
@@ -140,15 +135,11 @@ namespace Simulation
 
             Gl.glVertex2d(p1.X, p1.Y);
 
-
-
             Gl.glEnd();
             //Gl.glBegin(Gl.GL_LINES);
             //Gl.glVertex2d(messengerCenter.X, messengerCenter.Y);
             //Gl.glVertex2d(messengerCenter.X, messengerCenter.Y - 30);
             //Gl.glEnd();
-
-
         }
 
         public void DrawDisabledRuler(Point rulerCenter)
@@ -175,18 +166,11 @@ namespace Simulation
             p6.X = rulerCenter.X - 10;
             p6.Y = rulerCenter.Y + 5;
 
-
-
-
-
             Gl.glBegin(Gl.GL_POLYGON);
-
 
             Gl.glVertex2d(p1.X, p1.Y);
             Gl.glVertex2d(p2.X, p2.Y);
             Gl.glVertex2d(p3.X, p3.Y);
-
-
 
             Gl.glVertex2d(p4.X, p4.Y);
 
@@ -195,15 +179,11 @@ namespace Simulation
 
             Gl.glVertex2d(p1.X, p1.Y);
 
-
-
             Gl.glEnd();
             //Gl.glBegin(Gl.GL_LINES);
             //Gl.glVertex2d(messengerCenter.X, messengerCenter.Y);
             //Gl.glVertex2d(messengerCenter.X, messengerCenter.Y - 30);
             //Gl.glEnd();
-
-
         }
 
         public void DrawCircle(Point orgCenter, double Radius)
@@ -215,6 +195,7 @@ namespace Simulation
                 var y = Radius * Math.Cos(deg) + orgCenter.Y + Program.LowerBoarder.Y;
                 Gl.glVertex2d(x, y);
             }
+
             Gl.glEnd();
 
 
@@ -229,7 +210,7 @@ namespace Simulation
                 try
                 {
                     //if (Program.endOfApplication) return;
-                    _guiFrame.Invoke(new MethodInvoker(delegate () { GuiDraw(); }));
+                    _guiFrame.Invoke(new MethodInvoker(delegate() { GuiDraw(); }));
                 }
                 catch
                 {
@@ -239,7 +220,8 @@ namespace Simulation
             else
             {
                 #region team
-                foreach (var team in _envirumentContainer.TeamList)
+
+                foreach (var team in _environmentContainer.TeamList)
                 {
                     Gl.glColor3f(255, 0, 0);
                     Gl.glPointSize(2);
@@ -261,6 +243,7 @@ namespace Simulation
                         Gl.glVertex2d(tempAgentPosition.Position.X, tempAgentPosition.Position.Y);
 
                     }
+
                     Gl.glEnd();
                     Gl.glColor3f(0, 0, 125);
                     Gl.glPointSize(5);
@@ -272,18 +255,17 @@ namespace Simulation
 
 
                 }
+
                 #endregion
 
-                foreach (var messenger in _envirumentContainer.MessangerList)
+                foreach (var messenger in _environmentContainer.MessangerList)
                 {
                     DrawMessenger(messenger.GetPosition().Position);
-
-
                 }
 
-                foreach (var rulerAgent in _envirumentContainer.RulerList)
+                foreach (var rulerAgent in _environmentContainer.RulerList)
                 {
-                    var ruler = (Ruler)rulerAgent.AgentRole;
+                    var ruler = (Ruler) rulerAgent.AgentRole;
                     if (ruler.Status == 1)
                         DrawRuler(rulerAgent.GetPosition().Position);
                     else
@@ -296,12 +278,12 @@ namespace Simulation
                 _guiFrame.SwapBuffers();
             }
         }
+
         public void Run()
         {
-            _guiFrame = Program.GuiOpenGLcontrol;
+            _guiFrame = Program.GuiOpenGlControl;
 
             InitialGui();
-
 
             while (true)
             {
@@ -309,7 +291,6 @@ namespace Simulation
                 {
                     GuiDraw();
                 }
-
 
                 var t = 33;
                 if (Program.HezitateValue > t) t = Program.HezitateValue;
@@ -319,10 +300,7 @@ namespace Simulation
                 {
                     return;
                 }
-
             }
-
         }
     }
-
 }

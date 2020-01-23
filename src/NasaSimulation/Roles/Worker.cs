@@ -11,10 +11,6 @@ namespace Simulation.Roles
         {
             _container = cont;
             _workerAgent = agent;
-
-
-
-
         }
 
 
@@ -32,7 +28,6 @@ namespace Simulation.Roles
             else //must route Message
             {
                 // SendMessage(message, recieverAgent);
-
             }
         }
 
@@ -74,9 +69,5 @@ namespace Simulation.Roles
             dest = Math.Sqrt(x + y);
             return dest;
         }
-
-
-
-
     }
 }

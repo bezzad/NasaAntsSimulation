@@ -14,18 +14,13 @@ namespace Simulation
         public Agent OrgLeader;
         public OrganizationBoundries OrganizationBoundries;
         public Container Container;
-        //public float rColor { set; get; }
-        //public float gColor { set; get; }
-        //public float bColor { set; get; }
+        
 
-
-
-
-        public Team(int orgId, string orgName, int agentCount, OrganizationBoundries orgBoundires, Container cont)
+        public Team(int orgId, string orgName, int agentCount, OrganizationBoundries orgBoundries, Container cont)
         {
             Container = cont;
             _random = Program.R;
-            OrganizationBoundries = orgBoundires;
+            OrganizationBoundries = orgBoundries;
             //rColor = r.Next(256);
             //gColor = r.Next(256);
             //bColor = r.Next(256);
@@ -82,8 +77,8 @@ namespace Simulation
         {
 
 
-            double v = Program.Maxspeed / 2;
-            v = v + ((_random.NextDouble() - 0.5) * Program.Maxspeed);
+            double v = Program.MaxSpeed / 2;
+            v = v + ((_random.NextDouble() - 0.5) * Program.MaxSpeed);
             var degree = _random.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);
             agentPosition.Velocity.X = v * Math.Cos(degree);
@@ -110,9 +105,9 @@ namespace Simulation
         {
             var tempAgentPosition = new AgentPosition();
             var randomRadius = _random.NextDouble() * OrganizationBoundries.Radius;
-            double randomdegree = _random.Next(0, 360);
-            tempAgentPosition.Position.X = randomRadius * Math.Sin(randomdegree) + OrganizationBoundries.OrgCenter.X;
-            tempAgentPosition.Position.Y = randomRadius * Math.Cos(randomdegree) + OrganizationBoundries.OrgCenter.Y;
+            double randomDegree = _random.Next(0, 360);
+            tempAgentPosition.Position.X = randomRadius * Math.Sin(randomDegree) + OrganizationBoundries.OrgCenter.X;
+            tempAgentPosition.Position.Y = randomRadius * Math.Cos(randomDegree) + OrganizationBoundries.OrgCenter.Y;
             return tempAgentPosition;
         }
 
@@ -132,19 +127,14 @@ namespace Simulation
             AgentsArray.Remove(agent);
         }
 
-        public void UpdateOrgOneMiliSec()
+        public void UpdateOrgOneMillisecond()
         {
 
             foreach (var agent in AgentsArray)
             {
-                agent.updateOneMiliSec();
+                agent.UpdateOneMillisecond();
 
             }
-
-
-
         }
-
-
     }
 }

@@ -115,8 +115,8 @@ namespace Simulation
 
         private void SetAgentVelocity(AgentPosition agentPosition)
         {
-            double v = Program.Maxspeed / 2;
-            v = v + ((_random.NextDouble() - 0.5) * Program.Maxspeed);
+            double v = Program.MaxSpeed / 2;
+            v = v + ((_random.NextDouble() - 0.5) * Program.MaxSpeed);
             var degree = _random.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);
             agentPosition.Velocity.X = v * Math.Cos(degree);
@@ -259,18 +259,18 @@ namespace Simulation
         {
             foreach (var team in TeamList)
             {
-                team.UpdateOrgOneMiliSec();
-                team.OrgLeader.updateOneMiliSec();
+                team.UpdateOrgOneMillisecond();
+                team.OrgLeader.UpdateOneMillisecond();
             }
 
             foreach (var agent in MessangerList)
             {
-                agent.FreeUpdateOneMiliSec();
+                agent.FreeUpdateOneMillisecond();
             }
 
             foreach (var agent in RulerList)
             {
-                agent.FreeUpdateOneMiliSec();
+                agent.FreeUpdateOneMillisecond();
             }
         }
 

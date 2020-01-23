@@ -61,8 +61,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agent.cs" />
+    <Compile Include="AgentEvent.cs" />
+    <Compile Include="AgentPosition.cs" />
+    <Compile Include="Area.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Event.cs" />
+    <Compile Include="EventType.cs" />
+    <Compile Include="ForbidenArea.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +77,8 @@
     <Compile Include="GUI.cs" />
     <Compile Include="Media.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="OrganizationBoundries.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">

@@ -7,11 +7,11 @@ namespace Simulation
     {
         //Parameters ------------------------------------------------------
         //int numOfAgents;
-        Random _r;
+        readonly Random _random;
         private AgentPosition _position = new AgentPosition();
-        Container _container;
+        readonly Container _container;
         public string AgentId {set; get;}
-        OrganizationBoundries _teamBoundry;
+        readonly OrganizationBoundries _teamBoundry;
         public object AgentRole { get; set; }
         public Role.RolesName   AgentType ;
         Point _upB, _lowB;
@@ -23,10 +23,10 @@ namespace Simulation
         {
             _container = cont;
             //numOfAgents = maxNumAgents;
-            this._position = position;
+            _position = position;
             AgentId = id;
             //container = tempContainer;
-            _r = Program.R;
+            _random = Program.R;
             _teamBoundry = orgBoundry;
             
             AgentType = agentRoleType;
@@ -65,10 +65,10 @@ namespace Simulation
 
         public Agent(AgentPosition position, string id, Role.RolesName agentRoleType, Container cont)
         {
-            this._position = position;
+            _position = position;
             AgentId = id;
             //container = tempContainer;
-            _r = Program.R;
+            _random = Program.R;
             
            
             AgentType = agentRoleType;
@@ -80,11 +80,11 @@ namespace Simulation
 
         public Agent(AgentPosition position, string id, Role.RolesName agentRoleType, Area agentArea, Container cont)
         {
-            this._position = position;
+            _position = position;
             AgentId = id;
             //container = tempContainer;
             _container = cont;
-            _r = Program.R;
+            _random = Program.R;
             AgentType = agentRoleType;
             _upB = Program.UpperBoarder;
             _lowB = Program.LowerBoarder;
@@ -119,28 +119,20 @@ namespace Simulation
         }
 
         
-
-
-
-
-
-       
-
-        public void updateOneSec()
+        public void UpdateOneSec()
         {
             Movement();
         }
 
-        public void updateOneMiliSec()
+        public void UpdateOneMillisecond()
         {
-
             Movement();
 
             if (AgentType == Role.RolesName.Leader)
             {
                 if (Program.OursExecutionMode)
                 {
-                    var leader = (Leader)this.AgentRole;
+                    var leader = (Leader)AgentRole;
                     if (Time.GlobalSimulationTime % 40 == 0)
                     {
                         leader.oursOnTimeEvent();
@@ -148,7 +140,7 @@ namespace Simulation
                 }
                 else
                 {
-                    var leader = (Leader)this.AgentRole;
+                    var leader = (Leader)AgentRole;
                     if (Time.GlobalSimulationTime % 40== 0)
                     {
                         leader.OnTimedEvent();
@@ -159,13 +151,13 @@ namespace Simulation
 
         }
 
-        public void FreeUpdateOneMiliSec()
+        public void FreeUpdateOneMillisecond()
         {
             if (AgentType == Role.RolesName.Messenger)
             {
                 if (Program.OursExecutionMode)
                 {
-                    var messenger = (Messenger)this.AgentRole;
+                    var messenger = (Messenger)AgentRole;
                     if (Time.GlobalSimulationTime % 50 == 0 && Time.GlobalSimulationTime > 100)
                     {
                         messenger.OnTimedEvent();
@@ -212,13 +204,11 @@ namespace Simulation
 
         public double CalculateDistance(Point position, Point position2)
         {
-            double dest;
-
             var x = position.X - position2.X;
             var y = position.Y - position2.Y;
             x *= x;
             y *= y;
-            dest = Math.Sqrt(x + y);
+            var dest = Math.Sqrt(x + y);
             return dest;
         }
 
@@ -264,8 +254,8 @@ namespace Simulation
             {
                 var tempMessenger = (Messenger)AgentRole;
 
-                var x = (double)_r.Next((int)tempMessenger.MessengerArea.MinX, (int)tempMessenger.MessengerArea.MaxX);
-                var y = (double)_r.Next((int)tempMessenger.MessengerArea.MinY, (int)tempMessenger.MessengerArea.MaxY);
+                var x = (double)_random.Next((int)tempMessenger.MessengerArea.MinX, (int)tempMessenger.MessengerArea.MaxX);
+                var y = (double)_random.Next((int)tempMessenger.MessengerArea.MinY, (int)tempMessenger.MessengerArea.MaxY);
                 if (_position.Position.X > tempMessenger.MessengerArea.MaxX) _position.Position.X = x;
                 if (_position.Position.X < tempMessenger.MessengerArea.MinX) _position.Position.X = x;
                 if (_position.Position.Y > tempMessenger.MessengerArea.MaxY) _position.Position.Y = y;
@@ -278,8 +268,8 @@ namespace Simulation
             {
                 var tempRuler = (Ruler)AgentRole;
 
-                var x = (double)_r.Next((int)tempRuler.RulerArea.MinX, (int)tempRuler.RulerArea.MaxX);
-                var y = (double)_r.Next((int)tempRuler.RulerArea.MinY, (int)tempRuler.RulerArea.MaxY);
+                var x = (double)_random.Next((int)tempRuler.RulerArea.MinX, (int)tempRuler.RulerArea.MaxX);
+                var y = (double)_random.Next((int)tempRuler.RulerArea.MinY, (int)tempRuler.RulerArea.MaxY);
                 if (_position.Position.X > tempRuler.RulerArea.MaxX) _position.Position.X = x;
                 if (_position.Position.X < tempRuler.RulerArea.MinX) _position.Position.X = x;
                 if (_position.Position.Y > tempRuler.RulerArea.MaxY) _position.Position.Y = y;
@@ -317,15 +307,15 @@ namespace Simulation
         }
         private void UpdateVelocity(AgentPosition position)
         {
-            var t1 = _r.NextDouble();
+            var t1 = _random.NextDouble();
             t1 = (t1 - 0.5) * 2; 
-            var t2 = _r.NextDouble();
+            var t2 = _random.NextDouble();
             t2 = (t2 - 0.5) * 2;
 
            
 
 
-           if((position.Velocity.X *position.Velocity.X) +(position.Velocity.Y*position.Velocity.Y)>(Program.Maxspeed*Program.Maxspeed))
+           if((position.Velocity.X *position.Velocity.X) +(position.Velocity.Y*position.Velocity.Y)>(Program.MaxSpeed*Program.MaxSpeed))
            {
                 position.Velocity.X/=2;
                position.Velocity.Y/=2;
@@ -333,11 +323,6 @@ namespace Simulation
 
            position.Velocity.X += t1;
            position.Velocity.Y += t2;
-
-
-
-
-
         }
 
 

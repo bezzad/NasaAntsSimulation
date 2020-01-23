@@ -25,23 +25,23 @@ namespace Simulation
         {
             var tempMessage = new Message
             {
-                MessageId = this.MessageId,
-                SenderAgent = this.SenderAgent,
-                SenderAgentId = this.SenderAgentId,
-                ReceiverAgent = this.ReceiverAgent,
-                ReceiverAgentId = this.ReceiverAgentId,
-                CurrentSenderAgent = this.CurrentSenderAgent,
-                CurrentSenderAgentId = this.CurrentSenderAgentId,
-                CurrentReceiverAgent = this.CurrentReceiverAgent,
-                CurrentReceiverAgentId = this.CurrentReceiverAgentId,
-                MessageType = this.MessageType,
-                ReturnedStatus = this.ReturnedStatus,
-                MessageContent = this.MessageContent,
-                RulerPingReply = this.RulerPingReply,
-                DataMessageText = this.DataMessageText,
-                NumOfBroadcastSteps = this.NumOfBroadcastSteps,
-                RoutingList = this.RoutingList,
-                RoutingTime = this.RoutingTime
+                MessageId = MessageId,
+                SenderAgent = SenderAgent,
+                SenderAgentId = SenderAgentId,
+                ReceiverAgent = ReceiverAgent,
+                ReceiverAgentId = ReceiverAgentId,
+                CurrentSenderAgent = CurrentSenderAgent,
+                CurrentSenderAgentId = CurrentSenderAgentId,
+                CurrentReceiverAgent = CurrentReceiverAgent,
+                CurrentReceiverAgentId = CurrentReceiverAgentId,
+                MessageType = MessageType,
+                ReturnedStatus = ReturnedStatus,
+                MessageContent = MessageContent,
+                RulerPingReply = RulerPingReply,
+                DataMessageText = DataMessageText,
+                NumOfBroadcastSteps = NumOfBroadcastSteps,
+                RoutingList = RoutingList,
+                RoutingTime = RoutingTime
             };
             return tempMessage;
         }
