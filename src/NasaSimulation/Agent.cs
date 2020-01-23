@@ -11,7 +11,7 @@ namespace Simulation
         private AgentPosition _position = new AgentPosition();
         readonly Container _container;
         public string AgentId {set; get;}
-        readonly OrganizationBoundries _teamBoundry;
+        readonly OrganizationBoundries _teamBoundary;
         public object AgentRole { get; set; }
         public Role.RolesName   AgentType ;
         Point _upB, _lowB;
@@ -19,7 +19,7 @@ namespace Simulation
 
                
         //Implementation --------------------------------------------------
-        public Agent(AgentPosition position, string id, Role.RolesName agentRoleType, OrganizationBoundries orgBoundry,Container cont    /*, int maxNumAgents,Container tempContainer*/)
+        public Agent(AgentPosition position, string id, Role.RolesName agentRoleType, OrganizationBoundries orgBoundary,Container cont    /*, int maxNumAgents,Container tempContainer*/)
         {
             _container = cont;
             //numOfAgents = maxNumAgents;
@@ -27,7 +27,7 @@ namespace Simulation
             AgentId = id;
             //container = tempContainer;
             _random = Program.R;
-            _teamBoundry = orgBoundry;
+            _teamBoundary = orgBoundary;
             
             AgentType = agentRoleType;
             var temptRole = new Role();
@@ -219,10 +219,10 @@ namespace Simulation
 
             _position.Position.Y += _position.Velocity.Y/1000;
 
-            if (CalculateDistance(_position.Position, _teamBoundry.OrgCenter) > _teamBoundry.Radius) 
+            if (CalculateDistance(_position.Position, _teamBoundary.OrgCenter) > _teamBoundary.Radius) 
             {
-                _position.Position.X = _teamBoundry.OrgCenter.X;
-                _position.Position.Y = _teamBoundry.OrgCenter.Y;
+                _position.Position.X = _teamBoundary.OrgCenter.X;
+                _position.Position.Y = _teamBoundary.OrgCenter.Y;
             }
 
             //if (position.Position.X > (upB.X - lowB.X)) position.Position.X = 0;
@@ -244,10 +244,10 @@ namespace Simulation
 
             _position.Position.Y += _position.Velocity.Y / 1000;
 
-            //if (calculateDistance(position.Position, teamBoundry.orgCenter) > teamBoundry.Radius)
+            //if (calculateDistance(position.Position, teamBoundary.orgCenter) > teamBoundary.Radius)
             //{
-            //    position.Position.X = teamBoundry.orgCenter.X;
-            //    position.Position.Y = teamBoundry.orgCenter.Y;
+            //    position.Position.X = teamBoundary.orgCenter.X;
+            //    position.Position.Y = teamBoundary.orgCenter.Y;
             //}
 
             if (AgentType == Role.RolesName.Messenger)

@@ -38,8 +38,8 @@ namespace Simulation
 
             for (var iOrgCount = 0; iOrgCount < InitNumOfTeams; iOrgCount++)
             {
-                var orgBoundry = InitialOrgBoundries(TeamList);
-                TeamList.Add(new Team(TeamList.Count, InitNumOfWorkersInOrganization, orgBoundry, this));
+                var orgBoundary = InitialOrgBoundries(TeamList);
+                TeamList.Add(new Team(TeamList.Count, InitNumOfWorkersInOrganization, orgBoundary, this));
             }
             InitializeAreas();
             CreateMessengers();
@@ -71,7 +71,7 @@ namespace Simulation
 
                     var tempPosition = SetAgentPosition();
                     SetAgentVelocity(tempPosition);
-                    var sId = "M" + i.ToString() + j.ToString();
+                    var sId = "M" + i + j;
                     var tempAgent = new Agent(tempPosition, sId, Role.RolesName.Messenger, AreaArray[i], this);
 
                     MessengerList.Add(tempAgent);
@@ -128,15 +128,15 @@ namespace Simulation
         //***************************************************************************
         public OrganizationBoundries InitialOrgBoundries(List<Team> teamList)
         {
-            var localOrgBoundry = CreateRandomOrganization();
+            var localOrgBoundary = CreateRandomOrganization();
             foreach (var team in teamList)
             {
-                if (team.OrganizationBoundries.Radius + localOrgBoundry.Radius > CalculateDistance(localOrgBoundry.OrgCenter, team.OrganizationBoundries.OrgCenter))
+                if (team.OrganizationBoundries.Radius + localOrgBoundary.Radius > CalculateDistance(localOrgBoundary.OrgCenter, team.OrganizationBoundries.OrgCenter))
                 {
                     return InitialOrgBoundries(teamList);
                 }
             }
-            return localOrgBoundry;
+            return localOrgBoundary;
         }
 
         public double CalculateDistance(Point position, Point position2)
@@ -151,8 +151,8 @@ namespace Simulation
 
         public OrganizationBoundries CreateRandomOrganization()
         {
-            var localOrgBoundry = new OrganizationBoundries {OrgCenter = SetAgentPosition().Position, Radius = 80};
-            return localOrgBoundry;
+            var localOrgBoundary = new OrganizationBoundries {OrgCenter = SetAgentPosition().Position, Radius = 80};
+            return localOrgBoundary;
         }
 
         #region Simulation
@@ -291,7 +291,7 @@ namespace Simulation
             }
             return listOfAgent;
         }
-        //***************************************************************************
+        
         internal List<Agent> GetLeadersInRange(Agent agent)
         {
             var listOfAgent = new List<Agent>();
@@ -331,7 +331,6 @@ namespace Simulation
         }
 
 
-        //****************************************************************************
         internal List<Agent> GetAgentsInRange(Agent agent)
         {
             var listOfAgent = new List<Agent>();
@@ -385,8 +384,6 @@ namespace Simulation
 
             return listOfAgent;
         }
-        //**********************************************************************************
-
 
         private bool CalculateInRange(Point position, Point position2, double radioRange)
         {

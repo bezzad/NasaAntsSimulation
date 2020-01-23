@@ -18,7 +18,6 @@ namespace Simulation
             msg.MessageId = MessageCount;
             MessageList.Add(msg);
             //--- must do --- check if this agent is in forbidden area
-            //------------------
             AddMessageEventToContainer(MessageCount);
             return true;
         }
@@ -92,7 +91,7 @@ namespace Simulation
             {
                 var tempLeader = (Leader)receiver.AgentRole;
                 tempLeader.GetMessage(message);
-                var x = MessageList.Remove(message);
+                MessageList.Remove(message);
             }
             return true;
         }
@@ -118,11 +117,6 @@ namespace Simulation
                 msg => msg.MessageId == msgId
             );
 
-
-            if (tempMsg == null)
-            {
-                var r = 0;
-            }
             switch (tempMsg.MessageType)
             {
                 case Program.BroadcastType.Broadcast:

@@ -94,7 +94,7 @@ namespace Simulation.Roles
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
-            var messageStatus = _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
+            _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
         }
 
         private void SendMessage(Agent senderAgent,
@@ -129,23 +129,25 @@ namespace Simulation.Roles
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
-            var messageStatus = _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
+            _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
         }
 
         private void SendBroadcastMessage(Agent senderAgent, Agent currentSenderAgent,
             Program.BroadcastType messageType,
             Program.MessagesContent messageContent, int iBroadcastNum)
         {
-            var message = new Message();
-            message.CurrentSenderAgent = currentSenderAgent;
-            message.CurrentSenderAgentId = currentSenderAgent.AgentId;
-            message.SenderAgentId = senderAgent.AgentId;
-            message.SenderAgent = senderAgent;
-            message.ReceiverAgent = null;
-            message.ReceiverAgentId = "-1";
-            message.MessageContent = messageContent;
-            message.MessageType = messageType;
-            message.NumOfBroadcastSteps = iBroadcastNum;
+            var message = new Message
+            {
+                CurrentSenderAgent = currentSenderAgent,
+                CurrentSenderAgentId = currentSenderAgent.AgentId,
+                SenderAgentId = senderAgent.AgentId,
+                SenderAgent = senderAgent,
+                ReceiverAgent = null,
+                ReceiverAgentId = "-1",
+                MessageContent = messageContent,
+                MessageType = messageType,
+                NumOfBroadcastSteps = iBroadcastNum
+            };
             var messengerAgent = FindNearestMessenger(_leaderAgent.GetPosition());
             if (messengerAgent == null)
             {
@@ -158,7 +160,7 @@ namespace Simulation.Roles
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
-            var messageStatus = _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
+            _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
         }
 
         public Agent FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
@@ -199,13 +201,11 @@ namespace Simulation.Roles
 
         public double CalculateDistance(Point position, Point position2)
         {
-            double dest;
-
             var x = position.X - position2.X;
             var y = position.Y - position2.Y;
             x *= x;
             y *= y;
-            dest = Math.Sqrt(x + y);
+            var dest = Math.Sqrt(x + y);
             return dest;
         }
 
@@ -213,8 +213,6 @@ namespace Simulation.Roles
 
         public void ProcessMessage(Message message)
         {
-
-
             if (message.MessageContent == Program.MessagesContent.PingReply)
             {
                 _pingTime = -1;
@@ -271,7 +269,6 @@ namespace Simulation.Roles
             var f = (MainForm)Program.ActiveForm;
             if (f.InvokeRequired)
             {
-                //if (Program.endOfApplication) return;
                 f.Invoke(new MethodInvoker(MeasureAdaptingTime));
             }
             else
@@ -303,7 +300,7 @@ namespace Simulation.Roles
             var f = (MainForm)Program.ActiveForm;
             if (f.InvokeRequired)
             {
-                f.Invoke(new MethodInvoker(delegate () { UpdateTimeLabel(labelTxt); }));
+                f.Invoke(new MethodInvoker(delegate { UpdateTimeLabel(labelTxt); }));
             }
             else
             {
@@ -316,7 +313,7 @@ namespace Simulation.Roles
             var f = (MainForm)Program.ActiveForm;
             if (f.InvokeRequired)
             {
-                f.Invoke(new MethodInvoker(delegate () { UpdateMessageLabel(labelTxt); }));
+                f.Invoke(new MethodInvoker(delegate { UpdateMessageLabel(labelTxt); }));
             }
             else
             {
