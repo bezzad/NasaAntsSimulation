@@ -157,7 +157,6 @@
             this.lableOptimizing.Name = "lableOptimizing";
             this.lableOptimizing.Size = new System.Drawing.Size(0, 13);
             this.lableOptimizing.TabIndex = 60;
-            this.lableOptimizing.Click += new System.EventHandler(this.label4_Click);
             // 
             // checkBoxMultiOff
             // 
@@ -189,8 +188,6 @@
             this.Controls.Add(this.guiOpenGLFrame);
             this.Name = "MainForm";
             this.Text = "NASA ANTS Simulation";
-            this.Load += new System.EventHandler(this.Form1_Load_1);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

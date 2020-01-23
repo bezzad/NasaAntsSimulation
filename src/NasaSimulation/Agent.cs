@@ -42,7 +42,7 @@ namespace Simulation
                 case Role.RolesName.Worker:
                     AgentRole = new Worker(_container,this);
                     temptRole = (Role)AgentRole;
-                    temptRole.RadioRange = Program.Maxradiorange;
+                    temptRole.RadioRange = Program.MaxRadioRange;
                     AgentRole = temptRole;
                     RadioRange = temptRole.RadioRange;
                     break;
@@ -54,7 +54,7 @@ namespace Simulation
                 case Role.RolesName.Leader:
                     AgentRole = new Leader(this, _container);
                     temptRole = (Role)AgentRole;
-                    temptRole.RadioRange = Program.Maxradiorange;
+                    temptRole.RadioRange = Program.MaxRadioRange;
                     AgentRole = temptRole;
                     RadioRange = temptRole.RadioRange;
                     break;
@@ -106,7 +106,7 @@ namespace Simulation
                 case Role.RolesName.Ruler:
                     AgentRole = new Ruler(agentArea,cont,this);
                     temptRole = (Role)AgentRole;
-                    temptRole.RadioRange = Program.Maxradiorange;
+                    temptRole.RadioRange = Program.MaxRadioRange;
                     AgentRole = temptRole;
                     RadioRange = temptRole.RadioRange;
                     break;
@@ -135,7 +135,7 @@ namespace Simulation
                     var leader = (Leader)AgentRole;
                     if (Time.GlobalSimulationTime % 40 == 0)
                     {
-                        leader.oursOnTimeEvent();
+                        leader.OursOnTimeEvent();
                     }
                 }
                 else

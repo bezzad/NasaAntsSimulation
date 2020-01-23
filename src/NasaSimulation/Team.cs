@@ -14,20 +14,14 @@ namespace Simulation
         public Agent OrgLeader;
         public OrganizationBoundries OrganizationBoundries;
         public Container Container;
-        
 
-        public Team(int orgId, string orgName, int agentCount, OrganizationBoundries orgBoundries, Container cont)
+
+        public Team(int orgId, int agentCount, OrganizationBoundries orgBoundries, Container cont)
         {
             Container = cont;
             _random = Program.R;
             OrganizationBoundries = orgBoundries;
-            //rColor = r.Next(256);
-            //gColor = r.Next(256);
-            //bColor = r.Next(256);
-            //orgLowerBoarder = orgLB;
-            //orgUpperBoarder = orgUB;
             OrganizationId = orgId;
-            orgName = OrganizationName;
             NumOfAgents = agentCount;
 
             AgentsArray = new List<Agent>(NumOfAgents);
@@ -38,47 +32,30 @@ namespace Simulation
             }
 
             OrgLeader = CreateLeader();
-
         }
 
         private Agent CreateLeader()
         {
-            Agent tempAgent;
-            //AgentPosition tempAgentPosition = new AgentPosition();
-
-            //setAgentVelocity(tempAgentPosition);
-
             var tempAgentPosition = SetAgentPosition();
             SetAgentVelocity(tempAgentPosition);
             var sId = "L" + OrganizationId;
-            tempAgent = new Agent(tempAgentPosition, sId, Role.RolesName.Leader, OrganizationBoundries, Container);
+            var tempAgent = new Agent(tempAgentPosition, sId, Role.RolesName.Leader, OrganizationBoundries, Container);
             return tempAgent;
         }
 
-
-
-
-
         private Agent CreateNode(string id)
         {
-            Agent tempAgent;
-            //AgentPosition tempAgentPosition = new AgentPosition();
-
-            //setAgentVelocity(tempAgentPosition);
-
             var tempAgentPosition = SetAgentPosition();
             SetAgentVelocity(tempAgentPosition);
 
-            tempAgent = new Agent(tempAgentPosition, id, Role.RolesName.Worker, OrganizationBoundries, Container);
+            var tempAgent = new Agent(tempAgentPosition, id, Role.RolesName.Worker, OrganizationBoundries, Container);
             return tempAgent;
         }
 
         private void SetAgentVelocity(AgentPosition agentPosition)
         {
-
-
             double v = Program.MaxSpeed / 2;
-            v = v + ((_random.NextDouble() - 0.5) * Program.MaxSpeed);
+            v += (_random.NextDouble() - 0.5) * Program.MaxSpeed;
             var degree = _random.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);
             agentPosition.Velocity.X = v * Math.Cos(degree);
@@ -96,8 +73,6 @@ namespace Simulation
             //{
             //    agentPosition.Velocity.Y *= -1;
             //}
-
-
         }
 
 

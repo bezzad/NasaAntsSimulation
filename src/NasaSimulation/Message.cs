@@ -21,6 +21,7 @@ namespace Simulation
         public int NumOfBroadcastSteps { set; get; }
         public long RoutingTime { set; get; }
         public List<Agent> RoutingList = new List<Agent>();
+
         public Message Copy()
         {
             var tempMessage = new Message

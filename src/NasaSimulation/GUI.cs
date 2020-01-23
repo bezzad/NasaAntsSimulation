@@ -58,6 +58,7 @@ namespace Simulation
             var p4 = new Point();
             var p5 = new Point();
             var p6 = new Point();
+
             p4.X = messengerCenter.X - 12;
             p4.Y = messengerCenter.Y + 8;
             p5.X = messengerCenter.X - 12;
@@ -71,7 +72,6 @@ namespace Simulation
             p2.Y = messengerCenter.Y - 8;
             p3.X = messengerCenter.X;
             p3.Y = messengerCenter.Y;
-
 
             Gl.glBegin(Gl.GL_LINES);
             Gl.glVertex2d(p3.X, p3.Y);
@@ -186,13 +186,13 @@ namespace Simulation
             //Gl.glEnd();
         }
 
-        public void DrawCircle(Point orgCenter, double Radius)
+        public void DrawCircle(Point orgCenter, double radius)
         {
             Gl.glBegin(Gl.GL_POINTS);
             for (double deg = 0; deg <= 360; deg += 0.4)
             {
-                var x = Radius * Math.Sin(deg) + orgCenter.X + Program.LowerBoarder.X;
-                var y = Radius * Math.Cos(deg) + orgCenter.Y + Program.LowerBoarder.Y;
+                var x = radius * Math.Sin(deg) + orgCenter.X + Program.LowerBoarder.X;
+                var y = radius * Math.Cos(deg) + orgCenter.Y + Program.LowerBoarder.Y;
                 Gl.glVertex2d(x, y);
             }
 
@@ -228,10 +228,6 @@ namespace Simulation
 
                     DrawCircle(team.OrganizationBoundries.OrgCenter, team.OrganizationBoundries.Radius);
 
-
-
-
-
                     AgentPosition tempAgentPosition;
                     Gl.glColor3f(125, 125, 0);
                     Gl.glBegin(Gl.GL_POINTS);
@@ -258,7 +254,7 @@ namespace Simulation
 
                 #endregion
 
-                foreach (var messenger in _environmentContainer.MessangerList)
+                foreach (var messenger in _environmentContainer.MessengerList)
                 {
                     DrawMessenger(messenger.GetPosition().Position);
                 }

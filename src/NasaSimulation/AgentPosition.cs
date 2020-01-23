@@ -2,7 +2,13 @@
 {
     public class AgentPosition
     {
-        public Point Position = new Point();
-        public Point Velocity = new Point();
+        public AgentPosition()
+        {
+            Position = new Point();
+            Velocity = new Point();
+        }
+
+        public Point Position { get; set; }
+        public Point Velocity { get; set; }
     }
 }

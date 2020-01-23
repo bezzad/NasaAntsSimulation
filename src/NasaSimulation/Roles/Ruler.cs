@@ -8,7 +8,7 @@ namespace Simulation.Roles
         public Agent RulerAgent { set; get; }
         public Area RulerArea { set; get; }
         public Container Container { set; get; }
-        public List<Agent> LeaderList;
+        public List<Agent> LeaderList { get; set; }
         // 1 is OK, 0 is Failed
         public int Status { set; get; }
 
@@ -265,7 +265,7 @@ namespace Simulation.Roles
                 
             //}
 
-            foreach (var mAgent in Container.MessangerList)
+            foreach (var mAgent in Container.MessengerList)
             {
                 //Role temptRole = (Role)mAgent.agentRole;
                 if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)

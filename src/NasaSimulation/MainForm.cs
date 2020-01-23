@@ -54,11 +54,8 @@ namespace Simulation
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             if (_clickFlag == 1)
                 return;
-
-
 
             _clickFlag = 1;
 
@@ -91,16 +88,6 @@ namespace Simulation
             // animationController.RUN();
 
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-
-
         private void M()
         {
             Gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -122,11 +109,6 @@ namespace Simulation
             guiOpenGLFrame.SwapBuffers();
         }
 
-        private void guiOpenGLFrame_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Program.EndOfApplication = true;
@@ -134,32 +116,9 @@ namespace Simulation
             _tanimation.Abort();
         }
 
-
-        private void Form1_Load_1(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-
-        }
-
         private void checkBoxOurs_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxOurs.Checked == true)
+            if (checkBoxOurs.Checked)
             {
                 Program.OursExecutionMode = true;
             }

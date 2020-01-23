@@ -61,13 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agent.cs" />
-    <Compile Include="AgentEvent.cs" />
     <Compile Include="AgentPosition.cs" />
     <Compile Include="Area.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="EventType.cs" />
-    <Compile Include="ForbidenArea.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

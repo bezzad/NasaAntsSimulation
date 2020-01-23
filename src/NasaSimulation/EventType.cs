@@ -1,4 +1,8 @@
 ﻿namespace Simulation
 {
-    public enum EventType { Message, BroadcastMessage };
+    public enum EventType
+    {
+        Message,
+        BroadcastMessage
+    };
 }

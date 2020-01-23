@@ -28,7 +28,7 @@ namespace Simulation
 
 
 
-            _container.AddEventToQeue(msgId, Program.Msgdelay);
+            _container.AddEventToQueue(msgId, Program.MsgDelay);
         }
 
         public bool SendToAgent(Message message, Agent receiver)
@@ -196,7 +196,7 @@ namespace Simulation
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
-                                var messengerAgentList = _container.GetMessangersInRange(tempMsg.CurrentSenderAgent);
+                                var messengerAgentList = _container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
@@ -273,7 +273,7 @@ namespace Simulation
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
-                                var messengerAgentList = _container.GetMessangersInRange(tempMsg.CurrentSenderAgent);
+                                var messengerAgentList = _container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
@@ -368,7 +368,7 @@ namespace Simulation
                         break;
                     }
 
-                case Program.BroadcastType.SendRecieve:
+                case Program.BroadcastType.SendReceive:
                     {
                         if (tempMsg.ReceiverAgentId == "-1")
                         {

@@ -5,8 +5,8 @@ namespace Simulation.Roles
     public class Worker : Role
     {
         Container _container;
-
         Agent _workerAgent;
+
         public Worker(Container cont, Agent agent)
         {
             _container = cont;
@@ -46,7 +46,7 @@ namespace Simulation.Roles
         {
             double minDist = 10000;
             Agent nAgent = null;
-            foreach (var mAgent in _container.MessangerList)
+            foreach (var mAgent in _container.MessengerList)
             {
                 //Role temptRole = (Role)mAgent.agentRole;
                 if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)

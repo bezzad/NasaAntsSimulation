@@ -28,24 +28,35 @@ namespace Simulation
         public static bool EndOfSimulation = false;
         public static bool MultiOff = false;
 
-
-
         public enum BroadcastType
         {
-            Broadcast, MessengerBroadcast, MessengerToMessengersBroadcast,
-            MessengersToRulersBroadcast, MessengerToLeaderBroadcast, MessengerToWorkersBroadcast, SingleCast,
+            Broadcast,
+            MessengerBroadcast,
+            MessengerToMessengersBroadcast,
+            MessengersToRulersBroadcast,
+            MessengerToLeaderBroadcast,
+            MessengerToWorkersBroadcast,
+            SingleCast,
             MessengerToLeadersAndMessengersBroadcast,
-            SendRecieve
+            SendReceive
         }
 
-        public enum MessagesContent { UnavailableReciever, LostRuler, ReplyRulerNum, Ping, PingReply }
-
+        public enum MessagesContent
+        {
+            UnavailableReceiver,
+            LostRuler,
+            ReplyRulerNum,
+            Ping,
+            PingReply
+        }
 
         //agent parameter -------------------
-        public static double Maxradiorange = 85;
+        public static double MaxRadioRange = 85;
         public static double MaxMessengerRadioRange = 170;
         public static int LastAgentId;
-        public static int Msgdelay = 3;
+        public static int MsgDelay = 3;
+        
+        
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
