@@ -61,10 +61,10 @@ namespace Simulation
             base.OnClosing(e);
 
             Program.EndOfApplication = true;
-            EnvironmentThread.Abort();
-            AnimationThread.Abort();
+            EnvironmentThread?.Abort();
+            AnimationThread?.Abort();
         }
-
+        
         private void CheckBoxOursCheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxOurs.Checked)
