@@ -42,14 +42,14 @@ namespace Simulation.Roles
                         {
                             AdaptingWaitingList.Add(message.Copy());
                             SendBroadcastMessage(MessengerAgent, MessengerAgent, BroadcastType.MessengersToRulersBroadcast,
-                                Program.MessagesContent.LostRuler, 1);
+                                MessagesContent.LostRuler, 1);
                         }
 
                         else
                         {
                             message.RoutingTime = Time.GlobalSimulationTime;
                             SendBroadcastMessage(MessengerAgent, MessengerAgent, BroadcastType.MessengersToRulersBroadcast,
-                                Program.MessagesContent.LostRuler, 2);
+                                MessagesContent.LostRuler, 2);
                         }
                     }
                 }
@@ -61,7 +61,7 @@ namespace Simulation.Roles
 
         public void OursProcessMessage(Message message)
         {
-            if (message.MessageContent == Program.MessagesContent.ReplyRulerNum)
+            if (message.MessageContent == MessagesContent.ReplyRulerNum)
             {
                 if (message.RulerPingReply != null)
                 {
@@ -70,7 +70,7 @@ namespace Simulation.Roles
                         foreach (var adaptingMessage in AdaptingWaitingList)
                         {
                             SendMessage(MessengerAgent, MessengerAgent, adaptingMessage.SenderAgent, adaptingMessage.SenderAgentId,
-                                BroadcastType.SingleCast, Program.MessagesContent.ReplyRulerNum, message.RulerPingReply);
+                                BroadcastType.SingleCast, MessagesContent.ReplyRulerNum, message.RulerPingReply);
 
                             var replyListMessage = ReplyWaitingList.Find(delegate (Message tempMessage)
                             {
@@ -161,7 +161,7 @@ namespace Simulation.Roles
 
             else if (MessengerAgent.GetPosition().Position.CalculateDistance(message.ReceiverAgent.GetPosition().Position) <= RadioRange)
             {
-                if (message.MessageContent == Program.MessagesContent.Ping)
+                if (message.MessageContent == MessagesContent.Ping)
                 {
                     message.RoutingTime = Time.GlobalSimulationTime;
                     message.CurrentReceiverAgentId = message.ReceiverAgentId;
@@ -173,7 +173,7 @@ namespace Simulation.Roles
                     ReplyWaitingList.Add(message.Copy());
                     Container.ContainerMedia.SendMessage(MessengerAgent, message.Copy());
                 }
-                else if (message.MessageContent == Program.MessagesContent.PingReply)
+                else if (message.MessageContent == MessagesContent.PingReply)
                 {
                     message.CurrentReceiverAgentId = message.ReceiverAgentId;
                     message.CurrentReceiverAgent = message.ReceiverAgent;
@@ -204,7 +204,7 @@ namespace Simulation.Roles
 
             else
             {
-                if (message.MessageContent == Program.MessagesContent.PingReply)
+                if (message.MessageContent == MessagesContent.PingReply)
                 {
                     foreach (var pingMessage in ReplyWaitingList)
                     {
@@ -239,7 +239,7 @@ namespace Simulation.Roles
         private void SendMessage(Agent senderAgent, Agent currentSenderAgent, Agent receiverAgent,
            string receiverId,
            BroadcastType messageType,
-           Program.MessagesContent messageContent, Agent rulerAgent)
+           MessagesContent messageContent, Agent rulerAgent)
         {
             var message = new Message
             {
@@ -307,7 +307,7 @@ namespace Simulation.Roles
         private void SendBroadcastMessage(Agent senderAgent,
             Agent currentSenderAgent,
             BroadcastType messageType,
-            Program.MessagesContent messageContent,
+            MessagesContent messageContent,
             int iBroadcastNum)
         {
             var message = new Message

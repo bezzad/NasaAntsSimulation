@@ -65,6 +65,7 @@
     <Compile Include="Area.cs" />
     <Compile Include="Enums\BroadcastType.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="Enums\MessagesContent.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Enums\EventType.cs" />
     <Compile Include="MainForm.cs">

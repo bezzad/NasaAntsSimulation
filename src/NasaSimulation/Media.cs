@@ -209,7 +209,7 @@ namespace Simulation
 
 
 
-                                        lostRulerMessage.MessageContent = Program.MessagesContent.LostRuler;
+                                        lostRulerMessage.MessageContent = MessagesContent.LostRuler;
                                         SendBroadcastToAgent(lostRulerMessage, agent);
 
                                     }
@@ -286,7 +286,7 @@ namespace Simulation
 
 
 
-                                        lostRulerMessage.MessageContent = Program.MessagesContent.LostRuler;
+                                        lostRulerMessage.MessageContent = MessagesContent.LostRuler;
                                         SendBroadcastToAgent(lostRulerMessage, agent);
 
                                     }

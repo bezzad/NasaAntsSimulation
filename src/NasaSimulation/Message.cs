@@ -16,7 +16,7 @@ namespace Simulation
         public string CurrentReceiverAgentId { set; get; }
         public BroadcastType MessageType { set; get; }
         public int ReturnedStatus { set; get; }
-        public Program.MessagesContent MessageContent { set; get; }
+        public MessagesContent MessageContent { set; get; }
         public Agent RulerPingReply { set; get; }
         public string DataMessageText { set; get; }
         public int NumOfBroadcastSteps { set; get; }

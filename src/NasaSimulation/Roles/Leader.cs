@@ -30,7 +30,7 @@ namespace Simulation.Roles
                     _iStatus = 2;
                     _startPartialAdaptationTime = Time.GlobalSimulationTime;
                     SendBroadcastMessage(_leaderAgent, _leaderAgent, BroadcastType.MessengerToLeaderBroadcast,
-                        Program.MessagesContent.LostRuler, 1);
+                        MessagesContent.LostRuler, 1);
                 }
             }
 
@@ -39,7 +39,7 @@ namespace Simulation.Roles
             {
                 _pingTime = Time.GlobalSimulationTime;
                 SendMessage(_leaderAgent, _leaderAgent, RulerAgent, RulerAgent.AgentId, BroadcastType.SendReceive,
-                         Program.MessagesContent.Ping, "");
+                         MessagesContent.Ping, "");
                 _iStatus = 3;
             }
 
@@ -55,7 +55,7 @@ namespace Simulation.Roles
                 _startPartialAdaptationTime = Time.GlobalSimulationTime;
                 SendBroadcastMessage(_leaderAgent, _leaderAgent,
                     BroadcastType.MessengerToLeaderBroadcast,
-                        Program.MessagesContent.LostRuler, 2);
+                        MessagesContent.LostRuler, 2);
             }
 
         }
@@ -65,7 +65,7 @@ namespace Simulation.Roles
             Agent receiverAgent,
             string receiverId,
             BroadcastType messageType,
-            Program.MessagesContent messageContent,
+            MessagesContent messageContent,
             Agent rulerAgent)
         {
             var message = new Message
@@ -102,7 +102,7 @@ namespace Simulation.Roles
             Agent receiverAgent,
             string receiverId,
             BroadcastType messageType,
-            Program.MessagesContent messageContent, string messageTextData)
+            MessagesContent messageContent, string messageTextData)
         {
             var message = new Message
             {
@@ -134,7 +134,7 @@ namespace Simulation.Roles
 
         private void SendBroadcastMessage(Agent senderAgent, Agent currentSenderAgent,
             BroadcastType messageType,
-            Program.MessagesContent messageContent, int iBroadcastNum)
+            MessagesContent messageContent, int iBroadcastNum)
         {
             var message = new Message
             {
@@ -199,13 +199,13 @@ namespace Simulation.Roles
 
         public void ProcessMessage(Message message)
         {
-            if (message.MessageContent == Program.MessagesContent.PingReply)
+            if (message.MessageContent == MessagesContent.PingReply)
             {
                 _pingTime = -1;
                 _iStatus = 1;
             }
             //LostRuler
-            else if (message.MessageContent == Program.MessagesContent.LostRuler)
+            else if (message.MessageContent == MessagesContent.LostRuler)
             {
                 if (_iStatus == 0 || _iStatus == 2)
                 {
@@ -214,7 +214,7 @@ namespace Simulation.Roles
                         message.SenderAgent,
                         message.SenderAgentId,
                         BroadcastType.SingleCast,
-                        Program.MessagesContent.ReplyRulerNum,
+                        MessagesContent.ReplyRulerNum,
                         "-1");
                 }
                 else
@@ -224,11 +224,11 @@ namespace Simulation.Roles
                         message.SenderAgent,
                         message.SenderAgentId,
                         BroadcastType.SingleCast,
-                        Program.MessagesContent.ReplyRulerNum,
+                        MessagesContent.ReplyRulerNum,
                         RulerAgent);
                 }
             }
-            else if (message.MessageContent == Program.MessagesContent.ReplyRulerNum)
+            else if (message.MessageContent == MessagesContent.ReplyRulerNum)
             {
                 if (message.DataMessageText != "-1")
                 {
@@ -318,33 +318,33 @@ namespace Simulation.Roles
                     RulerAgent,
                     RulerAgent.AgentId,
                     BroadcastType.SendReceive,
-                    Program.MessagesContent.Ping, "");
+                    MessagesContent.Ping, "");
                 _iStatus = 3;
             }
         }
 
         private void OursProcessMessage(Message message)
         {
-            if (message.MessageContent == Program.MessagesContent.PingReply)
+            if (message.MessageContent == MessagesContent.PingReply)
             {
                 _pingTime = -1;
                 _iStatus = 1;
             }
-            else if (message.MessageContent == Program.MessagesContent.LostRuler)
+            else if (message.MessageContent == MessagesContent.LostRuler)
             {
                 //if (iStatus == 0 || iStatus == 2)
                 //{
                 //    SendMessage(this.leaderAgent, this.leaderAgent, message.senderAgent, message.senderAgentID, BroadcastType.singleCast,
-                //        Program.MessagesContent.ReplyRulerNum, "-1");
+                //        MessagesContent.ReplyRulerNum, "-1");
                 //}
                 //else
                 //{
                 //    SendMessage(this.leaderAgent, this.leaderAgent, message.senderAgent, message.senderAgentID, BroadcastType.singleCast,
-                //       Program.MessagesContent.ReplyRulerNum, this.RulerAgent);
+                //       MessagesContent.ReplyRulerNum, this.RulerAgent);
                 //}
             }
 
-            else if (message.MessageContent == Program.MessagesContent.ReplyRulerNum)
+            else if (message.MessageContent == MessagesContent.ReplyRulerNum)
             {
                 if (message.DataMessageText != "-1")
                 {

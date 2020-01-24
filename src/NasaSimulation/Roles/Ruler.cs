@@ -61,7 +61,7 @@ namespace Simulation.Roles
         {
             if (message.ReceiverAgentId == RulerAgent.AgentId)
             {
-                if (message.MessageContent == Program.MessagesContent.Ping)
+                if (message.MessageContent == MessagesContent.Ping)
                 {
                     if (Program.OursExecutionMode)
                     {
@@ -76,7 +76,7 @@ namespace Simulation.Roles
                                 SenderAgentId = RulerAgent.AgentId,
                                 CurrentSenderAgent = RulerAgent,
                                 CurrentSenderAgentId = RulerAgent.AgentId,
-                                MessageContent = Program.MessagesContent.PingReply
+                                MessageContent = MessagesContent.PingReply
                             };
                             var messengerAgent = message.CurrentSenderAgent;
                             replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
@@ -97,7 +97,7 @@ namespace Simulation.Roles
                                 SenderAgentId = RulerAgent.AgentId,
                                 CurrentSenderAgent = RulerAgent,
                                 CurrentSenderAgentId = RulerAgent.AgentId,
-                                MessageContent = Program.MessagesContent.PingReply
+                                MessageContent = MessagesContent.PingReply
                             };
                             var messengerAgent = FindNearestMessenger(RulerAgent.GetPosition(), message.SenderAgent.GetPosition());
                             if (messengerAgent == null)
@@ -122,7 +122,7 @@ namespace Simulation.Roles
 
 
                 }
-                else if (Program.OursExecutionMode && message.MessageContent == Program.MessagesContent.LostRuler)
+                else if (Program.OursExecutionMode && message.MessageContent == MessagesContent.LostRuler)
                 {
                     if (Status == State.Stable)
                     {
@@ -135,7 +135,7 @@ namespace Simulation.Roles
                             SenderAgentId = RulerAgent.AgentId,
                             CurrentSenderAgent = RulerAgent,
                             CurrentSenderAgentId = RulerAgent.AgentId,
-                            MessageContent = Program.MessagesContent.ReplyRulerNum,
+                            MessageContent = MessagesContent.ReplyRulerNum,
                             RulerPingReply = RulerAgent
                         };
                         if (message.ReceiverAgent.AgentType == RolesName.Messenger)

@@ -27,17 +27,7 @@ namespace Simulation
         public static bool OursExecutionMode = false;
         public static bool EndOfSimulation = false;
         public static bool MultiOff = false;
-
         
-
-        public enum MessagesContent
-        {
-            UnavailableReceiver,
-            LostRuler,
-            ReplyRulerNum,
-            Ping,
-            PingReply
-        }
 
         //agent parameter -------------------
         public static double MaxRadioRange = 85;
