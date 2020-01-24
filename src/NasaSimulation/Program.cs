@@ -15,8 +15,6 @@ namespace Simulation
         public static bool RunGui = false;
         public static bool EndOfApplication = false;
         public static Random R = new Random(DateTime.Now.Millisecond);
-        public static Point LowerBoarder = new Point();
-        public static Point UpperBoarder = new Point();
         public static int ScenarioNum;
         public static double AvgRadius = 50;
         public static int MaxPingDelay = 7;
@@ -42,19 +40,10 @@ namespace Simulation
         [STAThread]
         static void Main()
         {
-            SetParameter();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             ActiveForm = new MainForm();
             Application.Run(ActiveForm);
-        }
-
-        private static void SetParameter()
-        {
-            LowerBoarder.X = 0;
-            LowerBoarder.Y = 0;
-            UpperBoarder.X = 1000;
-            UpperBoarder.Y = 1000;
         }
     }
 }

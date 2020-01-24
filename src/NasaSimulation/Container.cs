@@ -11,9 +11,9 @@ namespace Simulation
         //Parameters ---------------------------------------------------------
         readonly Random _random;
         public Media ContainerMedia { set; get; }
-        readonly List<Event> _eventQueue = new List<Event>();
-        readonly Point _upperBoarder;
-        readonly Point _lowerBoarder;
+        private List<Event> EventQueue { get; } = new List<Event>();
+        public Point UpperBoarder { set; get; }
+        public Point LowerBoarder { set; get; }
 
         // not used
         public int InitNumOfTeams = 20;
@@ -31,8 +31,8 @@ namespace Simulation
         //Implementation ----------------------------------------------------
         public Container(Point upperBorder, Point lowerBoarder)
         {
-            _upperBoarder = upperBorder;
-            _lowerBoarder = lowerBoarder;
+            UpperBoarder = upperBorder;
+            LowerBoarder = lowerBoarder;
             ContainerMedia = new Media(this);
             Time.GlobalSimulationTime = 0;
             _random = Program.R;
@@ -177,13 +177,13 @@ namespace Simulation
         }
         private void HandleEvents()
         {
-            if (_eventQueue.Count == 0) return;
-            while (_eventQueue[_eventQueue.Count - 1].EventTime == Time.GlobalSimulationTime)
+            if (EventQueue.Count == 0) return;
+            while (EventQueue[EventQueue.Count - 1].EventTime == Time.GlobalSimulationTime)
             {
-                var tempEvent = _eventQueue[_eventQueue.Count - 1];
+                var tempEvent = EventQueue[EventQueue.Count - 1];
                 DoEvent(tempEvent);
-                _eventQueue.RemoveAt(_eventQueue.Count - 1);
-                if (_eventQueue.Count == 0) return;
+                EventQueue.RemoveAt(EventQueue.Count - 1);
+                if (EventQueue.Count == 0) return;
             }
 
         }
@@ -225,8 +225,8 @@ namespace Simulation
             {
                 Position =
                 {
-                    X = (_random.NextDouble() * (_upperBoarder.X - _lowerBoarder.X)) + _lowerBoarder.X,
-                    Y = (_random.NextDouble() * (_upperBoarder.Y - _lowerBoarder.Y)) + _lowerBoarder.Y
+                    X = (_random.NextDouble() * (UpperBoarder.X - LowerBoarder.X)) + LowerBoarder.X,
+                    Y = (_random.NextDouble() * (UpperBoarder.Y - LowerBoarder.Y)) + LowerBoarder.Y
                 }
             };
             return tempAgentPosition;
@@ -244,14 +244,14 @@ namespace Simulation
             tempEvent.MessageId = messageId;
             tempEvent.EventType = EventType.Message;
 
-            var indexOccur = _eventQueue.FindIndex(
+            var indexOccur = EventQueue.FindIndex(
                 ev => ev.EventTime > tempEvent.EventTime
             );
             if (indexOccur == -1)
             {
                 indexOccur = 0;
             }
-            _eventQueue.Insert(indexOccur, tempEvent);
+            EventQueue.Insert(indexOccur, tempEvent);
 
             return true;
         }

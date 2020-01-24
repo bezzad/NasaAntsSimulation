@@ -10,26 +10,38 @@ namespace Simulation
         public MainForm()
         {
             InitializeComponent();
-            
-            EnvironmentContainer = new Container(Program.UpperBoarder, Program.LowerBoarder);
+        }
+
+
+        private Container EnvironmentContainer { get; set; }
+        private Gui AnimationController { get; set; }
+        private Thread AnimationThread { get; set; }
+        private Thread EnvironmentThread { get; set; }
+        private int ClickFlag { get; set; }
+        public Point LowerBoarder { get; set; } 
+        public Point UpperBoarder { get; set; }
+
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+
+            LowerBoarder = new Point();
+            UpperBoarder = new Point();
+            SetParameter();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            EnvironmentContainer = new Container(UpperBoarder, LowerBoarder);
             AnimationController = new Gui(EnvironmentContainer);
 
             guiOpenGLFrame.InitializeContexts();
             Program.GuiOpenGlControl = guiOpenGLFrame;
         }
 
-
-        private Container EnvironmentContainer { get; }
-        private Gui AnimationController { get; }
-        private Thread AnimationThread { get; set; }
-        private Thread EnvironmentThread { get; set; }
-        private int ClickFlag { get; set; }
-
-
-        void Run()
-        {
-            AnimationController.Run();
-        }
 
         private void BtnStartClick(object sender, EventArgs e)
         {
@@ -64,7 +76,7 @@ namespace Simulation
             EnvironmentThread?.Abort();
             AnimationThread?.Abort();
         }
-        
+
         private void CheckBoxOursCheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxOurs.Checked)
@@ -79,6 +91,14 @@ namespace Simulation
             {
                 Program.MultiOff = true;
             }
+        }
+
+        private void SetParameter()
+        {
+            LowerBoarder.X = 0;
+            LowerBoarder.Y = 0;
+            UpperBoarder.X = 1000;
+            UpperBoarder.Y = 1000;
         }
     }
 }
