@@ -9,6 +9,8 @@ namespace Simulation
     {
         public MainForm()
         {
+            LowerBoarder = new Point();
+            UpperBoarder = new Point();
             InitializeComponent();
         }
 
@@ -18,17 +20,14 @@ namespace Simulation
         private Thread AnimationThread { get; set; }
         private Thread EnvironmentThread { get; set; }
         private int ClickFlag { get; set; }
-        public Point LowerBoarder { get; set; } 
+        public Point LowerBoarder { get; set; }
         public Point UpperBoarder { get; set; }
 
 
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
-
-            LowerBoarder = new Point();
-            UpperBoarder = new Point();
-            SetParameter();
+            SetContainerSize();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -45,6 +44,8 @@ namespace Simulation
 
         private void BtnStartClick(object sender, EventArgs e)
         {
+            SetContainerSize();
+
             if (ClickFlag == 1)
                 return;
 
@@ -93,12 +94,12 @@ namespace Simulation
             }
         }
 
-        private void SetParameter()
+        private void SetContainerSize()
         {
             LowerBoarder.X = 0;
             LowerBoarder.Y = 0;
-            UpperBoarder.X = 1000; //guiOpenGLFrame.Width;
-            UpperBoarder.Y = 1000; //guiOpenGLFrame.Height;
+            UpperBoarder.X = (double)numWidth.Value;
+            UpperBoarder.Y = (double)numHeight.Value;
 
             lblSize.Text = $@"{guiOpenGLFrame.Width}×{guiOpenGLFrame.Height}";
         }
