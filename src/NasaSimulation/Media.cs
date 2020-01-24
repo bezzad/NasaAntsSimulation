@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Simulation.Enums;
 using Simulation.Roles;
 
 namespace Simulation
@@ -119,7 +120,7 @@ namespace Simulation
 
             switch (tempMsg.MessageType)
             {
-                case Program.BroadcastType.Broadcast:
+                case BroadcastType.Broadcast:
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
@@ -144,14 +145,14 @@ namespace Simulation
                         break;
 
                     }
-                case Program.BroadcastType.SingleCast:
+                case BroadcastType.SingleCast:
                     {
                         var agent = tempMsg.CurrentReceiverAgent;
                         SendToAgent(tempMsg, agent);
                         break;
                     }
 
-                case Program.BroadcastType.MessengersToRulersBroadcast:
+                case BroadcastType.MessengersToRulersBroadcast:
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
@@ -203,7 +204,7 @@ namespace Simulation
                                         lostRulerMessage.ReceiverAgent = null;
                                         lostRulerMessage.ReceiverAgentId = "-1";
 
-                                        lostRulerMessage.MessageType = Program.BroadcastType.MessengersToRulersBroadcast;
+                                        lostRulerMessage.MessageType = BroadcastType.MessengersToRulersBroadcast;
                                         lostRulerMessage.NumOfBroadcastSteps = 1;
 
 
@@ -228,7 +229,7 @@ namespace Simulation
                     }
 
 
-                case Program.BroadcastType.MessengerToLeaderBroadcast:
+                case BroadcastType.MessengerToLeaderBroadcast:
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
@@ -280,7 +281,7 @@ namespace Simulation
                                         lostRulerMessage.ReceiverAgent = null;
                                         lostRulerMessage.ReceiverAgentId = "-1";
 
-                                        lostRulerMessage.MessageType = Program.BroadcastType.MessengerToLeaderBroadcast;
+                                        lostRulerMessage.MessageType = BroadcastType.MessengerToLeaderBroadcast;
                                         lostRulerMessage.NumOfBroadcastSteps = 1;
 
 
@@ -304,7 +305,7 @@ namespace Simulation
                         break;
                     }
 
-                case Program.BroadcastType.MessengerToMessengersBroadcast:
+                case BroadcastType.MessengerToMessengersBroadcast:
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
@@ -334,7 +335,7 @@ namespace Simulation
                         break;
                     }
 
-                case Program.BroadcastType.MessengerToWorkersBroadcast:
+                case BroadcastType.MessengerToWorkersBroadcast:
                     {
                         if (tempMsg.ReceiverAgentId == "-1")
                         {
@@ -362,7 +363,7 @@ namespace Simulation
                         break;
                     }
 
-                case Program.BroadcastType.SendReceive:
+                case BroadcastType.SendReceive:
                     {
                         if (tempMsg.ReceiverAgentId == "-1")
                         {

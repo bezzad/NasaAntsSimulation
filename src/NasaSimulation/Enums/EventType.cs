@@ -1,4 +1,4 @@
-﻿namespace Simulation
+﻿namespace Simulation.Enums
 {
     public enum EventType
     {

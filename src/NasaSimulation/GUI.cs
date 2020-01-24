@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
+using Simulation.Enums;
 using Simulation.Roles;
 using Tao.OpenGl;
 using Tao.Platform.Windows;

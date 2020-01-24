@@ -28,18 +28,7 @@ namespace Simulation
         public static bool EndOfSimulation = false;
         public static bool MultiOff = false;
 
-        public enum BroadcastType
-        {
-            Broadcast,
-            MessengerBroadcast,
-            MessengerToMessengersBroadcast,
-            MessengersToRulersBroadcast,
-            MessengerToLeaderBroadcast,
-            MessengerToWorkersBroadcast,
-            SingleCast,
-            MessengerToLeadersAndMessengersBroadcast,
-            SendReceive
-        }
+        
 
         public enum MessagesContent
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Simulation.Enums;
 
 namespace Simulation.Roles
 {
@@ -40,14 +41,14 @@ namespace Simulation.Roles
                         if (adaptListMessage == null)
                         {
                             AdaptingWaitingList.Add(message.Copy());
-                            SendBroadcastMessage(MessengerAgent, MessengerAgent, Program.BroadcastType.MessengersToRulersBroadcast,
+                            SendBroadcastMessage(MessengerAgent, MessengerAgent, BroadcastType.MessengersToRulersBroadcast,
                                 Program.MessagesContent.LostRuler, 1);
                         }
 
                         else
                         {
                             message.RoutingTime = Time.GlobalSimulationTime;
-                            SendBroadcastMessage(MessengerAgent, MessengerAgent, Program.BroadcastType.MessengersToRulersBroadcast,
+                            SendBroadcastMessage(MessengerAgent, MessengerAgent, BroadcastType.MessengersToRulersBroadcast,
                                 Program.MessagesContent.LostRuler, 2);
                         }
                     }
@@ -69,7 +70,7 @@ namespace Simulation.Roles
                         foreach (var adaptingMessage in AdaptingWaitingList)
                         {
                             SendMessage(MessengerAgent, MessengerAgent, adaptingMessage.SenderAgent, adaptingMessage.SenderAgentId,
-                                Program.BroadcastType.SingleCast, Program.MessagesContent.ReplyRulerNum, message.RulerPingReply);
+                                BroadcastType.SingleCast, Program.MessagesContent.ReplyRulerNum, message.RulerPingReply);
 
                             var replyListMessage = ReplyWaitingList.Find(delegate (Message tempMessage)
                             {
@@ -237,7 +238,7 @@ namespace Simulation.Roles
 
         private void SendMessage(Agent senderAgent, Agent currentSenderAgent, Agent receiverAgent,
            string receiverId,
-           Program.BroadcastType messageType,
+           BroadcastType messageType,
            Program.MessagesContent messageContent, Agent rulerAgent)
         {
             var message = new Message
@@ -305,7 +306,7 @@ namespace Simulation.Roles
 
         private void SendBroadcastMessage(Agent senderAgent,
             Agent currentSenderAgent,
-            Program.BroadcastType messageType,
+            BroadcastType messageType,
             Program.MessagesContent messageContent,
             int iBroadcastNum)
         {

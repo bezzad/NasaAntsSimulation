@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Simulation.Enums;
 
 namespace Simulation.Roles
 {
@@ -68,7 +69,7 @@ namespace Simulation.Roles
                         {
                             var replyMessage = new Message
                             {
-                                MessageType = Program.BroadcastType.SingleCast,
+                                MessageType = BroadcastType.SingleCast,
                                 ReceiverAgentId = message.SenderAgentId,
                                 ReceiverAgent = message.SenderAgent,
                                 SenderAgent = RulerAgent,
@@ -89,7 +90,7 @@ namespace Simulation.Roles
                         {
                             var replyMessage = new Message
                             {
-                                MessageType = Program.BroadcastType.SingleCast,
+                                MessageType = BroadcastType.SingleCast,
                                 ReceiverAgentId = message.SenderAgentId,
                                 ReceiverAgent = message.SenderAgent,
                                 SenderAgent = RulerAgent,
@@ -127,7 +128,7 @@ namespace Simulation.Roles
                     {
                         var replyMessage = new Message
                         {
-                            MessageType = Program.BroadcastType.SingleCast,
+                            MessageType = BroadcastType.SingleCast,
                             ReceiverAgentId = message.SenderAgentId,
                             ReceiverAgent = message.SenderAgent,
                             SenderAgent = RulerAgent,

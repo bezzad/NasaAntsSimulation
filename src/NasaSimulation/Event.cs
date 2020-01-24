@@ -1,4 +1,6 @@
-﻿namespace Simulation
+﻿using Simulation.Enums;
+
+namespace Simulation
 {
     public struct Event
     {

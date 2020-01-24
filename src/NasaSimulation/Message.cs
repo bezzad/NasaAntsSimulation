@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Simulation.Enums;
+using System.Collections.Generic;
 
 namespace Simulation
 {
@@ -13,7 +14,7 @@ namespace Simulation
         public string ReceiverAgentId { set; get; }
         public string CurrentSenderAgentId { set; get; }
         public string CurrentReceiverAgentId { set; get; }
-        public Program.BroadcastType MessageType { set; get; }
+        public BroadcastType MessageType { set; get; }
         public int ReturnedStatus { set; get; }
         public Program.MessagesContent MessageContent { set; get; }
         public Agent RulerPingReply { set; get; }

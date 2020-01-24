@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Simulation.Enums;
 
 namespace Simulation.Roles
 {
@@ -28,7 +29,7 @@ namespace Simulation.Roles
                 {
                     _iStatus = 2;
                     _startPartialAdaptationTime = Time.GlobalSimulationTime;
-                    SendBroadcastMessage(_leaderAgent, _leaderAgent, Program.BroadcastType.MessengerToLeaderBroadcast,
+                    SendBroadcastMessage(_leaderAgent, _leaderAgent, BroadcastType.MessengerToLeaderBroadcast,
                         Program.MessagesContent.LostRuler, 1);
                 }
             }
@@ -37,7 +38,7 @@ namespace Simulation.Roles
             else if (RulerAgent != null && _iStatus == 1)
             {
                 _pingTime = Time.GlobalSimulationTime;
-                SendMessage(_leaderAgent, _leaderAgent, RulerAgent, RulerAgent.AgentId, Program.BroadcastType.SendReceive,
+                SendMessage(_leaderAgent, _leaderAgent, RulerAgent, RulerAgent.AgentId, BroadcastType.SendReceive,
                          Program.MessagesContent.Ping, "");
                 _iStatus = 3;
             }
@@ -53,7 +54,7 @@ namespace Simulation.Roles
                 }
                 _startPartialAdaptationTime = Time.GlobalSimulationTime;
                 SendBroadcastMessage(_leaderAgent, _leaderAgent,
-                    Program.BroadcastType.MessengerToLeaderBroadcast,
+                    BroadcastType.MessengerToLeaderBroadcast,
                         Program.MessagesContent.LostRuler, 2);
             }
 
@@ -63,7 +64,7 @@ namespace Simulation.Roles
             Agent currentSenderAgent,
             Agent receiverAgent,
             string receiverId,
-            Program.BroadcastType messageType,
+            BroadcastType messageType,
             Program.MessagesContent messageContent,
             Agent rulerAgent)
         {
@@ -100,7 +101,7 @@ namespace Simulation.Roles
             Agent currentSenderAgent,
             Agent receiverAgent,
             string receiverId,
-            Program.BroadcastType messageType,
+            BroadcastType messageType,
             Program.MessagesContent messageContent, string messageTextData)
         {
             var message = new Message
@@ -132,7 +133,7 @@ namespace Simulation.Roles
         }
 
         private void SendBroadcastMessage(Agent senderAgent, Agent currentSenderAgent,
-            Program.BroadcastType messageType,
+            BroadcastType messageType,
             Program.MessagesContent messageContent, int iBroadcastNum)
         {
             var message = new Message
@@ -212,7 +213,7 @@ namespace Simulation.Roles
                         _leaderAgent,
                         message.SenderAgent,
                         message.SenderAgentId,
-                        Program.BroadcastType.SingleCast,
+                        BroadcastType.SingleCast,
                         Program.MessagesContent.ReplyRulerNum,
                         "-1");
                 }
@@ -222,7 +223,7 @@ namespace Simulation.Roles
                         _leaderAgent,
                         message.SenderAgent,
                         message.SenderAgentId,
-                        Program.BroadcastType.SingleCast,
+                        BroadcastType.SingleCast,
                         Program.MessagesContent.ReplyRulerNum,
                         RulerAgent);
                 }
@@ -316,7 +317,7 @@ namespace Simulation.Roles
                     _leaderAgent,
                     RulerAgent,
                     RulerAgent.AgentId,
-                    Program.BroadcastType.SendReceive,
+                    BroadcastType.SendReceive,
                     Program.MessagesContent.Ping, "");
                 _iStatus = 3;
             }
@@ -333,12 +334,12 @@ namespace Simulation.Roles
             {
                 //if (iStatus == 0 || iStatus == 2)
                 //{
-                //    SendMessage(this.leaderAgent, this.leaderAgent, message.senderAgent, message.senderAgentID, Program.broadcastType.singleCast,
+                //    SendMessage(this.leaderAgent, this.leaderAgent, message.senderAgent, message.senderAgentID, BroadcastType.singleCast,
                 //        Program.MessagesContent.ReplyRulerNum, "-1");
                 //}
                 //else
                 //{
-                //    SendMessage(this.leaderAgent, this.leaderAgent, message.senderAgent, message.senderAgentID, Program.broadcastType.singleCast,
+                //    SendMessage(this.leaderAgent, this.leaderAgent, message.senderAgent, message.senderAgentID, BroadcastType.singleCast,
                 //       Program.MessagesContent.ReplyRulerNum, this.RulerAgent);
                 //}
             }
