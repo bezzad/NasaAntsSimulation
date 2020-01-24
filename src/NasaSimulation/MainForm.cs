@@ -97,8 +97,10 @@ namespace Simulation
         {
             LowerBoarder.X = 0;
             LowerBoarder.Y = 0;
-            UpperBoarder.X = 1000;
-            UpperBoarder.Y = 1000;
+            UpperBoarder.X = 1000; //guiOpenGLFrame.Width;
+            UpperBoarder.Y = 1000; //guiOpenGLFrame.Height;
+
+            lblSize.Text = $@"{guiOpenGLFrame.Width}×{guiOpenGLFrame.Height}";
         }
     }
 }
