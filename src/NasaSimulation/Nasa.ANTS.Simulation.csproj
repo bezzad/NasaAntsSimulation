@@ -104,6 +104,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RenderView.cs" />
+    <Compile Include="RenderView.Designer.cs">
+      <DependentUpon>RenderView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Roles\Leader.cs" />
     <Compile Include="Roles\Messenger.cs" />
     <Compile Include="Roles\Role.cs" />
