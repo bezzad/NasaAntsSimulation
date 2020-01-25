@@ -37,7 +37,7 @@ namespace Simulation
             EnvironmentContainer = new Container(UpperBoarder, LowerBoarder);
             AnimationController = new Gui(EnvironmentContainer);
 
-            guiOpenGLFrame.InitializeContexts();
+            guiOpenGLFrame.InitializeLifetimeService();
             Program.GuiOpenGlControl = guiOpenGLFrame;
         }
 

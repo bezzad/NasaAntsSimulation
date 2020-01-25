@@ -3,15 +3,15 @@ using System.Threading;
 using System.Windows.Forms;
 using Simulation.Enums;
 using Simulation.Roles;
-using Tao.OpenGl;
-using Tao.Platform.Windows;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace Simulation
 {
     public class Gui
     {
         private Container EnvironmentContainer { get; }
-        private SimpleOpenGlControl GuiFrame { get; set; }
+        private GLControl GuiFrame { get; set; }
 
 
         public Gui(Container environmentContainer)
@@ -27,18 +27,18 @@ namespace Simulation
             }
             else
             {
-                Gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-                Gl.glMatrixMode(Gl.GL_PROJECTION);
-                Gl.glLoadIdentity();
-                Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
-                Gl.glOrtho(EnvironmentContainer.LowerBoarder.X - 50, EnvironmentContainer.UpperBoarder.X + 50, EnvironmentContainer.LowerBoarder.Y - 50,
+                GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+                GL.MatrixMode(MatrixMode.Projection);
+                GL.LoadIdentity();
+                GL.Clear(ClearBufferMask.ColorBufferBit);
+                GL.Ortho(EnvironmentContainer.LowerBoarder.X - 50, EnvironmentContainer.UpperBoarder.X + 50, EnvironmentContainer.LowerBoarder.Y - 50,
                     EnvironmentContainer.UpperBoarder.Y + 50, 0.0, 1.0);
             }
         }
 
         public void DrawMessenger(Point messengerCenter)
         {
-            Gl.glColor3f(0, 255, 0);
+            GL.Color3(0, 255, 0);
             var p1 = new Point();
             var p2 = new Point();
             var p3 = new Point();
@@ -60,34 +60,34 @@ namespace Simulation
             p3.X = messengerCenter.X;
             p3.Y = messengerCenter.Y;
 
-            Gl.glBegin(Gl.GL_LINES);
-            Gl.glVertex2d(p3.X, p3.Y);
-            Gl.glVertex2d(p1.X, p1.Y);
-            Gl.glVertex2d(p1.X, p1.Y);
-            Gl.glVertex2d(p2.X, p2.Y);
-            Gl.glVertex2d(p2.X, p2.Y);
-            Gl.glVertex2d(p3.X, p3.Y);
-            Gl.glEnd();
-            Gl.glBegin(Gl.GL_LINES);
-            Gl.glVertex2d(messengerCenter.X, messengerCenter.Y);
-            Gl.glVertex2d(messengerCenter.X, messengerCenter.Y - 20);
-            Gl.glEnd();
+            GL.Begin(PrimitiveType.Lines);
+            GL.Vertex2(p3.X, p3.Y);
+            GL.Vertex2(p1.X, p1.Y);
+            GL.Vertex2(p1.X, p1.Y);
+            GL.Vertex2(p2.X, p2.Y);
+            GL.Vertex2(p2.X, p2.Y);
+            GL.Vertex2(p3.X, p3.Y);
+            GL.End();
+            GL.Begin(PrimitiveType.Lines);
+            GL.Vertex2(messengerCenter.X, messengerCenter.Y);
+            GL.Vertex2(messengerCenter.X, messengerCenter.Y - 20);
+            GL.End();
 
 
-            Gl.glBegin(Gl.GL_LINES);
+            GL.Begin(PrimitiveType.Lines);
 
-            Gl.glVertex2d(p6.X, p6.Y);
-            Gl.glVertex2d(p4.X, p4.Y);
-            Gl.glVertex2d(p4.X, p4.Y);
-            Gl.glVertex2d(p5.X, p5.Y);
-            Gl.glVertex2d(p5.X, p5.Y);
-            Gl.glVertex2d(p6.X, p6.Y);
-            Gl.glEnd();
+            GL.Vertex2(p6.X, p6.Y);
+            GL.Vertex2(p4.X, p4.Y);
+            GL.Vertex2(p4.X, p4.Y);
+            GL.Vertex2(p5.X, p5.Y);
+            GL.Vertex2(p5.X, p5.Y);
+            GL.Vertex2(p6.X, p6.Y);
+            GL.End();
         }
 
         public void DrawRuler(Point rulerCenter)
         {
-            Gl.glColor3f(0, 255, 255);
+            GL.Color3(0, 255, 255);
             var p1 = new Point();
             var p2 = new Point();
             var p3 = new Point();
@@ -109,29 +109,25 @@ namespace Simulation
             p6.X = rulerCenter.X - 10;
             p6.Y = rulerCenter.Y + 5;
 
-            Gl.glBegin(Gl.GL_POLYGON);
+            GL.Begin(PrimitiveType.Polygon);
 
-            Gl.glVertex2d(p1.X, p1.Y);
-            Gl.glVertex2d(p2.X, p2.Y);
-            Gl.glVertex2d(p3.X, p3.Y);
+            GL.Vertex2(p1.X, p1.Y);
+            GL.Vertex2(p2.X, p2.Y);
+            GL.Vertex2(p3.X, p3.Y);
 
-            Gl.glVertex2d(p4.X, p4.Y);
+            GL.Vertex2(p4.X, p4.Y);
 
-            Gl.glVertex2d(p5.X, p5.Y);
-            Gl.glVertex2d(p6.X, p6.Y);
+            GL.Vertex2(p5.X, p5.Y);
+            GL.Vertex2(p6.X, p6.Y);
 
-            Gl.glVertex2d(p1.X, p1.Y);
+            GL.Vertex2(p1.X, p1.Y);
 
-            Gl.glEnd();
-            //Gl.glBegin(Gl.GL_LINES);
-            //Gl.glVertex2d(messengerCenter.X, messengerCenter.Y);
-            //Gl.glVertex2d(messengerCenter.X, messengerCenter.Y - 30);
-            //Gl.glEnd();
+            GL.End();
         }
 
         public void DrawDisabledRuler(Point rulerCenter)
         {
-            Gl.glColor3f(255, 0, 0);
+            GL.Color3(255, 0, 0);
             var p1 = new Point();
             var p2 = new Point();
             var p3 = new Point();
@@ -153,37 +149,33 @@ namespace Simulation
             p6.X = rulerCenter.X - 10;
             p6.Y = rulerCenter.Y + 5;
 
-            Gl.glBegin(Gl.GL_POLYGON);
+            GL.Begin(PrimitiveType.Polygon);
 
-            Gl.glVertex2d(p1.X, p1.Y);
-            Gl.glVertex2d(p2.X, p2.Y);
-            Gl.glVertex2d(p3.X, p3.Y);
+            GL.Vertex2(p1.X, p1.Y);
+            GL.Vertex2(p2.X, p2.Y);
+            GL.Vertex2(p3.X, p3.Y);
 
-            Gl.glVertex2d(p4.X, p4.Y);
+            GL.Vertex2(p4.X, p4.Y);
 
-            Gl.glVertex2d(p5.X, p5.Y);
-            Gl.glVertex2d(p6.X, p6.Y);
+            GL.Vertex2(p5.X, p5.Y);
+            GL.Vertex2(p6.X, p6.Y);
 
-            Gl.glVertex2d(p1.X, p1.Y);
+            GL.Vertex2(p1.X, p1.Y);
 
-            Gl.glEnd();
-            //Gl.glBegin(Gl.GL_LINES);
-            //Gl.glVertex2d(messengerCenter.X, messengerCenter.Y);
-            //Gl.glVertex2d(messengerCenter.X, messengerCenter.Y - 30);
-            //Gl.glEnd();
+            GL.End();
         }
 
         public void DrawCircle(Point orgCenter, double radius)
         {
-            Gl.glBegin(Gl.GL_POINTS);
+            GL.Begin(PrimitiveType.Points);
             for (double deg = 0; deg <= 360; deg += 0.4)
             {
                 var x = radius * Math.Sin(deg) + orgCenter.X + EnvironmentContainer.LowerBoarder.X;
                 var y = radius * Math.Cos(deg) + orgCenter.Y + EnvironmentContainer.LowerBoarder.Y;
-                Gl.glVertex2d(x, y);
+                GL.Vertex2(x, y);
             }
 
-            Gl.glEnd();
+            GL.End();
 
 
         }
@@ -191,7 +183,7 @@ namespace Simulation
 
         private void GuiDraw()
         {
-            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
+            GL.Clear(ClearBufferMask.ColorBufferBit);
             if (GuiFrame.InvokeRequired)
             {
                 try
@@ -209,29 +201,29 @@ namespace Simulation
 
                 foreach (var team in EnvironmentContainer.TeamList)
                 {
-                    Gl.glColor3f(255, 0, 0);
-                    Gl.glPointSize(2);
+                    GL.Color3(255, 0, 0);
+                    GL.PointSize(2);
 
                     DrawCircle(team.OrganizationBoundries.OrgCenter, team.OrganizationBoundries.Radius);
 
                     AgentPosition tempAgentPosition;
-                    Gl.glColor3f(125, 125, 0);
-                    Gl.glBegin(Gl.GL_POINTS);
+                    GL.Color3(125, 125, 0);
+                    GL.Begin(PrimitiveType.Points);
 
                     foreach (var agent in team.AgentsArray)
                     {
 
                         tempAgentPosition = agent.GetPosition();
-                        Gl.glVertex2d(tempAgentPosition.Position.X, tempAgentPosition.Position.Y);
+                        GL.Vertex2(tempAgentPosition.Position.X, tempAgentPosition.Position.Y);
 
                     }
 
-                    Gl.glEnd();
-                    Gl.glColor3f(0, 0, 125);
-                    Gl.glPointSize(5);
-                    Gl.glBegin(Gl.GL_POINTS);
-                    Gl.glVertex2d(team.OrgLeader.GetPosition().Position.X, team.OrgLeader.GetPosition().Position.Y);
-                    Gl.glEnd();
+                    GL.End();
+                    GL.Color3(0, 0, 125);
+                    GL.PointSize(5);
+                    GL.Begin(PrimitiveType.Points);
+                    GL.Vertex2(team.OrgLeader.GetPosition().Position.X, team.OrgLeader.GetPosition().Position.Y);
+                    GL.End();
 
 
 
@@ -256,7 +248,7 @@ namespace Simulation
                     }
                 }
 
-                Gl.glFlush();
+                GL.Flush();
                 GuiFrame.SwapBuffers();
             }
         }
