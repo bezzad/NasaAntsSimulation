@@ -30,11 +30,14 @@ namespace Simulation
             }
             else
             {
-                GlControlContext = new GraphicsContext(GraphicsMode.Default, GuiFrame.WindowInfo);
-                GL.ClearColor(Color.WhiteSmoke);
+                // Creates a 3.0-compatible GraphicsContext with 32bpp color, 24bpp depth
+                // 8bpp stencil and 4x anti-aliasing.
+                GlControlContext = new GraphicsContext(GraphicsMode.Default, GuiFrame.WindowInfo, 3, 0, GraphicsContextFlags.Default);
+                GlControlContext.MakeCurrent(GuiFrame.WindowInfo);
+                GL.ClearColor(Color.Black);
                 GL.MatrixMode(MatrixMode.Projection);
                 GL.LoadIdentity();
-                GL.Clear(ClearBufferMask.ColorBufferBit);
+                GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit); // Clear the back buffer.
                 GL.Ortho(EnvironmentContainer.LowerBoarder.X - 50, EnvironmentContainer.UpperBoarder.X + 50, EnvironmentContainer.LowerBoarder.Y - 50,
                     EnvironmentContainer.UpperBoarder.Y + 50, 0.0, 1.0);
                 GL.Enable(EnableCap.DepthTest);
@@ -50,7 +53,7 @@ namespace Simulation
 
         public void DrawMessenger(Point messengerCenter)
         {
-            GL.Color3(0, 255, 0);
+            GL.Color3(0f, 255f, 0f);
             var p1 = new Point();
             var p2 = new Point();
             var p3 = new Point();
@@ -99,7 +102,7 @@ namespace Simulation
 
         public void DrawRuler(Point rulerCenter)
         {
-            GL.Color3(0, 255, 255);
+            GL.Color3(0f, 255f, 255f);
             var p1 = new Point();
             var p2 = new Point();
             var p3 = new Point();
@@ -139,7 +142,7 @@ namespace Simulation
 
         public void DrawDisabledRuler(Point rulerCenter)
         {
-            GL.Color3(255, 0, 0);
+            GL.Color3(255f, 0f, 0f);
             var p1 = new Point();
             var p2 = new Point();
             var p3 = new Point();
@@ -195,7 +198,7 @@ namespace Simulation
 
         private void GuiDraw()
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit); // Clear the back buffer.
             if (GuiFrame.InvokeRequired)
             {
                 GuiFrame.Invoke(new MethodInvoker(GuiDraw));
@@ -207,25 +210,22 @@ namespace Simulation
 
                 foreach (var team in EnvironmentContainer.TeamList)
                 {
-                    GL.Color3(255, 0, 0);
+                    GL.Color3(255f, 0f, 0f);
                     GL.PointSize(2);
 
                     DrawCircle(team.OrganizationBoundries.OrgCenter, team.OrganizationBoundries.Radius);
 
-                    AgentPosition tempAgentPosition;
-                    GL.Color3(125, 125, 0);
+                    GL.Color3(125f, 125f, 0f);
                     GL.Begin(PrimitiveType.Points);
 
                     foreach (var agent in team.AgentsArray)
                     {
-
-                        tempAgentPosition = agent.GetPosition();
+                        var tempAgentPosition = agent.GetPosition();
                         GL.Vertex2(tempAgentPosition.Position.X, tempAgentPosition.Position.Y);
-
                     }
 
                     GL.End();
-                    GL.Color3(0, 0, 125);
+                    GL.Color3(0f, 0f, 125f);
                     GL.PointSize(5);
                     GL.Begin(PrimitiveType.Points);
                     GL.Vertex2(team.OrgLeader.GetPosition().Position.X, team.OrgLeader.GetPosition().Position.Y);

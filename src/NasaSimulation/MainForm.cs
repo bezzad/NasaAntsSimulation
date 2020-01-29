@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -99,8 +100,8 @@ namespace Simulation
         {
             LowerBoarder.X = 0;
             LowerBoarder.Y = 0;
-            UpperBoarder.X = (double)numWidth.Value;
-            UpperBoarder.Y = (double)numHeight.Value;
+            UpperBoarder.X = (double) numWidth.Value;
+            UpperBoarder.Y = (double) numHeight.Value;
 
             lblSize.Text = $@"{guiOpenGLFrame.Width}×{guiOpenGLFrame.Height}";
         }
