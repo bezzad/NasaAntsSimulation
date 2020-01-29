@@ -1,7 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace Simulation
 {
@@ -34,11 +38,9 @@ namespace Simulation
         {
             base.OnLoad(e);
 
+            Program.GuiOpenGlControl = guiOpenGLFrame;
             EnvironmentContainer = new Container(UpperBoarder, LowerBoarder);
             AnimationController = new Gui(EnvironmentContainer);
-
-            guiOpenGLFrame.InitializeContexts();
-            Program.GuiOpenGlControl = guiOpenGLFrame;
         }
 
 
@@ -98,8 +100,8 @@ namespace Simulation
         {
             LowerBoarder.X = 0;
             LowerBoarder.Y = 0;
-            UpperBoarder.X = (double)numWidth.Value;
-            UpperBoarder.Y = (double)numHeight.Value;
+            UpperBoarder.X = (double) numWidth.Value;
+            UpperBoarder.Y = (double) numHeight.Value;
 
             lblSize.Text = $@"{guiOpenGLFrame.Width}×{guiOpenGLFrame.Height}";
         }

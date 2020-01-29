@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Tao.Platform.Windows;
 
 namespace Simulation
 {
@@ -8,7 +7,7 @@ namespace Simulation
     {
         //------------------------my parameter --------------
         public static int HezitateValue = 0;
-        public static SimpleOpenGlControl GuiOpenGlControl;
+        public static OpenTK.GLControl GuiOpenGlControl;
         public static int MaxSpeed = 10;
         public static Form ActiveForm;
         public static Form GuiForm;
