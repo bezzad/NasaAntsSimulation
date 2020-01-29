@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Simulation.Enums;
 using Simulation.Roles;
 using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace Simulation
 {
     public class Gui
     {
-        private Container EnvironmentContainer { get; }
-        private GLControl GuiFrame { get; set; }
+        protected Container EnvironmentContainer { get; }
+        protected GLControl GuiFrame { get; set; }
+        protected IGraphicsContext GlControlContext { get; set; }
 
 
         public Gui(Container environmentContainer)
@@ -27,12 +30,21 @@ namespace Simulation
             }
             else
             {
-                GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+                GlControlContext = new GraphicsContext(GraphicsMode.Default, GuiFrame.WindowInfo);
+                GL.ClearColor(Color.WhiteSmoke);
                 GL.MatrixMode(MatrixMode.Projection);
                 GL.LoadIdentity();
                 GL.Clear(ClearBufferMask.ColorBufferBit);
                 GL.Ortho(EnvironmentContainer.LowerBoarder.X - 50, EnvironmentContainer.UpperBoarder.X + 50, EnvironmentContainer.LowerBoarder.Y - 50,
                     EnvironmentContainer.UpperBoarder.Y + 50, 0.0, 1.0);
+                GL.Enable(EnableCap.DepthTest);
+                GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
+                GL.DepthFunc(DepthFunction.Lequal);
+                GL.ColorMaterial(MaterialFace.FrontAndBack, ColorMaterialParameter.AmbientAndDiffuse);
+                GL.Enable(EnableCap.ColorMaterial);
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+                GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0); // render per default onto screen, not some FBO
             }
         }
 
@@ -186,17 +198,11 @@ namespace Simulation
             GL.Clear(ClearBufferMask.ColorBufferBit);
             if (GuiFrame.InvokeRequired)
             {
-                try
-                {
-                    GuiFrame.Invoke(new MethodInvoker(GuiDraw));
-                }
-                catch
-                {
-                    // ignored
-                }
+                GuiFrame.Invoke(new MethodInvoker(GuiDraw));
             }
             else
             {
+                // GuiFrame.MakeCurrent();
                 #region team
 
                 foreach (var team in EnvironmentContainer.TeamList)

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace Simulation
 {
@@ -34,11 +37,9 @@ namespace Simulation
         {
             base.OnLoad(e);
 
+            Program.GuiOpenGlControl = guiOpenGLFrame;
             EnvironmentContainer = new Container(UpperBoarder, LowerBoarder);
             AnimationController = new Gui(EnvironmentContainer);
-
-            guiOpenGLFrame.InitializeLifetimeService();
-            Program.GuiOpenGlControl = guiOpenGLFrame;
         }
 
 
