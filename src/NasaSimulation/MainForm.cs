@@ -1,5 +1,4 @@
-﻿using OpenTK.Graphics.OpenGL;
-using Simulation.Core;
+﻿using Simulation.Core;
 using Simulation.Scenario;
 using Simulation.Tools;
 using System;
@@ -24,8 +23,8 @@ namespace Simulation
         private Gui AnimationController { get; set; }
         private Thread AnimationThread { get; set; }
         private Thread EnvironmentThread { get; set; }
-        protected System.Timers.Timer UiUpdater { get; set; }
-        protected Configuration Config { get; set; }
+        private System.Timers.Timer UiUpdater { get; set; }
+        private Configuration Config { get; }
 
 
         protected void RefreshInfo()
@@ -108,9 +107,9 @@ namespace Simulation
             Config.MultiOff = checkBoxMultiOff.Checked;
 
             var maxOneTeamLength = 4 * Config.TeamOrganizationRadius; // Square width is 4R
-            var xSquaresCount = Math.Floor(Config.UpperBoarder.X / maxOneTeamLength); 
+            var xSquaresCount = Math.Floor(Config.UpperBoarder.X / maxOneTeamLength);
             var ySquaresCount = Math.Floor(Config.UpperBoarder.Y / maxOneTeamLength);
-            
+
             var oneTeamArea = maxOneTeamLength * maxOneTeamLength;
             var aspectRatio = ySquaresCount / xSquaresCount;
 
