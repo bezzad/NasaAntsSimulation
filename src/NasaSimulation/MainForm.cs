@@ -1,11 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 namespace Simulation
 {
@@ -23,7 +19,6 @@ namespace Simulation
         private Gui AnimationController { get; set; }
         private Thread AnimationThread { get; set; }
         private Thread EnvironmentThread { get; set; }
-        private int ClickFlag { get; set; }
         public Point LowerBoarder { get; set; }
         public Point UpperBoarder { get; set; }
 
@@ -48,10 +43,8 @@ namespace Simulation
         {
             SetContainerSize();
 
-            if (ClickFlag == 1)
+            if (EnvironmentThread?.IsAlive == true)
                 return;
-
-            ClickFlag = 1;
 
             if (radioButtonSH.Checked)
             {
@@ -64,10 +57,10 @@ namespace Simulation
             }
 
             var ts = new ThreadStart(EnvironmentContainer.Run);
-            EnvironmentThread = new Thread(ts);
+            EnvironmentThread = new Thread(ts) { IsBackground = true };
             EnvironmentThread.Start();
 
-            AnimationThread = new Thread(AnimationController.Run);
+            AnimationThread = new Thread(AnimationController.Run) { IsBackground = true };
             AnimationThread.Start();
         }
 
@@ -100,8 +93,8 @@ namespace Simulation
         {
             LowerBoarder.X = 0;
             LowerBoarder.Y = 0;
-            UpperBoarder.X = (double) numWidth.Value;
-            UpperBoarder.Y = (double) numHeight.Value;
+            UpperBoarder.X = (double)numWidth.Value;
+            UpperBoarder.Y = (double)numHeight.Value;
 
             lblSize.Text = $@"{guiOpenGLFrame.Width}×{guiOpenGLFrame.Height}";
         }

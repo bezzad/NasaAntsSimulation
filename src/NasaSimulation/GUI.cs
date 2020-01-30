@@ -23,7 +23,7 @@ namespace Simulation
         }
 
         private void InitialGui()
-        {
+        {   
             if (GuiFrame.InvokeRequired)
             {
                 GuiFrame.Invoke(new MethodInvoker(InitialGui));
@@ -182,19 +182,17 @@ namespace Simulation
 
         public void DrawCircle(Point orgCenter, double radius)
         {
-            GL.Begin(PrimitiveType.Points);
-            for (double deg = 0; deg <= 360; deg += 0.4)
-            {
-                var x = radius * Math.Sin(deg) + orgCenter.X + EnvironmentContainer.LowerBoarder.X;
-                var y = radius * Math.Cos(deg) + orgCenter.Y + EnvironmentContainer.LowerBoarder.Y;
+            GL.Begin(PrimitiveType.LineLoop);
+           
+            for (var i = 0; i <= 300; i++){
+                var angle = 2 * Math.PI * i / 300;
+                var x = radius * Math.Cos(angle) + orgCenter.X + EnvironmentContainer.LowerBoarder.X;
+                var y = radius * Math.Sin(angle) + orgCenter.Y + EnvironmentContainer.LowerBoarder.Y;
                 GL.Vertex2(x, y);
             }
 
             GL.End();
-
-
         }
-
 
         private void GuiDraw()
         {

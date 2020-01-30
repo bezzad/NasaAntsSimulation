@@ -98,7 +98,7 @@ namespace Simulation
 
         private void SetAgentVelocity(AgentPosition agentPosition)
         {
-            double v = Program.MaxSpeed / 2;
+            var v = (double)Program.MaxSpeed / 2;
             v = v + ((_random.NextDouble() - 0.5) * Program.MaxSpeed);
             var degree = _random.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);

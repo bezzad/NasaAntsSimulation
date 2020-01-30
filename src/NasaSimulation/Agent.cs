@@ -126,9 +126,9 @@ namespace Simulation
         }
         private int Movement()
         {
-            Position.Position.X += Position.Velocity.X / 1000;
+            Position.Position.X += Position.Velocity.X / 1500;
 
-            Position.Position.Y += Position.Velocity.Y / 1000;
+            Position.Position.Y += Position.Velocity.Y / 1500;
 
             if (Position.Position.CalculateDistance(TeamBoundary.OrgCenter) > TeamBoundary.Radius)
             {
@@ -144,9 +144,9 @@ namespace Simulation
         }
         private int FreeMovement()
         {
-            Position.Position.X += Position.Velocity.X / 1000;
+            Position.Position.X += Position.Velocity.X / 1500;
 
-            Position.Position.Y += Position.Velocity.Y / 1000;
+            Position.Position.Y += Position.Velocity.Y / 1500;
             
             if (AgentType == Role.RolesName.Messenger)
             {
