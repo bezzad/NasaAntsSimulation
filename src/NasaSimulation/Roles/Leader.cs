@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using Simulation.Core;
+﻿using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Tools;
 using Message = Simulation.Core.Message;
@@ -270,7 +269,7 @@ namespace Simulation.Roles
                 }
             }
         }
-        
+
         #region Ours
 
         public void OursOnTimeEvent()
@@ -319,7 +318,7 @@ namespace Simulation.Roles
                         RulerAgent = repliedRuler;
 
                         _iStatus = 1;
-                        _startPartialAdaptationTime = 9223372036854775807;
+                        _startPartialAdaptationTime = long.MaxValue;
                         _pingTime = -1;
                         MeasureAdaptingTime();
                     }

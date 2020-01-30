@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Simulation.Enums;
 using Simulation.Roles;
@@ -16,16 +17,11 @@ namespace Simulation.Core
         private List<Event> EventQueue { get; } = new List<Event>();
 
         // not used
-        public int InitNumOfTeams = 20;
-        public int InitNumOfRulers = 16;
-        public int InitNumOfMessengers = 80;
-        public int InitNumOfWorkersInOrganization = 30;
-        public List<Team> TeamList = new List<Team>();
+        public List<Team> TeamList { get; set; } = new List<Team>();
         public List<Agent> MessengerList = new List<Agent>();
         public List<Agent> RulerList = new List<Agent>();
 
         public Area[] AreaArray = new Area[16];
-        public IScenario SimulationScenario { get; } = new SelfHealingScenario1();
 
 
         //Implementation ----------------------------------------------------
@@ -35,10 +31,16 @@ namespace Simulation.Core
             ContainerMedia = new Media(Config, this);
             Time.GlobalSimulationTime = 0;
 
-            for (var iOrgCount = 0; iOrgCount < InitNumOfTeams; iOrgCount++)
+            var oneTeamArea = Math.Pow(Config.TeamOrganizationRadius, 2) * Math.PI;
+            if (Config.TeamsCount * oneTeamArea >= Config.UpperBoarder.X * config.UpperBoarder.Y)
+            {
+                Debug.WriteLine("This number of teams, can not fill in this environment.");
+                Config.TeamsCount = (int)Math.Floor(Config.UpperBoarder.X * config.UpperBoarder.Y / oneTeamArea) - 5;
+            }
+            for (var iOrgCount = 0; iOrgCount < Config.TeamsCount; iOrgCount++)
             {
                 var orgBoundary = InitialOrgBoundries(TeamList);
-                TeamList.Add(new Team(Config, TeamList.Count, InitNumOfWorkersInOrganization, orgBoundary, this));
+                TeamList.Add(new Team(Config, TeamList.Count, Config.WorkersCount, orgBoundary, this));
             }
             InitializeAreas();
             CreateMessengers();
@@ -64,7 +66,7 @@ namespace Simulation.Core
         {
             for (var i = 0; i < AreaArray.Length; i++)
             {
-                for (var j = 0; j < InitNumOfMessengers / AreaArray.Length; j++)
+                for (var j = 0; j < Config.MessengersCount / AreaArray.Length; j++)
                 {
 
                     var tempPosition = SetAgentPosition();
@@ -81,7 +83,7 @@ namespace Simulation.Core
 
         public void CreateRulers()
         {
-            for (var i = 0; i < InitNumOfRulers; i++)
+            for (var i = 0; i < Config.RulersCount; i++)
             {
                 var iArea = i;
                 var tempPosition = SetAgentPosition();
@@ -119,7 +121,7 @@ namespace Simulation.Core
 
         public void Run()
         {
-            Config.RunGui = true;
+            Config.IsRunning = true;
             Simulation();
         }
 
@@ -138,7 +140,11 @@ namespace Simulation.Core
 
         public OrganizationBoundries CreateRandomOrganization()
         {
-            var localOrgBoundary = new OrganizationBoundries { OrgCenter = SetAgentPosition().Position, Radius = 80 };
+            var localOrgBoundary = new OrganizationBoundries
+            {
+                OrgCenter = SetAgentPosition().Position,
+                Radius = Config.TeamOrganizationRadius
+            };
             return localOrgBoundary;
         }
 
@@ -150,7 +156,7 @@ namespace Simulation.Core
                 Time.Tick();
                 UpdateOrganizations();
                 if (Time.GlobalSimulationTime == 100 &&
-                    SimulationScenario is SelfHealingScenario1)
+                    Config.SelectedScenario is SelfHealingScenario1)
                 {
 
                     Time.StartSimulationTime = Time.GlobalSimulationTime;
@@ -223,8 +229,8 @@ namespace Simulation.Core
             {
                 Position =
                 {
-                    X = (Config.Rnd.NextDouble() * (Config.UpperBoarder.X - Config.LowerBoarder.X)) + Config.LowerBoarder.X,
-                    Y = (Config.Rnd.NextDouble() * (Config.UpperBoarder.Y - Config.LowerBoarder.Y)) + Config.LowerBoarder.Y
+                    X = Config.Rnd.NextDouble() * (Config.UpperBoarder.X - Config.LowerBoarder.X) + Config.LowerBoarder.X,
+                    Y = Config.Rnd.NextDouble() * (Config.UpperBoarder.Y - Config.LowerBoarder.Y) + Config.LowerBoarder.Y
                 }
             };
             return tempAgentPosition;

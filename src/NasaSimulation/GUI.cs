@@ -212,7 +212,6 @@ namespace Simulation
             }
             else
             {
-                // GuiFrame.MakeCurrent();
                 #region team
 
                 foreach (var team in EnvironmentContainer.TeamList)
@@ -272,7 +271,7 @@ namespace Simulation
 
             while (true)
             {
-                if (Config.RunGui && !Config.EndOfApplication)
+                if (Config.IsRunning && !Config.EndOfApplication)
                 {
                     GuiDraw();
                 }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using Simulation.Core;
+using Simulation.Scenario;
+using Simulation.Tools;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
-using Simulation.Core;
-using Simulation.Scenario;
-using Simulation.Tools;
 using Container = Simulation.Core.Container;
 
 namespace Simulation
@@ -27,18 +28,11 @@ namespace Simulation
         protected Configuration Config { get; set; }
 
 
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            base.OnSizeChanged(e);
-            SetContainerSize();
-        }
-
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            EnvironmentContainer = new Container(Config);
-            AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
+            
         }
 
         protected void RefreshInfo()
@@ -51,6 +45,7 @@ namespace Simulation
                     return;
                 }
 
+                SetConfiguration();
                 lblAdapting.Text = Time.ConventionalAdaptingTime.ToString();
                 lblOptimizing.Text = (EnvironmentContainer.ContainerMedia.MessageCount - Config.StartMessageCount).ToString();
             }
@@ -60,16 +55,27 @@ namespace Simulation
             }
         }
 
+        private void BtnStopClick(object sender, EventArgs e)
+        {
+            EnvironmentThread?.Abort();
+            AnimationThread?.Abort();
+            UiUpdater?.Stop();
+            RefreshInfo();
+        }
+
         private void BtnStartClick(object sender, EventArgs e)
         {
-            SetContainerSize();
-
             if (EnvironmentThread?.IsAlive == true)
                 return;
 
+            SetConfiguration();
+            Config.SelectedScenario = new SelfHealingScenario1(Config);
+            EnvironmentContainer = new Container(Config);
+            AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
+
             if (radioButtonSH.Checked)
             {
-                Config.SelectedScenario = new SelfHealingScenario1();
+                Config.SelectedScenario = new SelfHealingScenario1(Config);
             }
 
             if (checkBoxOurs.Checked)
@@ -101,30 +107,36 @@ namespace Simulation
             AnimationThread?.Abort();
         }
 
-        private void CheckBoxOursCheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxOurs.Checked)
-            {
-                Config.OursExecutionMode = true;
-            }
-        }
-
-        private void CheckBoxMultiOffCheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxMultiOff.Checked)
-            {
-                Config.MultiOff = true;
-            }
-        }
-
-        private void SetContainerSize()
+        private void SetConfiguration()
         {
             Config.LowerBoarder.X = 0;
             Config.LowerBoarder.Y = 0;
-            Config.UpperBoarder.X = (double)numWidth.Value;
-            Config.UpperBoarder.Y = (double)numHeight.Value;
+            Config.UpperBoarder.X = Width - settingPanel.Width;
+            Config.UpperBoarder.Y = Height;
+            Config.RulersCount = (int)numRulersCount.Value;
+            Config.MessengersCount = (int)numMessengersCount.Value;
+            Config.TeamsCount = (int)numTeamsCount.Value;
+            Config.WorkersCount = (int)numWorkersCount.Value;
+            Config.MaxMessengerRadioRange = (double)numMaxMessengersRadioRange.Value;
+            Config.MaxRadioRange = (double)numMaxRadioRange.Value;
+            Config.MaxSpeed = (double)numSpeed.Value;
+            Config.OursExecutionMode = checkBoxOurs.Checked;
+            Config.MultiOff = checkBoxMultiOff.Checked;
+
+            var expandoRatio = Config.TeamsCount / 4;
+            var oneTeamArea = 4 * Config.TeamOrganizationRadius * Config.TeamOrganizationRadius; //Math.Pow(Config.TeamOrganizationRadius, 2) * Math.PI;
+            if ((Config.TeamsCount + expandoRatio) * oneTeamArea >= Config.UpperBoarder.X * Config.UpperBoarder.Y)
+            {
+                Debug.WriteLine("This number of teams, can not fill in this environment. Fix autonomic...");
+                var aspectRatio = Config.UpperBoarder.Y / Config.UpperBoarder.X;
+                Config.UpperBoarder.X = Math.Ceiling(Math.Sqrt(oneTeamArea * (Config.TeamsCount + expandoRatio) / aspectRatio));
+                Config.UpperBoarder.Y = Config.UpperBoarder.X * aspectRatio;
+            }
 
             Text = $@"NASA ANTS Simulation by OpenGL    |   Environment Size:{guiOpenGLFrame.Size}";
+
+            //if (Config.IsRunning)  GL.Viewport((int)Config.LowerBoarder.X, (int)Config.LowerBoarder.Y, (int)Config.UpperBoarder.X *2/ 3, (int)Config.UpperBoarder.Y*2/3);
         }
+
     }
 }
