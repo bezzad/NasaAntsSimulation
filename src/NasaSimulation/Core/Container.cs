@@ -173,7 +173,7 @@ namespace Simulation.Core
                     lostRuler.Status = State.Failed;
                 }
 
-                Thread.Sleep(Program.HezitateValue);
+                Thread.Sleep(Program.HesitateValue);
                 HandleEvents();
             }
         }

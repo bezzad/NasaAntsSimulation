@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Agent.cs" />
+    <Compile Include="Core\Configuration.cs" />
     <Compile Include="Tools\AgentPosition.cs" />
     <Compile Include="Tools\Area.cs" />
     <Compile Include="Enums\BroadcastType.cs" />

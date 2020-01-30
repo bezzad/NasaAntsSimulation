@@ -273,7 +273,7 @@ namespace Simulation
                 }
 
                 var t = 33;
-                if (Program.HezitateValue > t) t = Program.HezitateValue;
+                if (Program.HesitateValue > t) t = Program.HesitateValue;
                 Thread.Sleep(t);
 
                 if (Program.EndOfApplication)
