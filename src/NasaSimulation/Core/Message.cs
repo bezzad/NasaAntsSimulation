@@ -1,7 +1,7 @@
-﻿using Simulation.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Simulation.Enums;
 
-namespace Simulation
+namespace Simulation.Core
 {
     public class Message
     {

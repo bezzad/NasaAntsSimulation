@@ -6,7 +6,7 @@ using Simulation.Roles;
 using Simulation.Scenario;
 using Simulation.Tools;
 
-namespace Simulation
+namespace Simulation.Core
 {
     public class Container
     {

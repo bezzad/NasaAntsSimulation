@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Roles;
 
-namespace Simulation
+namespace Simulation.Tools
 {
     public class Media
     {

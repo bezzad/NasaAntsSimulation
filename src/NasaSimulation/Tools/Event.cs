@@ -1,6 +1,6 @@
 ﻿using Simulation.Enums;
 
-namespace Simulation
+namespace Simulation.Tools
 {
     public struct Event
     {

@@ -1,4 +1,7 @@
-﻿namespace Simulation.Roles
+﻿using Simulation.Core;
+using Simulation.Tools;
+
+namespace Simulation.Roles
 {
     public class Worker : Role
     {

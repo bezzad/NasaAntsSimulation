@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Simulation.Roles;
 using Simulation.Tools;
 
-namespace Simulation
+namespace Simulation.Core
 {
     public class Team
     {

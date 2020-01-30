@@ -1,6 +1,8 @@
 ﻿using System.Windows.Forms;
+using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Tools;
+using Message = Simulation.Core.Message;
 
 namespace Simulation.Roles
 {

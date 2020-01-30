@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
 using Simulation.Tools;
+using Container = Simulation.Core.Container;
 
 namespace Simulation
 {

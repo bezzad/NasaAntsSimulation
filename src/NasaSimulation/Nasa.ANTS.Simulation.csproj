@@ -58,13 +58,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent.cs" />
-    <Compile Include="AgentPosition.cs" />
-    <Compile Include="Area.cs" />
+    <Compile Include="Core\Agent.cs" />
+    <Compile Include="Tools\AgentPosition.cs" />
+    <Compile Include="Tools\Area.cs" />
     <Compile Include="Enums\BroadcastType.cs" />
-    <Compile Include="Container.cs" />
+    <Compile Include="Core\Container.cs" />
     <Compile Include="Enums\MessagesContent.cs" />
-    <Compile Include="Event.cs" />
+    <Compile Include="Tools\Event.cs" />
     <Compile Include="Enums\EventType.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -73,8 +73,8 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui.cs" />
-    <Compile Include="Media.cs" />
-    <Compile Include="Message.cs" />
+    <Compile Include="Tools\Media.cs" />
+    <Compile Include="Core\Message.cs" />
     <Compile Include="Tools\OrganizationBoundries.cs" />
     <Compile Include="Tools\Point.cs" />
     <Compile Include="Program.cs" />
@@ -116,7 +116,7 @@
     <Compile Include="Scenario\IScenario.cs" />
     <Compile Include="Scenario\SelfHealingScenario1.cs" />
     <Compile Include="Enums\State.cs" />
-    <Compile Include="Team.cs" />
+    <Compile Include="Core\Team.cs" />
     <Compile Include="Tools\Time.cs" />
   </ItemGroup>
   <ItemGroup />

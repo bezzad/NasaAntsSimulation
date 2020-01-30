@@ -2,7 +2,7 @@
 using Simulation.Roles;
 using Simulation.Tools;
 
-namespace Simulation
+namespace Simulation.Core
 {
     public class Agent
     {
@@ -119,9 +119,7 @@ namespace Simulation
         }
         public AgentPosition GetPosition()
         {
-            var p = new AgentPosition();
-            p = Position;
-            return p;
+            return Position;
         }
         private int Movement()
         {
