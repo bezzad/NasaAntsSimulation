@@ -7,8 +7,10 @@ namespace Simulation.Roles
 {
     public class Messenger : Role
     {
-        public Messenger(Agent agent, Container cont, Area area)
+        public Messenger(Configuration config, Agent agent, Container cont, Area area)
+            : base(config)
         {
+            RoleName = RolesName.Messenger.ToString();
             MessengerAgent = agent;
             Container = cont;
             MessengerArea = area;
@@ -91,7 +93,7 @@ namespace Simulation.Roles
 
         internal void GetMessage(Message message)
         {
-            if (Program.OursExecutionMode)
+            if (Config.OursExecutionMode)
             {
                 OursGetMessage(message);
             }

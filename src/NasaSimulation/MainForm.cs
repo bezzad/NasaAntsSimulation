@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
+using Simulation.Core;
+using Simulation.Scenario;
 using Simulation.Tools;
 using Container = Simulation.Core.Container;
 
@@ -11,8 +13,7 @@ namespace Simulation
     {
         public MainForm()
         {
-            LowerBoarder = new Point();
-            UpperBoarder = new Point();
+            Config = new Configuration();
             InitializeComponent();
         }
 
@@ -21,8 +22,7 @@ namespace Simulation
         private Gui AnimationController { get; set; }
         private Thread AnimationThread { get; set; }
         private Thread EnvironmentThread { get; set; }
-        public Point LowerBoarder { get; set; }
-        public Point UpperBoarder { get; set; }
+        protected Configuration Config { get; set; }
 
 
         protected override void OnSizeChanged(EventArgs e)
@@ -35,10 +35,19 @@ namespace Simulation
         {
             base.OnLoad(e);
 
-            EnvironmentContainer = new Container(UpperBoarder, LowerBoarder);
-            AnimationController = new Gui(EnvironmentContainer, guiOpenGLFrame);
+            EnvironmentContainer = new Container(Config);
+            AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
+
+            var timer = new System.Timers.Timer(1000) { AutoReset = true };
+            timer.Elapsed += delegate { Invoke(new MethodInvoker(RefreshInfo)); };
+            timer.Start();
         }
 
+        protected void RefreshInfo()
+        {
+            lblAdapting.Text = Time.ConventionalAdaptingTime.ToString();
+            lblOptimizing.Text = (EnvironmentContainer.ContainerMedia.MessageCount - Config.StartMessageCount).ToString();
+        }
 
         private void BtnStartClick(object sender, EventArgs e)
         {
@@ -49,12 +58,12 @@ namespace Simulation
 
             if (radioButtonSH.Checked)
             {
-                Program.ScenarioNum = 1;
+                Config.SelectedScenario = new SelfHealingScenario1();
             }
 
             if (checkBoxOurs.Checked)
             {
-                Program.BOurMethod = false;
+                Config.BOurMethod = false;
             }
 
             var ts = new ThreadStart(EnvironmentContainer.Run);
@@ -69,7 +78,7 @@ namespace Simulation
         {
             base.OnClosing(e);
 
-            Program.EndOfApplication = true;
+            Config.EndOfApplication = true;
             EnvironmentThread?.Abort();
             AnimationThread?.Abort();
         }
@@ -78,7 +87,7 @@ namespace Simulation
         {
             if (checkBoxOurs.Checked)
             {
-                Program.OursExecutionMode = true;
+                Config.OursExecutionMode = true;
             }
         }
 
@@ -86,16 +95,16 @@ namespace Simulation
         {
             if (checkBoxMultiOff.Checked)
             {
-                Program.MultiOff = true;
+                Config.MultiOff = true;
             }
         }
 
         private void SetContainerSize()
         {
-            LowerBoarder.X = 0;
-            LowerBoarder.Y = 0;
-            UpperBoarder.X = (double)numWidth.Value;
-            UpperBoarder.Y = (double)numHeight.Value;
+            Config.LowerBoarder.X = 0;
+            Config.LowerBoarder.Y = 0;
+            Config.UpperBoarder.X = (double)numWidth.Value;
+            Config.UpperBoarder.Y = (double)numHeight.Value;
 
             lblSize.Text = $@"{guiOpenGLFrame.Width}×{guiOpenGLFrame.Height}";
         }

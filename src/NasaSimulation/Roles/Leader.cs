@@ -18,8 +18,10 @@ namespace Simulation.Roles
         long _startPartialAdaptationTime = long.MaxValue;
 
 
-        public Leader(Agent agent, Container cont)
+        public Leader(Configuration config, Agent agent, Container cont)
+            : base(config)
         {
+            RoleName = RolesName.Leader.ToString();
             _leaderAgent = agent;
             _container = cont;
         }
@@ -28,7 +30,7 @@ namespace Simulation.Roles
         {
             if (_pingTime != -1 && Time.GlobalSimulationTime - _pingTime > 100 && _iStatus == 3)
             {
-                if (Program.BOurMethod == false)
+                if (Config.BOurMethod == false)
                 {
                     _iStatus = 2;
                     _startPartialAdaptationTime = Time.GlobalSimulationTime;
@@ -48,12 +50,9 @@ namespace Simulation.Roles
 
             else if (_iStatus == 2 && Time.GlobalSimulationTime - _startPartialAdaptationTime > 200)
             {
-                if (Program.MultiOff)
+                if (Config.MultiOff)
                 {
-                    Program.EndOfSimulation = true;
-                    UpdateTimeLabel("MVal");
-                    UpdateMessageLabel("MVal");
-
+                    Config.EndOfSimulation = true;
                 }
                 _startPartialAdaptationTime = Time.GlobalSimulationTime;
                 SendBroadcastMessage(_leaderAgent, _leaderAgent,
@@ -250,29 +249,18 @@ namespace Simulation.Roles
 
         private void MeasureAdaptingTime()
         {
-            if (Program.EndOfSimulation)
-            {
+            if (Config.EndOfSimulation)
                 return;
-            }
-            var f = (MainForm)Program.ActiveForm;
-            if (f.InvokeRequired)
-            {
-                f.Invoke(new MethodInvoker(MeasureAdaptingTime));
-            }
-            else
-            {
-                Time.ConventionalAdaptingTime = Time.GlobalSimulationTime - Time.StartSimulationTime;
-                f.labelAdapting.Text = Time.ConventionalAdaptingTime.ToString();
-                f.lableOptimizing.Text = (_container.ContainerMedia.MessageCount - Program.StartMessageCount).ToString();
-                Program.EndOfSimulation = true;
-            }
+
+            Time.ConventionalAdaptingTime = Time.GlobalSimulationTime - Time.StartSimulationTime;
+            Config.EndOfSimulation = true;
         }
 
         internal void GetMessage(Message message)
         {
             if (message.ReceiverAgentId == _leaderAgent.AgentId)
             {
-                if (Program.OursExecutionMode)
+                if (Config.OursExecutionMode)
                 {
                     OursProcessMessage(message);
                 }
@@ -282,33 +270,7 @@ namespace Simulation.Roles
                 }
             }
         }
-
-        internal void UpdateTimeLabel(string labelTxt)
-        {
-            var f = (MainForm)Program.ActiveForm;
-            if (f.InvokeRequired)
-            {
-                f.Invoke(new MethodInvoker(delegate { UpdateTimeLabel(labelTxt); }));
-            }
-            else
-            {
-                f.labelAdapting.Text = labelTxt;
-            }
-        }
-
-        internal void UpdateMessageLabel(string labelTxt)
-        {
-            var f = (MainForm)Program.ActiveForm;
-            if (f.InvokeRequired)
-            {
-                f.Invoke(new MethodInvoker(delegate { UpdateMessageLabel(labelTxt); }));
-            }
-            else
-            {
-                f.lableOptimizing.Text = labelTxt;
-            }
-        }
-
+        
         #region Ours
 
         public void OursOnTimeEvent()

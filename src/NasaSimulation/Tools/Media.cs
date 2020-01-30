@@ -8,11 +8,13 @@ namespace Simulation.Tools
     public class Media
     {
         public List<Message> MessageList = new List<Message>();
-        readonly Container _container;
+        protected Configuration Config { get; }
+        protected Container Container { get; }
         public int MessageCount = 1;
-        public Media(Container cont)
+        public Media(Configuration config, Container cont)
         {
-            _container = cont;
+            Config = config;
+            Container = cont;
         }
         public bool SendMessage(Agent sender, Message msg)
         {
@@ -29,7 +31,7 @@ namespace Simulation.Tools
 
 
 
-            _container.AddEventToQueue(msgId, Program.MsgDelay);
+            Container.AddEventToQueue(msgId, Config.MsgDelay);
         }
 
         public bool SendToAgent(Message message, Agent receiver)
@@ -125,7 +127,7 @@ namespace Simulation.Tools
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
-                            var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
 
@@ -159,7 +161,7 @@ namespace Simulation.Tools
                         {
                             if (tempMsg.NumOfBroadcastSteps == 1)
                             {
-                                var agentList = _container.GetRulersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetRulersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Ruler && agent.AgentId != tempMsg.SenderAgentId)
@@ -177,7 +179,7 @@ namespace Simulation.Tools
                             }
                             else if (tempMsg.NumOfBroadcastSteps == 2)
                             {
-                                var agentList = _container.GetRulersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetRulersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Ruler && agent.AgentId != tempMsg.SenderAgentId)
@@ -192,7 +194,7 @@ namespace Simulation.Tools
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
-                                var messengerAgentList = _container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
+                                var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
@@ -236,7 +238,7 @@ namespace Simulation.Tools
                         {
                             if (tempMsg.NumOfBroadcastSteps == 1)
                             {
-                                var agentList = _container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Leader && agent.AgentId != tempMsg.SenderAgentId)
@@ -254,7 +256,7 @@ namespace Simulation.Tools
                             }
                             else if (tempMsg.NumOfBroadcastSteps == 2)
                             {
-                                var agentList = _container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Leader && agent.AgentId != tempMsg.SenderAgentId)
@@ -269,7 +271,7 @@ namespace Simulation.Tools
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
-                                var messengerAgentList = _container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
+                                var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
                                     if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
@@ -310,7 +312,7 @@ namespace Simulation.Tools
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
-                            var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
                                 if (agent.AgentType == Role.RolesName.Messenger)
@@ -340,7 +342,7 @@ namespace Simulation.Tools
                     {
                         if (tempMsg.ReceiverAgentId == "-1")
                         {
-                            var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
                                 if (agent.AgentType == Role.RolesName.Worker)

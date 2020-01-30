@@ -15,8 +15,10 @@ namespace Simulation.Roles
         public State Status { set; get; }
 
 
-        public Ruler(Area area, Container cont, Agent agent)
+        public Ruler(Configuration config, Area area, Container cont, Agent agent) 
+            :base(config)
         {
+            RoleName = RolesName.Ruler.ToString();
             RulerArea = area;
             Container = cont;
             RulerAgent = agent;
@@ -65,7 +67,7 @@ namespace Simulation.Roles
             {
                 if (message.MessageContent == MessagesContent.Ping)
                 {
-                    if (Program.OursExecutionMode)
+                    if (Config.OursExecutionMode)
                     {
                         if (Status == State.Stable)
                         {
@@ -124,7 +126,7 @@ namespace Simulation.Roles
 
 
                 }
-                else if (Program.OursExecutionMode && message.MessageContent == MessagesContent.LostRuler)
+                else if (Config.OursExecutionMode && message.MessageContent == MessagesContent.LostRuler)
                 {
                     if (Status == State.Stable)
                     {

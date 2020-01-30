@@ -11,11 +11,9 @@ namespace Simulation.Core
     public class Container
     {
         //Parameters ---------------------------------------------------------
-        readonly Random _random;
+        protected Configuration Config { get; }
         public Media ContainerMedia { set; get; }
         private List<Event> EventQueue { get; } = new List<Event>();
-        public Point UpperBoarder { set; get; }
-        public Point LowerBoarder { set; get; }
 
         // not used
         public int InitNumOfTeams = 20;
@@ -31,18 +29,16 @@ namespace Simulation.Core
 
 
         //Implementation ----------------------------------------------------
-        public Container(Point upperBorder, Point lowerBoarder)
+        public Container(Configuration config)
         {
-            UpperBoarder = upperBorder;
-            LowerBoarder = lowerBoarder;
-            ContainerMedia = new Media(this);
+            Config = config;
+            ContainerMedia = new Media(Config, this);
             Time.GlobalSimulationTime = 0;
-            _random = Program.R;
 
             for (var iOrgCount = 0; iOrgCount < InitNumOfTeams; iOrgCount++)
             {
                 var orgBoundary = InitialOrgBoundries(TeamList);
-                TeamList.Add(new Team(TeamList.Count, InitNumOfWorkersInOrganization, orgBoundary, this));
+                TeamList.Add(new Team(Config, TeamList.Count, InitNumOfWorkersInOrganization, orgBoundary, this));
             }
             InitializeAreas();
             CreateMessengers();
@@ -74,7 +70,7 @@ namespace Simulation.Core
                     var tempPosition = SetAgentPosition();
                     SetAgentVelocity(tempPosition);
                     var sId = "M" + i + j;
-                    var tempAgent = new Agent(tempPosition, sId, Role.RolesName.Messenger, AreaArray[i], this);
+                    var tempAgent = new Agent(Config, tempPosition, sId, Role.RolesName.Messenger, AreaArray[i], this);
 
                     MessengerList.Add(tempAgent);
 
@@ -91,7 +87,7 @@ namespace Simulation.Core
                 var tempPosition = SetAgentPosition();
                 SetAgentVelocity(tempPosition);
                 var sId = "R" + i;
-                RulerList.Add(new Agent(tempPosition, sId, Role.RolesName.Ruler, AreaArray[iArea], this));
+                RulerList.Add(new Agent(Config, tempPosition, sId, Role.RolesName.Ruler, AreaArray[iArea], this));
             }
         }
 
@@ -100,9 +96,9 @@ namespace Simulation.Core
 
         private void SetAgentVelocity(AgentPosition agentPosition)
         {
-            var v = (double)Program.MaxSpeed / 2;
-            v = v + ((_random.NextDouble() - 0.5) * Program.MaxSpeed);
-            var degree = _random.NextDouble() * 360;
+            var v = (double)Config.MaxSpeed / 2;
+            v = v + ((Config.Rnd.NextDouble() - 0.5) * Config.MaxSpeed);
+            var degree = Config.Rnd.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);
             agentPosition.Velocity.X = v * Math.Cos(degree);
 
@@ -123,7 +119,7 @@ namespace Simulation.Core
 
         public void Run()
         {
-            Program.RunGui = true;
+            Config.RunGui = true;
             Simulation();
         }
 
@@ -139,7 +135,7 @@ namespace Simulation.Core
             }
             return localOrgBoundary;
         }
-        
+
         public OrganizationBoundries CreateRandomOrganization()
         {
             var localOrgBoundary = new OrganizationBoundries { OrgCenter = SetAgentPosition().Position, Radius = 80 };
@@ -149,7 +145,7 @@ namespace Simulation.Core
         #region Simulation
         public void Simulation()
         {
-            while (!Program.EndOfApplication)
+            while (!Config.EndOfApplication)
             {
                 Time.Tick();
                 UpdateOrganizations();
@@ -158,14 +154,14 @@ namespace Simulation.Core
                 {
 
                     Time.StartSimulationTime = Time.GlobalSimulationTime;
-                    Program.StartMessageCount = ContainerMedia.MessageCount;
-                    var iRemoveIndex = _random.Next(0, RulerList.Count - 1);
+                    Config.StartMessageCount = ContainerMedia.MessageCount;
+                    var iRemoveIndex = Config.Rnd.Next(0, RulerList.Count - 1);
                     var lostRulerAgent = RulerList[iRemoveIndex];
                     var lostRuler = (Ruler)lostRulerAgent.AgentRole;
 
                     while (lostRuler.LeaderList.Count == 0)
                     {
-                        iRemoveIndex = _random.Next(0, RulerList.Count - 1);
+                        iRemoveIndex = Config.Rnd.Next(0, RulerList.Count - 1);
                         lostRulerAgent = RulerList[iRemoveIndex];
                         lostRuler = (Ruler)lostRulerAgent.AgentRole;
                     }
@@ -173,7 +169,7 @@ namespace Simulation.Core
                     lostRuler.Status = State.Failed;
                 }
 
-                Thread.Sleep(Program.HesitateValue);
+                Thread.Sleep(Config.HesitateValue);
                 HandleEvents();
             }
         }
@@ -227,8 +223,8 @@ namespace Simulation.Core
             {
                 Position =
                 {
-                    X = (_random.NextDouble() * (UpperBoarder.X - LowerBoarder.X)) + LowerBoarder.X,
-                    Y = (_random.NextDouble() * (UpperBoarder.Y - LowerBoarder.Y)) + LowerBoarder.Y
+                    X = (Config.Rnd.NextDouble() * (Config.UpperBoarder.X - Config.LowerBoarder.X)) + Config.LowerBoarder.X,
+                    Y = (Config.Rnd.NextDouble() * (Config.UpperBoarder.Y - Config.LowerBoarder.Y)) + Config.LowerBoarder.Y
                 }
             };
             return tempAgentPosition;

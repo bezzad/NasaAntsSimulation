@@ -8,8 +8,10 @@ namespace Simulation.Roles
         private Container Container { get; }
         private Agent WorkerAgent { get; }
 
-        public Worker(Container cont, Agent agent)
+        public Worker(Configuration config, Container cont, Agent agent) 
+            : base(config)
         {
+            RoleName = RolesName.Worker.ToString();
             Container = cont;
             WorkerAgent = agent;
         }

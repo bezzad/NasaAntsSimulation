@@ -8,19 +8,22 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Simulation.Core;
+using Configuration = Simulation.Core.Configuration;
 using Point = Simulation.Tools.Point;
 
 namespace Simulation
 {
     public class Gui
     {
+        protected Configuration Config { get; }
         protected Container EnvironmentContainer { get; }
         protected GLControl GuiFrame { get; set; }
         protected IGraphicsContext GlControlContext { get; set; }
 
 
-        public Gui(Container environmentContainer, OpenTK.GLControl frameControl)
+        public Gui(Configuration config, Container environmentContainer, GLControl frameControl)
         {
+            Config = config;
             EnvironmentContainer = environmentContainer;
             GuiFrame = frameControl;
         }
@@ -41,8 +44,8 @@ namespace Simulation
                 GL.MatrixMode(MatrixMode.Projection);
                 GL.LoadIdentity();
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit); // Clear the back buffer.
-                GL.Ortho(EnvironmentContainer.LowerBoarder.X - 50, EnvironmentContainer.UpperBoarder.X + 50, EnvironmentContainer.LowerBoarder.Y - 50,
-                    EnvironmentContainer.UpperBoarder.Y + 50, 0.0, 1.0);
+                GL.Ortho(Config.LowerBoarder.X - 50, Config.UpperBoarder.X + 50, Config.LowerBoarder.Y - 50,
+                    Config.UpperBoarder.Y + 50, 0.0, 1.0);
                 GL.Enable(EnableCap.DepthTest);
                 GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
                 GL.DepthFunc(DepthFunction.Lequal);
@@ -189,8 +192,8 @@ namespace Simulation
            
             for (var i = 0; i <= 300; i++){
                 var angle = 2 * Math.PI * i / 300;
-                var x = radius * Math.Cos(angle) + orgCenter.X + EnvironmentContainer.LowerBoarder.X;
-                var y = radius * Math.Sin(angle) + orgCenter.Y + EnvironmentContainer.LowerBoarder.Y;
+                var x = radius * Math.Cos(angle) + orgCenter.X + Config.LowerBoarder.X;
+                var y = radius * Math.Sin(angle) + orgCenter.Y + Config.LowerBoarder.Y;
                 GL.Vertex2(x, y);
             }
 
@@ -266,16 +269,16 @@ namespace Simulation
 
             while (true)
             {
-                if (Program.RunGui && !Program.EndOfApplication)
+                if (Config.RunGui && !Config.EndOfApplication)
                 {
                     GuiDraw();
                 }
 
                 var t = 33;
-                if (Program.HesitateValue > t) t = Program.HesitateValue;
+                if (Config.HesitateValue > t) t = Config.HesitateValue;
                 Thread.Sleep(t);
 
-                if (Program.EndOfApplication)
+                if (Config.EndOfApplication)
                 {
                     return;
                 }

@@ -7,7 +7,7 @@ namespace Simulation.Core
 {
     public class Team
     {
-        readonly Random _random;
+        protected Configuration Config { get; }
         public int NumOfAgents { set; get; }
         public int OrganizationId { set; get; }
         public string OrganizationName { set; get; }
@@ -17,10 +17,10 @@ namespace Simulation.Core
         public Container Container;
 
 
-        public Team(int orgId, int agentCount, OrganizationBoundries orgBoundries, Container cont)
+        public Team(Configuration config, int orgId, int agentCount, OrganizationBoundries orgBoundries, Container cont)
         {
+            Config = config;
             Container = cont;
-            _random = Program.R;
             OrganizationBoundries = orgBoundries;
             OrganizationId = orgId;
             NumOfAgents = agentCount;
@@ -40,7 +40,7 @@ namespace Simulation.Core
             var tempAgentPosition = SetAgentPosition();
             SetAgentVelocity(tempAgentPosition);
             var sId = "L" + OrganizationId;
-            var tempAgent = new Agent(tempAgentPosition, sId, Role.RolesName.Leader, OrganizationBoundries, Container);
+            var tempAgent = new Agent(Config, tempAgentPosition, sId, Role.RolesName.Leader, OrganizationBoundries, Container);
             return tempAgent;
         }
 
@@ -49,15 +49,15 @@ namespace Simulation.Core
             var tempAgentPosition = SetAgentPosition();
             SetAgentVelocity(tempAgentPosition);
 
-            var tempAgent = new Agent(tempAgentPosition, id, Role.RolesName.Worker, OrganizationBoundries, Container);
+            var tempAgent = new Agent(Config, tempAgentPosition, id, Role.RolesName.Worker, OrganizationBoundries, Container);
             return tempAgent;
         }
 
         private void SetAgentVelocity(AgentPosition agentPosition)
         {
-            double v = Program.MaxSpeed / 2;
-            v += (_random.NextDouble() - 0.5) * Program.MaxSpeed;
-            var degree = _random.NextDouble() * 360;
+            var v = Config.MaxSpeed / 2;
+            v += (Config.Rnd.NextDouble() - 0.5) * Config.MaxSpeed;
+            var degree = Config.Rnd.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);
             agentPosition.Velocity.X = v * Math.Cos(degree);
 
@@ -80,8 +80,8 @@ namespace Simulation.Core
         private AgentPosition SetAgentPosition()
         {
             var tempAgentPosition = new AgentPosition();
-            var randomRadius = _random.NextDouble() * OrganizationBoundries.Radius;
-            double randomDegree = _random.Next(0, 360);
+            var randomRadius = Config.Rnd.NextDouble() * OrganizationBoundries.Radius;
+            double randomDegree = Config.Rnd.Next(0, 360);
             tempAgentPosition.Position.X = randomRadius * Math.Sin(randomDegree) + OrganizationBoundries.OrgCenter.X;
             tempAgentPosition.Position.Y = randomRadius * Math.Cos(randomDegree) + OrganizationBoundries.OrgCenter.Y;
             return tempAgentPosition;
