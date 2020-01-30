@@ -66,10 +66,10 @@ namespace Simulation
             AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
 
             var ts = new ThreadStart(EnvironmentContainer.Run);
-            EnvironmentThread = new Thread(ts) { IsBackground = true };
+            EnvironmentThread = new Thread(ts) { IsBackground = true, Priority = ThreadPriority.Highest };
             EnvironmentThread.Start();
 
-            AnimationThread = new Thread(AnimationController.Run) { IsBackground = true };
+            AnimationThread = new Thread(AnimationController.Run) { IsBackground = true, Priority = ThreadPriority.AboveNormal };
             AnimationThread.Start();
 
             //

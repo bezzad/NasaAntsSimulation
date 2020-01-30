@@ -54,9 +54,9 @@
             this.numWorkersCount = new System.Windows.Forms.NumericUpDown();
             this.numTeamsCount = new System.Windows.Forms.NumericUpDown();
             this.numRulersCount = new System.Windows.Forms.NumericUpDown();
-            this.numMessengersCount = new System.Windows.Forms.NumericUpDown();
             this.numSpeed = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.numMessengersCount = new System.Windows.Forms.NumericUpDown();
             this.panelSetting.SuspendLayout();
             this.settingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxRadioRange)).BeginInit();
@@ -64,8 +64,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numWorkersCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTeamsCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRulersCount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numMessengersCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numMessengersCount)).BeginInit();
             this.SuspendLayout();
             // 
             // guiOpenGLFrame
@@ -397,7 +397,7 @@
             this.numMaxRadioRange.Location = new System.Drawing.Point(200, 248);
             this.numMaxRadioRange.Margin = new System.Windows.Forms.Padding(2);
             this.numMaxRadioRange.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -420,7 +420,7 @@
             this.numMaxMessengersRadioRange.Location = new System.Drawing.Point(200, 222);
             this.numMaxMessengersRadioRange.Margin = new System.Windows.Forms.Padding(2);
             this.numMaxMessengersRadioRange.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -443,7 +443,7 @@
             this.numWorkersCount.Location = new System.Drawing.Point(200, 196);
             this.numWorkersCount.Margin = new System.Windows.Forms.Padding(2);
             this.numWorkersCount.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -466,7 +466,7 @@
             this.numTeamsCount.Location = new System.Drawing.Point(200, 170);
             this.numTeamsCount.Margin = new System.Windows.Forms.Padding(2);
             this.numTeamsCount.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -489,7 +489,7 @@
             this.numRulersCount.Location = new System.Drawing.Point(200, 144);
             this.numRulersCount.Margin = new System.Windows.Forms.Padding(2);
             this.numRulersCount.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -507,35 +507,12 @@
             0,
             0});
             // 
-            // numMessengersCount
-            // 
-            this.numMessengersCount.Location = new System.Drawing.Point(200, 118);
-            this.numMessengersCount.Margin = new System.Windows.Forms.Padding(2);
-            this.numMessengersCount.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numMessengersCount.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numMessengersCount.Name = "numMessengersCount";
-            this.numMessengersCount.Size = new System.Drawing.Size(74, 22);
-            this.numMessengersCount.TabIndex = 70;
-            this.numMessengersCount.Value = new decimal(new int[] {
-            160,
-            0,
-            0,
-            0});
-            // 
             // numSpeed
             // 
             this.numSpeed.Location = new System.Drawing.Point(200, 274);
             this.numSpeed.Margin = new System.Windows.Forms.Padding(2);
             this.numSpeed.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -567,6 +544,29 @@
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label1.UseCompatibleTextRendering = true;
             // 
+            // numMessengersCount
+            // 
+            this.numMessengersCount.Location = new System.Drawing.Point(200, 118);
+            this.numMessengersCount.Margin = new System.Windows.Forms.Padding(2);
+            this.numMessengersCount.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numMessengersCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMessengersCount.Name = "numMessengersCount";
+            this.numMessengersCount.Size = new System.Drawing.Size(74, 22);
+            this.numMessengersCount.TabIndex = 70;
+            this.numMessengersCount.Value = new decimal(new int[] {
+            160,
+            0,
+            0,
+            0});
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -585,8 +585,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numWorkersCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTeamsCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRulersCount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numMessengersCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numMessengersCount)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -20,6 +20,7 @@ namespace Simulation.Core
             WorkersCount = 30;
             MsgDelay = 3;
             TeamOrganizationRadius = 80;
+            HesitateValue = 0;
         }
 
 

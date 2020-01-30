@@ -263,21 +263,16 @@ namespace Simulation
         {
             InitialGui();
 
-            while (true)
+            while (Config.IsRunning && !Config.EndOfApplication)
             {
-                if (Config.IsRunning && !Config.EndOfApplication)
-                {
-                    GuiDraw();
-                }
+                GuiDraw();
 
                 var t = 33;
                 if (Config.HesitateValue > t) t = Config.HesitateValue;
                 Thread.Sleep(t);
 
                 if (Config.EndOfApplication)
-                {
-                    return;
-                }
+                    Config.IsRunning = false;
             }
         }
     }
