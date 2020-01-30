@@ -31,7 +31,6 @@ namespace Simulation.Core
         public bool IsRunning { get; set; } 
         public bool EndOfApplication { get; set; }
         public IScenario SelectedScenario { get; set; }
-        public bool BOurMethod { get; set; }
         public int StartMessageCount { get; set; }
         public bool OursExecutionMode { get; set; }
         public bool EndOfSimulation { get; set; }

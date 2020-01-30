@@ -29,7 +29,7 @@ namespace Simulation.Roles
         {
             if (_pingTime != -1 && Time.GlobalSimulationTime - _pingTime > 100 && _iStatus == 3)
             {
-                if (Config.BOurMethod == false)
+                if (Config.OursExecutionMode == false)
                 {
                     _iStatus = 2;
                     _startPartialAdaptationTime = Time.GlobalSimulationTime;

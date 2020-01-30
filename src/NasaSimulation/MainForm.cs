@@ -28,13 +28,6 @@ namespace Simulation
         protected Configuration Config { get; set; }
 
 
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-
-            
-        }
-
         protected void RefreshInfo()
         {
             try
@@ -73,16 +66,6 @@ namespace Simulation
             EnvironmentContainer = new Container(Config);
             AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
 
-            if (radioButtonSH.Checked)
-            {
-                Config.SelectedScenario = new SelfHealingScenario1(Config);
-            }
-
-            if (checkBoxOurs.Checked)
-            {
-                Config.BOurMethod = false;
-            }
-
             var ts = new ThreadStart(EnvironmentContainer.Run);
             EnvironmentThread = new Thread(ts) { IsBackground = true };
             EnvironmentThread.Start();
@@ -109,6 +92,7 @@ namespace Simulation
 
         private void SetConfiguration()
         {
+            Config.SelectedScenario = new SelfHealingScenario1(Config); // radioButtonSH.Checked
             Config.LowerBoarder.X = 0;
             Config.LowerBoarder.Y = 0;
             Config.UpperBoarder.X = Width - settingPanel.Width;
