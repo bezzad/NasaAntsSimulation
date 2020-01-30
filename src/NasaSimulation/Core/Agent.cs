@@ -31,8 +31,8 @@ namespace Simulation.Core
         }
         protected virtual void Movement()
         {
-            Position.Position.X += Position.Velocity.X / 1500;
-            Position.Position.Y += Position.Velocity.Y / 1500;
+            Position.Position.X += Position.Velocity.X / Config.UpperBoarder.X;
+            Position.Position.Y += Position.Velocity.Y / Config.UpperBoarder.Y;
         }
         protected virtual void FreeMovement()
         {
