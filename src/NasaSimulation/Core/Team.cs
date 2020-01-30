@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL;
 using Simulation.Roles;
 using Simulation.Tools;
 
@@ -97,6 +98,22 @@ namespace Simulation.Core
                 agent.UpdateOneMillisecond();
 
             }
+        }
+
+        public void Draw()
+        {
+            // Draw circle to show team environment
+            GL.Color3(255f, 0f, 0f);
+            GL.PointSize(2);
+            GL.Begin(PrimitiveType.LineLoop);
+            for (var i = 0; i <= 300; i++)
+            {
+                var angle = 2 * Math.PI * i / 300;
+                var x = OrganizationBoundries.Radius * Math.Cos(angle) + OrganizationBoundries.OrgCenter.X + Config.LowerBoarder.X;
+                var y = OrganizationBoundries.Radius * Math.Sin(angle) + OrganizationBoundries.OrgCenter.Y + Config.LowerBoarder.Y;
+                GL.Vertex2(x, y);
+            }
+            GL.End();
         }
     }
 }

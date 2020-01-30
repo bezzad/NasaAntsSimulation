@@ -2,6 +2,8 @@
 using Simulation.Enums;
 using Simulation.Tools;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
+using OpenTK.Graphics.OpenGL;
 
 namespace Simulation.Roles
 {
@@ -201,6 +203,32 @@ namespace Simulation.Roles
 
             if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
                 UpdateVelocity(Position);
+        }
+
+        public override void Draw()
+        {
+            var p = Position.Position;
+            if (Status == State.Failed)
+                GL.Color3(255f, 0f, 0f);
+            else
+                GL.Color3(0f, 255f, 255f);
+
+            var p1 = new Point(p.X, p.Y + 10);
+            var p2 = new Point(p.X + 10, p.Y + 5);
+            var p3 = new Point(p.X + 10, p.Y - 5);
+            var p4 = new Point(p.X, p.Y - 10);
+            var p5 = new Point(p.X - 10, p.Y - 5);
+            var p6 = new Point(p.X - 10, p.Y + 5);
+
+            GL.Begin(PrimitiveType.Polygon);
+            GL.Vertex2(p1.X, p1.Y);
+            GL.Vertex2(p2.X, p2.Y);
+            GL.Vertex2(p3.X, p3.Y);
+            GL.Vertex2(p4.X, p4.Y);
+            GL.Vertex2(p5.X, p5.Y);
+            GL.Vertex2(p6.X, p6.Y);
+            GL.Vertex2(p1.X, p1.Y);
+            GL.End();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Simulation.Core
 {
-    public class Agent
+    public abstract class Agent
     {
         protected Configuration Config { get; }
         protected Container Container { get; }
@@ -11,7 +11,7 @@ namespace Simulation.Core
         public AgentPosition Position { get; }
 
 
-        public Agent(Configuration config, AgentPosition position, string id, Container cont)
+        protected Agent(Configuration config, AgentPosition position, string id, Container cont)
         {
             Config = config;
             Container = cont;
@@ -55,5 +55,7 @@ namespace Simulation.Core
             position.Velocity.X += t1;
             position.Velocity.Y += t2;
         }
+
+        public abstract void Draw();
     }
 }

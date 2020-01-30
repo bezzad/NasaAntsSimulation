@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Tools;
+using System.Collections.Generic;
 using Configuration = Simulation.Core.Configuration;
 
 namespace Simulation.Roles
@@ -346,7 +345,7 @@ namespace Simulation.Roles
                 UpdateVelocity(Position);
         }
 
-        public void DrawMessenger()
+        public override void Draw()
         {
             var p = Position.Position;
             GL.Color3(0f, 255f, 0f);
@@ -392,7 +391,7 @@ namespace Simulation.Roles
             GL.Vertex2(j.X, j.Y);
             GL.Vertex2(f.X, f.Y);
             GL.End();
-            
+
             GL.Begin(PrimitiveType.Polygon);
             GL.Vertex2(k.X, k.Y);
             GL.Vertex2(l.X, l.Y);

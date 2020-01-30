@@ -1,4 +1,5 @@
-﻿using Simulation.Core;
+﻿using OpenTK.Graphics.OpenGL;
+using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Tools;
 using Message = Simulation.Core.Message;
@@ -42,7 +43,7 @@ namespace Simulation.Roles
             {
                 _pingTime = Time.GlobalSimulationTime;
                 SendMessage(this, this, RulerAgent, RulerAgent.AgentId, BroadcastType.SendReceive,
-                         MessagesContent.Ping, "");
+                    MessagesContent.Ping, "");
                 _iStatus = 3;
             }
 
@@ -52,10 +53,11 @@ namespace Simulation.Roles
                 {
                     Config.EndOfSimulation = true;
                 }
+
                 _startPartialAdaptationTime = Time.GlobalSimulationTime;
                 SendBroadcastMessage(this, this,
                     BroadcastType.MessengerToLeaderBroadcast,
-                        MessagesContent.LostRuler, 2);
+                    MessagesContent.LostRuler, 2);
             }
 
         }
@@ -86,10 +88,12 @@ namespace Simulation.Roles
             if (messengerAgent == null)
             {
                 RadioRange += 50;
-                SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent, rulerAgent);
+                SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent,
+                    rulerAgent);
                 return;
 
             }
+
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
@@ -120,10 +124,12 @@ namespace Simulation.Roles
             if (messengerAgent == null)
             {
                 RadioRange += 50;
-                SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent, messageTextData);
+                SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent,
+                    messageTextData);
                 return;
 
             }
+
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
@@ -176,8 +182,10 @@ namespace Simulation.Roles
                     nAgent = mAgent;
                 }
             }
+
             return nAgent;
         }
+
         public Agent FindNearestMessenger(AgentPosition agentPosition)
         {
             double minDist = 10000;
@@ -191,6 +199,7 @@ namespace Simulation.Roles
                     nAgent = mAgent;
                 }
             }
+
             return nAgent;
         }
 
@@ -327,7 +336,7 @@ namespace Simulation.Roles
         protected override void Movement()
         {
             base.Movement();
-            
+
             if (Position.Position.CalculateDistance(TeamBoundary.OrgCenter) > TeamBoundary.Radius)
             {
                 Position.Position.X = TeamBoundary.OrgCenter.X;
@@ -371,6 +380,16 @@ namespace Simulation.Roles
 
             if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
                 UpdateVelocity(Position);
+        }
+
+        public override void Draw()
+        {
+            var p = Position.Position;
+            GL.Color3(100f, 0f, 125f);
+            GL.PointSize(7);
+            GL.Begin(PrimitiveType.Points);
+            GL.Vertex2(p.X, p.Y);
+            GL.End();
         }
     }
 }
