@@ -19,9 +19,10 @@ namespace Simulation
         protected IGraphicsContext GlControlContext { get; set; }
 
 
-        public Gui(Container environmentContainer)
+        public Gui(Container environmentContainer, OpenTK.GLControl frameControl)
         {
             EnvironmentContainer = environmentContainer;
+            GuiFrame = frameControl;
         }
 
         private void InitialGui()
@@ -261,8 +262,6 @@ namespace Simulation
 
         public void Run()
         {
-            GuiFrame = Program.GuiOpenGlControl;
-
             InitialGui();
 
             while (true)

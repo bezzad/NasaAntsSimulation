@@ -35,9 +35,8 @@ namespace Simulation
         {
             base.OnLoad(e);
 
-            Program.GuiOpenGlControl = guiOpenGLFrame;
             EnvironmentContainer = new Container(UpperBoarder, LowerBoarder);
-            AnimationController = new Gui(EnvironmentContainer);
+            AnimationController = new Gui(EnvironmentContainer, guiOpenGLFrame);
         }
 
 

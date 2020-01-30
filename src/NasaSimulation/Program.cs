@@ -7,7 +7,6 @@ namespace Simulation
     {
         //------------------------my parameter --------------
         public static int HesitateValue = 0;
-        public static OpenTK.GLControl GuiOpenGlControl;
         public static int MaxSpeed = 10;
         public static Form ActiveForm;
         public static bool RunGui = false;
