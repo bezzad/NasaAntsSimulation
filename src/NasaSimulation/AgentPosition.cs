@@ -1,4 +1,6 @@
-﻿namespace Simulation
+﻿using Simulation.Tools;
+
+namespace Simulation
 {
     public class AgentPosition
     {

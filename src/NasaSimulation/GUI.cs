@@ -7,6 +7,7 @@ using Simulation.Roles;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using Point = Simulation.Tools.Point;
 
 namespace Simulation
 {

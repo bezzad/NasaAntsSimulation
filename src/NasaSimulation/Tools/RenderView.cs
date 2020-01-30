@@ -4,7 +4,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 
-namespace Simulation
+namespace Simulation.Tools
 {
     public partial class RenderView : GameWindow
     {

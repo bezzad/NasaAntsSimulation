@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Simulation
+namespace Simulation.Tools
 {
     public class Point
     {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using Simulation.Enums;
 using Simulation.Roles;
+using Simulation.Scenario;
+using Simulation.Tools;
 
 namespace Simulation
 {
@@ -25,7 +27,7 @@ namespace Simulation
         public List<Agent> RulerList = new List<Agent>();
 
         public Area[] AreaArray = new Area[16];
-        private Program.Scenario SimulationScenario => Program.Scenario.Scenario1;
+        public IScenario SimulationScenario { get; } = new SelfHealingScenario1();
 
 
         //Implementation ----------------------------------------------------
@@ -152,7 +154,7 @@ namespace Simulation
                 Time.Tick();
                 UpdateOrganizations();
                 if (Time.GlobalSimulationTime == 100 &&
-                    SimulationScenario == Program.Scenario.Scenario1)
+                    SimulationScenario is SelfHealingScenario1)
                 {
 
                     Time.StartSimulationTime = Time.GlobalSimulationTime;

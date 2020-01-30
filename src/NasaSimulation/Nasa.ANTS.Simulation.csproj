@@ -76,7 +76,7 @@
     <Compile Include="Media.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="OrganizationBoundries.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="Tools\Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -104,8 +104,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RenderView.cs" />
-    <Compile Include="RenderView.Designer.cs">
+    <Compile Include="Tools\RenderView.cs" />
+    <Compile Include="Tools\RenderView.Designer.cs">
       <DependentUpon>RenderView.cs</DependentUpon>
     </Compile>
     <Compile Include="Roles\Leader.cs" />
@@ -113,6 +113,7 @@
     <Compile Include="Roles\Role.cs" />
     <Compile Include="Roles\Ruler.cs" />
     <Compile Include="Roles\Worker.cs" />
+    <Compile Include="Scenario\IScenario.cs" />
     <Compile Include="Scenario\SelfHealingScenario1.cs" />
     <Compile Include="Enums\State.cs" />
     <Compile Include="Team.cs" />

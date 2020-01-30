@@ -1,5 +1,6 @@
 ﻿using System;
 using Simulation.Roles;
+using Simulation.Tools;
 
 namespace Simulation
 {

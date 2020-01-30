@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
+using Simulation.Tools;
 
 namespace Simulation
 {
