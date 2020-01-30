@@ -107,13 +107,12 @@ namespace Simulation
             Config.OursExecutionMode = checkBoxOurs.Checked;
             Config.MultiOff = checkBoxMultiOff.Checked;
 
-            var maxOneTeamLength = 4 * Config.TeamOrganizationRadius;
-            var xSquaresCount = Math.Floor(Config.UpperBoarder.X / maxOneTeamLength);
+            var maxOneTeamLength = 4 * Config.TeamOrganizationRadius; // Square width is 4R
+            var xSquaresCount = Math.Floor(Config.UpperBoarder.X / maxOneTeamLength); 
             var ySquaresCount = Math.Floor(Config.UpperBoarder.Y / maxOneTeamLength);
             
             var oneTeamArea = maxOneTeamLength * maxOneTeamLength;
             var aspectRatio = ySquaresCount / xSquaresCount;
-
 
             if (Config.TeamsCount * oneTeamArea >= xSquaresCount * ySquaresCount)
             {
