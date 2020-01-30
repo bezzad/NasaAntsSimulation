@@ -1,5 +1,4 @@
-﻿using System;
-using Simulation.Roles;
+﻿using Simulation.Roles;
 using Simulation.Tools;
 
 namespace Simulation.Core
@@ -31,14 +30,14 @@ namespace Simulation.Core
             {
                 case Role.RolesName.Worker:
                     AgentRole = new Worker(Config, Container, this);
-                    temptRole = (Role) AgentRole;
+                    temptRole = (Role)AgentRole;
                     temptRole.RadioRange = Config.MaxRadioRange;
                     AgentRole = temptRole;
                     RadioRange = temptRole.RadioRange;
                     break;
                 case Role.RolesName.Leader:
                     AgentRole = new Leader(Config, this, Container);
-                    temptRole = (Role) AgentRole;
+                    temptRole = (Role)AgentRole;
                     temptRole.RadioRange = Config.MaxRadioRange;
                     AgentRole = temptRole;
                     RadioRange = temptRole.RadioRange;
@@ -56,7 +55,7 @@ namespace Simulation.Core
             switch (AgentType)
             {
                 case Role.RolesName.Messenger:
-                    AgentRole = new Messenger(Config,this, container, agentArea);
+                    AgentRole = new Messenger(Config, this, container, agentArea);
                     temptRole = (Role)AgentRole;
                     temptRole.RadioRange = Config.MaxMessengerRadioRange;
                     AgentRole = temptRole;
@@ -135,7 +134,7 @@ namespace Simulation.Core
                 UpdateVelocity(Position);
             }
         }
-        private int FreeMovement()
+        private void FreeMovement()
         {
             Position.Position.X += Position.Velocity.X / 1500;
 
@@ -179,7 +178,6 @@ namespace Simulation.Core
             {
                 UpdateVelocity(Position);
             }
-            return 0;
         }
         private void UpdateVelocity(AgentPosition position)
         {
