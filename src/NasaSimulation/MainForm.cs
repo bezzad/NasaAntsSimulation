@@ -107,19 +107,21 @@ namespace Simulation
             Config.OursExecutionMode = checkBoxOurs.Checked;
             Config.MultiOff = checkBoxMultiOff.Checked;
 
-            var expandoRatio = Config.TeamsCount / 4;
-            var oneTeamArea = 4 * Config.TeamOrganizationRadius * Config.TeamOrganizationRadius; //Math.Pow(Config.TeamOrganizationRadius, 2) * Math.PI;
-            if ((Config.TeamsCount + expandoRatio) * oneTeamArea >= Config.UpperBoarder.X * Config.UpperBoarder.Y)
+            var maxOneTeamLength = 4 * Config.TeamOrganizationRadius;
+            var xSquaresCount = Math.Floor(Config.UpperBoarder.X / maxOneTeamLength);
+            var ySquaresCount = Math.Floor(Config.UpperBoarder.Y / maxOneTeamLength);
+            
+            var oneTeamArea = maxOneTeamLength * maxOneTeamLength;
+            var aspectRatio = ySquaresCount / xSquaresCount;
+
+
+            if (Config.TeamsCount * oneTeamArea >= xSquaresCount * ySquaresCount)
             {
-                Debug.WriteLine("This number of teams, can not fill in this environment. Fix autonomic...");
-                var aspectRatio = Config.UpperBoarder.Y / Config.UpperBoarder.X;
-                Config.UpperBoarder.X = Math.Ceiling(Math.Sqrt(oneTeamArea * (Config.TeamsCount + expandoRatio) / aspectRatio));
+                Config.UpperBoarder.X = Math.Ceiling(Math.Sqrt(oneTeamArea * Config.TeamsCount / aspectRatio));
                 Config.UpperBoarder.Y = Config.UpperBoarder.X * aspectRatio;
             }
 
             Text = $@"NASA ANTS Simulation by OpenGL    |   Environment Size:{guiOpenGLFrame.Size}";
-
-            //if (Config.IsRunning)  GL.Viewport((int)Config.LowerBoarder.X, (int)Config.LowerBoarder.Y, (int)Config.UpperBoarder.X *2/ 3, (int)Config.UpperBoarder.Y*2/3);
         }
 
     }

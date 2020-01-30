@@ -158,7 +158,6 @@ namespace Simulation.Core
                 if (Time.GlobalSimulationTime == 100 &&
                     Config.SelectedScenario is SelfHealingScenario1)
                 {
-
                     Time.StartSimulationTime = Time.GlobalSimulationTime;
                     Config.StartMessageCount = ContainerMedia.MessageCount;
                     var iRemoveIndex = Config.Rnd.Next(0, RulerList.Count - 1);
