@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
+using OpenTK.Graphics.OpenGL;
 using Simulation.Core;
 using Simulation.Scenario;
 using Simulation.Tools;
@@ -37,10 +38,6 @@ namespace Simulation
 
             EnvironmentContainer = new Container(Config);
             AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
-
-            var timer = new System.Timers.Timer(1000) { AutoReset = true };
-            timer.Elapsed += delegate { Invoke(new MethodInvoker(RefreshInfo)); };
-            timer.Start();
         }
 
         protected void RefreshInfo()
@@ -72,6 +69,12 @@ namespace Simulation
 
             AnimationThread = new Thread(AnimationController.Run) { IsBackground = true };
             AnimationThread.Start();
+
+            //
+            // create an timer to update UI form information like labels and size
+            var uiUpdater = new System.Timers.Timer(1000) { AutoReset = true };
+            uiUpdater.Elapsed += delegate { Invoke(new MethodInvoker(RefreshInfo)); };
+            uiUpdater.Start();
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -106,7 +109,7 @@ namespace Simulation
             Config.UpperBoarder.X = (double)numWidth.Value;
             Config.UpperBoarder.Y = (double)numHeight.Value;
 
-            lblSize.Text = $@"{guiOpenGLFrame.Width}×{guiOpenGLFrame.Height}";
+            Text = $@"NASA ANTS Simulation by OpenGL    |   Environment Size:{guiOpenGLFrame.Size}";
         }
     }
 }

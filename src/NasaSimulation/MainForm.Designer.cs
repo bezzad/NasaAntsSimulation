@@ -35,15 +35,13 @@
             this.radioButtonSP = new System.Windows.Forms.RadioButton();
             this.radioButtonSC = new System.Windows.Forms.RadioButton();
             this.checkBoxOurs = new System.Windows.Forms.CheckBox();
+            this.lblAdaptingText = new System.Windows.Forms.Label();
+            this.lblOptimizingText = new System.Windows.Forms.Label();
             this.lblAdapting = new System.Windows.Forms.Label();
             this.lblOptimizing = new System.Windows.Forms.Label();
-            this.labelAdapting = new System.Windows.Forms.Label();
-            this.lableOptimizing = new System.Windows.Forms.Label();
             this.checkBoxMultiOff = new System.Windows.Forms.CheckBox();
             this.panelSetting = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblSize = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -81,18 +79,20 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.guiOpenGLFrame.AutoScroll = true;
             this.guiOpenGLFrame.BackColor = System.Drawing.Color.Black;
-            this.guiOpenGLFrame.Location = new System.Drawing.Point(290, 0);
+            this.guiOpenGLFrame.Location = new System.Drawing.Point(362, 0);
+            this.guiOpenGLFrame.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.guiOpenGLFrame.Name = "guiOpenGLFrame";
-            this.guiOpenGLFrame.Size = new System.Drawing.Size(594, 511);
+            this.guiOpenGLFrame.Size = new System.Drawing.Size(742, 639);
             this.guiOpenGLFrame.TabIndex = 0;
             this.guiOpenGLFrame.VSync = true;
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.MediumSpringGreen;
-            this.button1.Location = new System.Drawing.Point(3, 458);
+            this.button1.Location = new System.Drawing.Point(4, 573);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(58, 50);
+            this.button1.Size = new System.Drawing.Size(72, 62);
             this.button1.TabIndex = 1;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = false;
@@ -101,9 +101,10 @@
             // radioButtonSH
             // 
             this.radioButtonSH.AutoSize = true;
-            this.radioButtonSH.Location = new System.Drawing.Point(3, 3);
+            this.radioButtonSH.Location = new System.Drawing.Point(4, 4);
+            this.radioButtonSH.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSH.Name = "radioButtonSH";
-            this.radioButtonSH.Size = new System.Drawing.Size(124, 17);
+            this.radioButtonSH.Size = new System.Drawing.Size(161, 21);
             this.radioButtonSH.TabIndex = 51;
             this.radioButtonSH.TabStop = true;
             this.radioButtonSH.Text = "Self-Healing Scenaio";
@@ -112,9 +113,10 @@
             // radioButtonSO
             // 
             this.radioButtonSO.AutoSize = true;
-            this.radioButtonSO.Location = new System.Drawing.Point(3, 26);
+            this.radioButtonSO.Location = new System.Drawing.Point(4, 33);
+            this.radioButtonSO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSO.Name = "radioButtonSO";
-            this.radioButtonSO.Size = new System.Drawing.Size(139, 17);
+            this.radioButtonSO.Size = new System.Drawing.Size(184, 21);
             this.radioButtonSO.TabIndex = 52;
             this.radioButtonSO.TabStop = true;
             this.radioButtonSO.Text = "Self-Optimizing Scenario";
@@ -123,9 +125,10 @@
             // radioButtonSP
             // 
             this.radioButtonSP.AutoSize = true;
-            this.radioButtonSP.Location = new System.Drawing.Point(3, 49);
+            this.radioButtonSP.Location = new System.Drawing.Point(4, 62);
+            this.radioButtonSP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSP.Name = "radioButtonSP";
-            this.radioButtonSP.Size = new System.Drawing.Size(139, 17);
+            this.radioButtonSP.Size = new System.Drawing.Size(182, 21);
             this.radioButtonSP.TabIndex = 53;
             this.radioButtonSP.TabStop = true;
             this.radioButtonSP.Text = "Self-Protecting Scenario";
@@ -134,9 +137,10 @@
             // radioButtonSC
             // 
             this.radioButtonSC.AutoSize = true;
-            this.radioButtonSC.Location = new System.Drawing.Point(3, 72);
+            this.radioButtonSC.Location = new System.Drawing.Point(4, 91);
+            this.radioButtonSC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSC.Name = "radioButtonSC";
-            this.radioButtonSC.Size = new System.Drawing.Size(144, 17);
+            this.radioButtonSC.Size = new System.Drawing.Size(190, 21);
             this.radioButtonSC.TabIndex = 54;
             this.radioButtonSC.TabStop = true;
             this.radioButtonSC.Text = "Self-Configuring Scenario";
@@ -145,25 +149,54 @@
             // checkBoxOurs
             // 
             this.checkBoxOurs.AutoSize = true;
-            this.checkBoxOurs.Location = new System.Drawing.Point(3, 339);
+            this.checkBoxOurs.Location = new System.Drawing.Point(4, 377);
+            this.checkBoxOurs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxOurs.Name = "checkBoxOurs";
-            this.checkBoxOurs.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxOurs.Size = new System.Drawing.Size(101, 21);
             this.checkBoxOurs.TabIndex = 56;
             this.checkBoxOurs.Text = "OurMethod";
             this.checkBoxOurs.UseVisualStyleBackColor = true;
             this.checkBoxOurs.CheckedChanged += new System.EventHandler(this.CheckBoxOursCheckedChanged);
+            // 
+            // lblAdaptingText
+            // 
+            this.lblAdaptingText.AutoSize = true;
+            this.lblAdaptingText.BackColor = System.Drawing.Color.Transparent;
+            this.lblAdaptingText.ForeColor = System.Drawing.Color.Black;
+            this.lblAdaptingText.Location = new System.Drawing.Point(0, 304);
+            this.lblAdaptingText.Margin = new System.Windows.Forms.Padding(0);
+            this.lblAdaptingText.Name = "lblAdaptingText";
+            this.lblAdaptingText.Size = new System.Drawing.Size(94, 20);
+            this.lblAdaptingText.TabIndex = 57;
+            this.lblAdaptingText.Text = "Adapting time: ";
+            this.lblAdaptingText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAdaptingText.UseCompatibleTextRendering = true;
+            // 
+            // lblOptimizingText
+            // 
+            this.lblOptimizingText.AutoSize = true;
+            this.lblOptimizingText.BackColor = System.Drawing.Color.Transparent;
+            this.lblOptimizingText.ForeColor = System.Drawing.Color.Black;
+            this.lblOptimizingText.Location = new System.Drawing.Point(0, 324);
+            this.lblOptimizingText.Margin = new System.Windows.Forms.Padding(0);
+            this.lblOptimizingText.Name = "lblOptimizingText";
+            this.lblOptimizingText.Size = new System.Drawing.Size(103, 20);
+            this.lblOptimizingText.TabIndex = 58;
+            this.lblOptimizingText.Text = "Message count: ";
+            this.lblOptimizingText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblOptimizingText.UseCompatibleTextRendering = true;
             // 
             // lblAdapting
             // 
             this.lblAdapting.AutoSize = true;
             this.lblAdapting.BackColor = System.Drawing.Color.Transparent;
             this.lblAdapting.ForeColor = System.Drawing.Color.Black;
-            this.lblAdapting.Location = new System.Drawing.Point(0, 262);
+            this.lblAdapting.Location = new System.Drawing.Point(198, 304);
             this.lblAdapting.Margin = new System.Windows.Forms.Padding(0);
             this.lblAdapting.Name = "lblAdapting";
-            this.lblAdapting.Size = new System.Drawing.Size(80, 17);
-            this.lblAdapting.TabIndex = 57;
-            this.lblAdapting.Text = "Adapting time: ";
+            this.lblAdapting.Size = new System.Drawing.Size(35, 20);
+            this.lblAdapting.TabIndex = 59;
+            this.lblAdapting.Text = "0000";
             this.lblAdapting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblAdapting.UseCompatibleTextRendering = true;
             // 
@@ -172,49 +205,22 @@
             this.lblOptimizing.AutoSize = true;
             this.lblOptimizing.BackColor = System.Drawing.Color.Transparent;
             this.lblOptimizing.ForeColor = System.Drawing.Color.Black;
-            this.lblOptimizing.Location = new System.Drawing.Point(0, 279);
+            this.lblOptimizing.Location = new System.Drawing.Point(198, 324);
             this.lblOptimizing.Margin = new System.Windows.Forms.Padding(0);
             this.lblOptimizing.Name = "lblOptimizing";
-            this.lblOptimizing.Size = new System.Drawing.Size(87, 17);
-            this.lblOptimizing.TabIndex = 58;
-            this.lblOptimizing.Text = "Message count: ";
+            this.lblOptimizing.Size = new System.Drawing.Size(35, 20);
+            this.lblOptimizing.TabIndex = 60;
+            this.lblOptimizing.Text = "0000";
             this.lblOptimizing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblOptimizing.UseCompatibleTextRendering = true;
-            // 
-            // labelAdapting
-            // 
-            this.labelAdapting.AutoSize = true;
-            this.labelAdapting.BackColor = System.Drawing.Color.Transparent;
-            this.labelAdapting.ForeColor = System.Drawing.Color.Black;
-            this.labelAdapting.Location = new System.Drawing.Point(155, 262);
-            this.labelAdapting.Margin = new System.Windows.Forms.Padding(0);
-            this.labelAdapting.Name = "labelAdapting";
-            this.labelAdapting.Size = new System.Drawing.Size(29, 17);
-            this.labelAdapting.TabIndex = 59;
-            this.labelAdapting.Text = "0000";
-            this.labelAdapting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelAdapting.UseCompatibleTextRendering = true;
-            // 
-            // lableOptimizing
-            // 
-            this.lableOptimizing.AutoSize = true;
-            this.lableOptimizing.BackColor = System.Drawing.Color.Transparent;
-            this.lableOptimizing.ForeColor = System.Drawing.Color.Black;
-            this.lableOptimizing.Location = new System.Drawing.Point(155, 279);
-            this.lableOptimizing.Margin = new System.Windows.Forms.Padding(0);
-            this.lableOptimizing.Name = "lableOptimizing";
-            this.lableOptimizing.Size = new System.Drawing.Size(29, 17);
-            this.lableOptimizing.TabIndex = 60;
-            this.lableOptimizing.Text = "0000";
-            this.lableOptimizing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lableOptimizing.UseCompatibleTextRendering = true;
             // 
             // checkBoxMultiOff
             // 
             this.checkBoxMultiOff.AutoSize = true;
-            this.checkBoxMultiOff.Location = new System.Drawing.Point(3, 316);
+            this.checkBoxMultiOff.Location = new System.Drawing.Point(4, 348);
+            this.checkBoxMultiOff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxMultiOff.Name = "checkBoxMultiOff";
-            this.checkBoxMultiOff.Size = new System.Drawing.Size(61, 17);
+            this.checkBoxMultiOff.Size = new System.Drawing.Size(78, 21);
             this.checkBoxMultiOff.TabIndex = 61;
             this.checkBoxMultiOff.Text = "multiOff";
             this.checkBoxMultiOff.UseVisualStyleBackColor = true;
@@ -226,9 +232,9 @@
             this.panelSetting.Controls.Add(this.tableLayoutPanel1);
             this.panelSetting.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelSetting.Location = new System.Drawing.Point(0, 0);
-            this.panelSetting.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelSetting.Margin = new System.Windows.Forms.Padding(2);
             this.panelSetting.Name = "panelSetting";
-            this.panelSetting.Size = new System.Drawing.Size(284, 511);
+            this.panelSetting.Size = new System.Drawing.Size(355, 639);
             this.panelSetting.TabIndex = 62;
             // 
             // tableLayoutPanel1
@@ -242,13 +248,10 @@
             this.tableLayoutPanel1.Controls.Add(this.radioButtonSP, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.radioButtonSC, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.button1, 0, 23);
-            this.tableLayoutPanel1.Controls.Add(this.lblAdapting, 0, 16);
-            this.tableLayoutPanel1.Controls.Add(this.labelAdapting, 1, 16);
-            this.tableLayoutPanel1.Controls.Add(this.lblOptimizing, 0, 17);
-            this.tableLayoutPanel1.Controls.Add(this.lableOptimizing, 1, 17);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 18);
-            this.tableLayoutPanel1.Controls.Add(this.lblSize, 1, 18);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxMultiOff, 0, 19);
+            this.tableLayoutPanel1.Controls.Add(this.lblAdaptingText, 0, 16);
+            this.tableLayoutPanel1.Controls.Add(this.lblAdapting, 1, 16);
+            this.tableLayoutPanel1.Controls.Add(this.lblOptimizingText, 0, 17);
+            this.tableLayoutPanel1.Controls.Add(this.lblOptimizing, 1, 17);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxOurs, 0, 20);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 15);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 14);
@@ -264,9 +267,10 @@
             this.tableLayoutPanel1.Controls.Add(this.numMessengersCount, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.label8, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxMultiOff, 0, 18);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 24;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -293,46 +297,18 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(284, 511);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(355, 639);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(0, 296);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 17);
-            this.label1.TabIndex = 62;
-            this.label1.Text = "Environment size:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.UseCompatibleTextRendering = true;
-            // 
-            // lblSize
-            // 
-            this.lblSize.AutoSize = true;
-            this.lblSize.BackColor = System.Drawing.Color.Transparent;
-            this.lblSize.ForeColor = System.Drawing.Color.Black;
-            this.lblSize.Location = new System.Drawing.Point(155, 296);
-            this.lblSize.Margin = new System.Windows.Forms.Padding(0);
-            this.lblSize.Name = "lblSize";
-            this.lblSize.Size = new System.Drawing.Size(29, 17);
-            this.lblSize.TabIndex = 67;
-            this.lblSize.Text = "0000";
-            this.lblSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblSize.UseCompatibleTextRendering = true;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(0, 238);
+            this.label7.Location = new System.Drawing.Point(0, 278);
             this.label7.Margin = new System.Windows.Forms.Padding(0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(104, 17);
+            this.label7.Size = new System.Drawing.Size(123, 20);
             this.label7.TabIndex = 68;
             this.label7.Text = "Normal radio range:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -343,10 +319,10 @@
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(0, 214);
+            this.label6.Location = new System.Drawing.Point(0, 252);
             this.label6.Margin = new System.Windows.Forms.Padding(0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(129, 17);
+            this.label6.Size = new System.Drawing.Size(153, 20);
             this.label6.TabIndex = 68;
             this.label6.Text = "Messengers radio range:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -357,10 +333,10 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(0, 190);
+            this.label5.Location = new System.Drawing.Point(0, 226);
             this.label5.Margin = new System.Windows.Forms.Padding(0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 17);
+            this.label5.Size = new System.Drawing.Size(95, 20);
             this.label5.TabIndex = 66;
             this.label5.Text = "Workers count:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -371,10 +347,10 @@
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(0, 166);
+            this.label4.Location = new System.Drawing.Point(0, 200);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(73, 17);
+            this.label4.Size = new System.Drawing.Size(86, 20);
             this.label4.TabIndex = 65;
             this.label4.Text = "Teams count:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -385,10 +361,10 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(0, 142);
+            this.label3.Location = new System.Drawing.Point(0, 174);
             this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 17);
+            this.label3.Size = new System.Drawing.Size(84, 20);
             this.label3.TabIndex = 64;
             this.label3.Text = "Rulers count:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -399,10 +375,10 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(0, 118);
+            this.label2.Location = new System.Drawing.Point(0, 148);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(100, 17);
+            this.label2.Size = new System.Drawing.Size(118, 20);
             this.label2.TabIndex = 63;
             this.label2.Text = "Messengers count:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -410,8 +386,8 @@
             // 
             // numNormalRadioRange
             // 
-            this.numNormalRadioRange.Location = new System.Drawing.Point(157, 240);
-            this.numNormalRadioRange.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numNormalRadioRange.Location = new System.Drawing.Point(200, 280);
+            this.numNormalRadioRange.Margin = new System.Windows.Forms.Padding(2);
             this.numNormalRadioRange.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -423,7 +399,7 @@
             0,
             0});
             this.numNormalRadioRange.Name = "numNormalRadioRange";
-            this.numNormalRadioRange.Size = new System.Drawing.Size(59, 20);
+            this.numNormalRadioRange.Size = new System.Drawing.Size(74, 22);
             this.numNormalRadioRange.TabIndex = 70;
             this.numNormalRadioRange.Value = new decimal(new int[] {
             150,
@@ -433,8 +409,8 @@
             // 
             // numMessengersRadioRange
             // 
-            this.numMessengersRadioRange.Location = new System.Drawing.Point(157, 216);
-            this.numMessengersRadioRange.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numMessengersRadioRange.Location = new System.Drawing.Point(200, 254);
+            this.numMessengersRadioRange.Margin = new System.Windows.Forms.Padding(2);
             this.numMessengersRadioRange.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -446,7 +422,7 @@
             0,
             0});
             this.numMessengersRadioRange.Name = "numMessengersRadioRange";
-            this.numMessengersRadioRange.Size = new System.Drawing.Size(59, 20);
+            this.numMessengersRadioRange.Size = new System.Drawing.Size(74, 22);
             this.numMessengersRadioRange.TabIndex = 70;
             this.numMessengersRadioRange.Value = new decimal(new int[] {
             30,
@@ -456,8 +432,8 @@
             // 
             // numWorkersCount
             // 
-            this.numWorkersCount.Location = new System.Drawing.Point(157, 192);
-            this.numWorkersCount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numWorkersCount.Location = new System.Drawing.Point(200, 228);
+            this.numWorkersCount.Margin = new System.Windows.Forms.Padding(2);
             this.numWorkersCount.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -469,7 +445,7 @@
             0,
             0});
             this.numWorkersCount.Name = "numWorkersCount";
-            this.numWorkersCount.Size = new System.Drawing.Size(59, 20);
+            this.numWorkersCount.Size = new System.Drawing.Size(74, 22);
             this.numWorkersCount.TabIndex = 70;
             this.numWorkersCount.Value = new decimal(new int[] {
             30,
@@ -479,8 +455,8 @@
             // 
             // numTeamsCount
             // 
-            this.numTeamsCount.Location = new System.Drawing.Point(157, 168);
-            this.numTeamsCount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numTeamsCount.Location = new System.Drawing.Point(200, 202);
+            this.numTeamsCount.Margin = new System.Windows.Forms.Padding(2);
             this.numTeamsCount.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -492,7 +468,7 @@
             0,
             0});
             this.numTeamsCount.Name = "numTeamsCount";
-            this.numTeamsCount.Size = new System.Drawing.Size(59, 20);
+            this.numTeamsCount.Size = new System.Drawing.Size(74, 22);
             this.numTeamsCount.TabIndex = 70;
             this.numTeamsCount.Value = new decimal(new int[] {
             20,
@@ -502,8 +478,8 @@
             // 
             // numRulersCount
             // 
-            this.numRulersCount.Location = new System.Drawing.Point(157, 144);
-            this.numRulersCount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numRulersCount.Location = new System.Drawing.Point(200, 176);
+            this.numRulersCount.Margin = new System.Windows.Forms.Padding(2);
             this.numRulersCount.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -515,7 +491,7 @@
             0,
             0});
             this.numRulersCount.Name = "numRulersCount";
-            this.numRulersCount.Size = new System.Drawing.Size(59, 20);
+            this.numRulersCount.Size = new System.Drawing.Size(74, 22);
             this.numRulersCount.TabIndex = 70;
             this.numRulersCount.Value = new decimal(new int[] {
             16,
@@ -525,8 +501,8 @@
             // 
             // numMessengersCount
             // 
-            this.numMessengersCount.Location = new System.Drawing.Point(157, 120);
-            this.numMessengersCount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numMessengersCount.Location = new System.Drawing.Point(200, 150);
+            this.numMessengersCount.Margin = new System.Windows.Forms.Padding(2);
             this.numMessengersCount.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -538,7 +514,7 @@
             0,
             0});
             this.numMessengersCount.Name = "numMessengersCount";
-            this.numMessengersCount.Size = new System.Drawing.Size(59, 20);
+            this.numMessengersCount.Size = new System.Drawing.Size(74, 22);
             this.numMessengersCount.TabIndex = 70;
             this.numMessengersCount.Value = new decimal(new int[] {
             160,
@@ -555,18 +531,18 @@
             this.tableLayoutPanel2.Controls.Add(this.numWidth, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.numHeight, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.label9, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(157, 94);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(200, 118);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(121, 21);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(151, 26);
             this.tableLayoutPanel2.TabIndex = 73;
             // 
             // numWidth
             // 
             this.numWidth.Location = new System.Drawing.Point(2, 2);
-            this.numWidth.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numWidth.Margin = new System.Windows.Forms.Padding(2);
             this.numWidth.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -578,7 +554,7 @@
             0,
             0});
             this.numWidth.Name = "numWidth";
-            this.numWidth.Size = new System.Drawing.Size(44, 20);
+            this.numWidth.Size = new System.Drawing.Size(55, 22);
             this.numWidth.TabIndex = 71;
             this.numWidth.Value = new decimal(new int[] {
             1500,
@@ -588,8 +564,8 @@
             // 
             // numHeight
             // 
-            this.numHeight.Location = new System.Drawing.Point(71, 2);
-            this.numHeight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numHeight.Location = new System.Drawing.Point(87, 2);
+            this.numHeight.Margin = new System.Windows.Forms.Padding(2);
             this.numHeight.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -601,7 +577,7 @@
             0,
             0});
             this.numHeight.Name = "numHeight";
-            this.numHeight.Size = new System.Drawing.Size(44, 20);
+            this.numHeight.Size = new System.Drawing.Size(55, 22);
             this.numHeight.TabIndex = 72;
             this.numHeight.Value = new decimal(new int[] {
             1500,
@@ -615,10 +591,10 @@
             this.label9.BackColor = System.Drawing.Color.Transparent;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(48, 0);
+            this.label9.Location = new System.Drawing.Point(59, 0);
             this.label9.Margin = new System.Windows.Forms.Padding(0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(21, 23);
+            this.label9.Size = new System.Drawing.Size(26, 29);
             this.label9.TabIndex = 63;
             this.label9.Text = "×";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -629,10 +605,10 @@
             this.label8.AutoEllipsis = true;
             this.label8.BackColor = System.Drawing.Color.Transparent;
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(0, 92);
+            this.label8.Location = new System.Drawing.Point(0, 116);
             this.label8.Margin = new System.Windows.Forms.Padding(0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(155, 26);
+            this.label8.Size = new System.Drawing.Size(194, 32);
             this.label8.TabIndex = 63;
             this.label8.Text = "Environment Size: W× H";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -640,11 +616,12 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(884, 511);
+            this.ClientSize = new System.Drawing.Size(1105, 639);
             this.Controls.Add(this.panelSetting);
             this.Controls.Add(this.guiOpenGLFrame);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.Text = "NASA ANTS Simulation";
             this.panelSetting.ResumeLayout(false);
@@ -672,19 +649,17 @@
         private System.Windows.Forms.RadioButton radioButtonSP;
         private System.Windows.Forms.RadioButton radioButtonSC;
         private System.Windows.Forms.CheckBox checkBoxOurs;
-        private System.Windows.Forms.Label lblAdapting;
-        private System.Windows.Forms.Label lblOptimizing;
-        public System.Windows.Forms.Label labelAdapting;
-        public System.Windows.Forms.Label lableOptimizing;
+        private System.Windows.Forms.Label lblAdaptingText;
+        private System.Windows.Forms.Label lblOptimizingText;
+        public System.Windows.Forms.Label lblAdapting;
+        public System.Windows.Forms.Label lblOptimizing;
         private System.Windows.Forms.CheckBox checkBoxMultiOff;
         private System.Windows.Forms.Panel panelSetting;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        public System.Windows.Forms.Label lblSize;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown numMessengersCount;
