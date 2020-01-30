@@ -104,7 +104,7 @@ namespace Simulation.Roles
                 }
                 else //must route Message
                 {
-                    if (GetPosition().Position.CalculateDistance(message.ReceiverAgent.GetPosition().Position) <= RadioRange)
+                    if (Position.Position.CalculateDistance(message.ReceiverAgent.Position.Position) <= RadioRange)
                     {
                         message.CurrentReceiverAgentId = message.ReceiverAgentId;
                         message.CurrentReceiverAgent = message.ReceiverAgent;
@@ -116,7 +116,7 @@ namespace Simulation.Roles
                     }
                     else
                     {
-                        var mAgent = FindNearestMessenger(GetPosition(), message.ReceiverAgent.GetPosition(), message);
+                        var mAgent = FindNearestMessenger(Position, message.ReceiverAgent.Position, message);
                         if (mAgent == null)
                         {
                             RadioRange += 50;
@@ -153,7 +153,7 @@ namespace Simulation.Roles
                 Container.ContainerMedia.SendMessage(this, message.Copy());
             }
 
-            else if (GetPosition().Position.CalculateDistance(message.ReceiverAgent.GetPosition().Position) <= RadioRange)
+            else if (Position.Position.CalculateDistance(message.ReceiverAgent.Position.Position) <= RadioRange)
             {
                 if (message.MessageContent == MessagesContent.Ping)
                 {
@@ -212,7 +212,7 @@ namespace Simulation.Roles
                 }
 
 
-                var mAgent = FindNearestMessenger(GetPosition(), message.ReceiverAgent.GetPosition(), message);
+                var mAgent = FindNearestMessenger(Position, message.ReceiverAgent.Position, message);
                 if (mAgent == null)
                 {
                     RadioRange += 50;
@@ -247,14 +247,14 @@ namespace Simulation.Roles
                 MessageType = messageType
             };
 
-            if (GetPosition().Position.CalculateDistance(message.ReceiverAgent.GetPosition().Position) <= RadioRange)
+            if (Position.Position.CalculateDistance(message.ReceiverAgent.Position.Position) <= RadioRange)
             {
                 message.CurrentReceiverAgent = message.ReceiverAgent;
                 message.CurrentReceiverAgentId = message.ReceiverAgentId;
             }
             else
             {
-                var temp = FindNearestMessenger(GetPosition(), receiverAgent.GetPosition(), message);
+                var temp = FindNearestMessenger(Position, receiverAgent.Position, message);
                 message.RulerPingReply = rulerAgent;
                 message.CurrentReceiverAgent = temp;
                 message.CurrentReceiverAgentId = temp.AgentId;
@@ -275,12 +275,12 @@ namespace Simulation.Roles
 
                     if (foundAgent == null)
                     {
-                        if (agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) <= RadioRange &&
-                            agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +
-                            destPosition.Position.CalculateDistance(mAgent.GetPosition().Position) < minDist)
+                        if (agentPosition.Position.CalculateDistance(mAgent.Position.Position) <= RadioRange &&
+                            agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
+                            destPosition.Position.CalculateDistance(mAgent.Position.Position) < minDist)
                         {
-                            minDist = agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +
-                                      destPosition.Position.CalculateDistance(mAgent.GetPosition().Position);
+                            minDist = agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
+                                      destPosition.Position.CalculateDistance(mAgent.Position.Position);
                             nAgent = mAgent;
                         }
                     }

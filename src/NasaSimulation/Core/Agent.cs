@@ -6,9 +6,9 @@ namespace Simulation.Core
     {
         protected Configuration Config { get; }
         protected Container Container { get; }
-        protected AgentPosition Position { get; }
         public string AgentId { set; get; }
         public double RadioRange { set; get; }
+        public AgentPosition Position { get; }
 
 
         public Agent(Configuration config, AgentPosition position, string id, Container cont)
@@ -28,10 +28,6 @@ namespace Simulation.Core
         public virtual void FreeUpdateOneMillisecond()
         {
             FreeMovement();
-        }
-        public AgentPosition GetPosition()
-        {
-            return Position;
         }
         protected virtual void Movement()
         {

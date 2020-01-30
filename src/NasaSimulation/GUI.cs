@@ -225,7 +225,7 @@ namespace Simulation
 
                     foreach (var agent in team.AgentsArray)
                     {
-                        var tempAgentPosition = agent.GetPosition();
+                        var tempAgentPosition = agent.Position;
                         GL.Vertex2(tempAgentPosition.Position.X, tempAgentPosition.Position.Y);
                     }
 
@@ -233,7 +233,7 @@ namespace Simulation
                     GL.Color3(0f, 0f, 125f);
                     GL.PointSize(5);
                     GL.Begin(PrimitiveType.Points);
-                    GL.Vertex2(team.OrgLeader.GetPosition().Position.X, team.OrgLeader.GetPosition().Position.Y);
+                    GL.Vertex2(team.OrgLeader.Position.Position.X, team.OrgLeader.Position.Position.Y);
                     GL.End();
                 }
 
@@ -241,16 +241,16 @@ namespace Simulation
 
                 foreach (var messenger in EnvironmentContainer.MessengerList)
                 {
-                    DrawMessenger(messenger.GetPosition().Position);
+                    DrawMessenger(messenger.Position.Position);
                 }
 
                 foreach (var ruler in EnvironmentContainer.RulerList)
                 {
                     if (ruler.Status == State.Stable)
-                        DrawRuler(ruler.GetPosition().Position);
+                        DrawRuler(ruler.Position.Position);
                     else
                     {
-                        DrawDisabledRuler(ruler.GetPosition().Position);
+                        DrawDisabledRuler(ruler.Position.Position);
                     }
                 }
 

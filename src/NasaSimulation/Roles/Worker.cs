@@ -20,12 +20,12 @@ namespace Simulation.Roles
             Messenger nAgent = null;
             foreach (var mAgent in Container.MessengerList)
             {
-                if (agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) <= RadioRange &&
-                    agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +
-                    destPosition.Position.CalculateDistance(mAgent.GetPosition().Position) < minDist)
+                if (agentPosition.Position.CalculateDistance(mAgent.Position.Position) <= RadioRange &&
+                    agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
+                    destPosition.Position.CalculateDistance(mAgent.Position.Position) < minDist)
                 {
-                    minDist = agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +
-                              destPosition.Position.CalculateDistance(mAgent.GetPosition().Position);
+                    minDist = agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
+                              destPosition.Position.CalculateDistance(mAgent.Position.Position);
                     nAgent = mAgent;
                 }
             }

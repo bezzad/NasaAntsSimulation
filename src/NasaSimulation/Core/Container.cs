@@ -246,10 +246,10 @@ namespace Simulation.Core
         internal List<Agent> GetMessengersInRange(Agent agent)
         {
             var listOfAgent = new List<Agent>();
-            var position = agent.GetPosition().Position;
+            var position = agent.Position.Position;
             foreach (var messengerAgent in MessengerList)
             {
-                var tempPosition = messengerAgent.GetPosition().Position;
+                var tempPosition = messengerAgent.Position.Position;
                 if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     if (agent.AgentId != messengerAgent.AgentId)
@@ -264,11 +264,11 @@ namespace Simulation.Core
         internal List<Agent> GetLeadersInRange(Agent agent)
         {
             var listOfAgent = new List<Agent>();
-            var position = agent.GetPosition().Position;
+            var position = agent.Position.Position;
             foreach (var team in TeamList)
             {
                 var leaderAgent = team.OrgLeader;
-                var tempPosition = leaderAgent.GetPosition().Position;
+                var tempPosition = leaderAgent.Position.Position;
                 if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     listOfAgent.Add(leaderAgent);
@@ -281,10 +281,10 @@ namespace Simulation.Core
         internal List<Agent> GetRulersInRange(Agent agent)
         {
             var listOfAgent = new List<Agent>();
-            var position = agent.GetPosition().Position;
+            var position = agent.Position.Position;
             foreach (var rulerAgent in RulerList)
             {
-                var tempPosition = rulerAgent.GetPosition().Position;
+                var tempPosition = rulerAgent.Position.Position;
                 if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     listOfAgent.Add(rulerAgent);
@@ -297,11 +297,11 @@ namespace Simulation.Core
         internal List<Agent> GetAgentsInRange(Agent agent)
         {
             var listOfAgent = new List<Agent>();
-            var position = agent.GetPosition().Position;
+            var position = agent.Position.Position;
             Point tempPosition;
             foreach (var messengerAgent in MessengerList)
             {
-                tempPosition = messengerAgent.GetPosition().Position;
+                tempPosition = messengerAgent.Position.Position;
                 if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     if (agent.AgentId != messengerAgent.AgentId)
@@ -312,7 +312,7 @@ namespace Simulation.Core
             }
             foreach (var rulerAgent in RulerList)
             {
-                tempPosition = rulerAgent.GetPosition().Position;
+                tempPosition = rulerAgent.Position.Position;
                 if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
                     if (agent.AgentId != rulerAgent.AgentId)
@@ -325,7 +325,7 @@ namespace Simulation.Core
             {
                 foreach (var workerAgent in team.AgentsArray)
                 {
-                    tempPosition = workerAgent.GetPosition().Position;
+                    tempPosition = workerAgent.Position.Position;
                     if (CalculateInRange(position, tempPosition, agent.RadioRange))
                     {
                         if (agent.AgentId != workerAgent.AgentId)
