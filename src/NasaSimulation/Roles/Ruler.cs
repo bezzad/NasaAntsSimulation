@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Simulation.Core;
+﻿using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Tools;
+using System.Collections.Generic;
 
 namespace Simulation.Roles
 {
@@ -15,8 +14,8 @@ namespace Simulation.Roles
         public State Status { set; get; }
 
 
-        public Ruler(Configuration config, Area area, Container cont, Agent agent) 
-            :base(config)
+        public Ruler(Configuration config, Area area, Container cont, Agent agent)
+            : base(config)
         {
             RoleName = RolesName.Ruler.ToString();
             RulerArea = area;
@@ -60,7 +59,7 @@ namespace Simulation.Roles
             }
             return tempTeamList;
         }
-        
+
         public void GetAndSendMessage(Message message)
         {
             if (message.ReceiverAgentId == RulerAgent.AgentId)
@@ -144,7 +143,7 @@ namespace Simulation.Roles
                         };
                         if (message.ReceiverAgent.AgentType == RolesName.Messenger)
                         {
-                            if (RulerAgent.GetPosition().Position.CalculateDistance( replyMessage.ReceiverAgent.GetPosition().Position) < RadioRange)
+                            if (RulerAgent.GetPosition().Position.CalculateDistance(replyMessage.ReceiverAgent.GetPosition().Position) < RadioRange)
                             {
                                 replyMessage.CurrentReceiverAgent = replyMessage.ReceiverAgent;
                                 replyMessage.CurrentReceiverAgentId = replyMessage.ReceiverAgentId;
@@ -188,7 +187,7 @@ namespace Simulation.Roles
             }
 
         }
-        
+
         private Agent FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
         {
             double minDist = 10000;
@@ -196,8 +195,8 @@ namespace Simulation.Roles
 
             foreach (var mAgent in Container.MessengerList)
             {
-                if (agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) <= RadioRange && 
-                    agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) + 
+                if (agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) <= RadioRange &&
+                    agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +
                     destPosition.Position.CalculateDistance(mAgent.GetPosition().Position) < minDist)
                 {
                     minDist = agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) +

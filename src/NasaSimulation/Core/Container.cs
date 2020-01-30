@@ -11,23 +11,13 @@ namespace Simulation.Core
 {
     public class Container
     {
-        //Parameters ---------------------------------------------------------
-        protected Configuration Config { get; }
-        public Media ContainerMedia { set; get; }
-        private List<Event> EventQueue { get; } = new List<Event>();
-
-        // not used
-        public List<Team> TeamList { get; set; } = new List<Team>();
-        public List<Agent> MessengerList = new List<Agent>();
-        public List<Agent> RulerList = new List<Agent>();
-
-        public Area[] AreaArray = new Area[16];
-
-
-        //Implementation ----------------------------------------------------
         public Container(Configuration config)
         {
             Config = config;
+            TeamList = new List<Team>();
+            MessengerList = new List<Agent>();
+            RulerList = new List<Agent>();
+            AreaArray = new List<Area>();
             ContainerMedia = new Media(Config, this);
             Time.GlobalSimulationTime = 0;
 
@@ -47,26 +37,40 @@ namespace Simulation.Core
             CreateRulers();
         }
 
+
+
+
+        //Parameters ---------------------------------------------------------
+        protected Configuration Config { get; }
+        public Media ContainerMedia { set; get; }
+        private List<Event> EventQueue { get; } = new List<Event>();
+
+
+        public List<Team> TeamList { get; set; }
+        public List<Agent> MessengerList { get; set; }
+        public List<Agent> RulerList { get; set; }
+        public List<Area> AreaArray { get; set; }
+
+
+
         private void InitializeAreas()
         {
-            var iArea = 0;
-            for (double ix = 0; ix <= 750; ix += 250)
+            var areaLen = Config.TeamOrganizationRadius * 4;
+            for (double ix = 0; ix <= Config.UpperBoarder.X; ix += areaLen)
             {
-                for (double iy = 0; iy <= 750; iy += 250)
+                for (double iy = 0; iy <= Config.UpperBoarder.Y; iy += areaLen)
                 {
-                    var tempArea = new Area { MinX = ix, MinY = iy, MaxX = ix + 250, MaxY = iy + 250 };
-                    AreaArray[iArea] = tempArea;
-                    iArea++;
+                    var tempArea = new Area { MinX = ix, MinY = iy, MaxX = ix + areaLen, MaxY = iy + areaLen };
+                    AreaArray.Add(tempArea);
                 }
             }
         }
 
-
         public void CreateMessengers()
         {
-            for (var i = 0; i < AreaArray.Length; i++)
+            for (var i = 0; i < AreaArray.Count; i++)
             {
-                for (var j = 0; j < Config.MessengersCount / AreaArray.Length; j++)
+                for (var j = 0; j < Config.MessengersCount / AreaArray.Count; j++)
                 {
 
                     var tempPosition = SetAgentPosition();
