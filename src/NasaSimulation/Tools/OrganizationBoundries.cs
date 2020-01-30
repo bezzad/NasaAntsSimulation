@@ -1,6 +1,4 @@
-﻿using Simulation.Tools;
-
-namespace Simulation
+﻿namespace Simulation.Tools
 {
     public class OrganizationBoundries
     {

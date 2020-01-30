@@ -6,7 +6,7 @@ namespace Simulation
 {
     public class Agent
     {
-        readonly Random _random;
+        private static Random Rand { get; } = new Random();
         private AgentPosition Position { get; }
         private Container Container { get; }
         public string AgentId { set; get; }
@@ -23,7 +23,6 @@ namespace Simulation
             Container = cont;
             Position = position;
             AgentId = id;
-            _random = Program.R;
             TeamBoundary = orgBoundary;
 
             AgentType = agentRoleType;
@@ -52,11 +51,10 @@ namespace Simulation
             Position = position;
             AgentId = id;
             Container = container;
-            _random = Program.R;
             AgentType = agentRoleType;
             UpperBoarder = container.UpperBoarder;
             LowerBoarder = container.LowerBoarder;
-            var temptRole = new Role();
+            Role temptRole;
             switch (AgentType)
             {
                 case Role.RolesName.Messenger:
@@ -153,8 +151,8 @@ namespace Simulation
             {
                 var tempMessenger = (Messenger)AgentRole;
 
-                var x = (double)_random.Next((int)tempMessenger.MessengerArea.MinX, (int)tempMessenger.MessengerArea.MaxX);
-                var y = (double)_random.Next((int)tempMessenger.MessengerArea.MinY, (int)tempMessenger.MessengerArea.MaxY);
+                var x = (double)Rand.Next((int)tempMessenger.MessengerArea.MinX, (int)tempMessenger.MessengerArea.MaxX);
+                var y = (double)Rand.Next((int)tempMessenger.MessengerArea.MinY, (int)tempMessenger.MessengerArea.MaxY);
                 if (Position.Position.X > tempMessenger.MessengerArea.MaxX) Position.Position.X = x;
                 if (Position.Position.X < tempMessenger.MessengerArea.MinX) Position.Position.X = x;
                 if (Position.Position.Y > tempMessenger.MessengerArea.MaxY) Position.Position.Y = y;
@@ -167,8 +165,8 @@ namespace Simulation
             {
                 var tempRuler = (Ruler)AgentRole;
 
-                var x = (double)_random.Next((int)tempRuler.RulerArea.MinX, (int)tempRuler.RulerArea.MaxX);
-                var y = (double)_random.Next((int)tempRuler.RulerArea.MinY, (int)tempRuler.RulerArea.MaxY);
+                var x = (double)Rand.Next((int)tempRuler.RulerArea.MinX, (int)tempRuler.RulerArea.MaxX);
+                var y = (double)Rand.Next((int)tempRuler.RulerArea.MinY, (int)tempRuler.RulerArea.MaxY);
                 if (Position.Position.X > tempRuler.RulerArea.MaxX) Position.Position.X = x;
                 if (Position.Position.X < tempRuler.RulerArea.MinX) Position.Position.X = x;
                 if (Position.Position.Y > tempRuler.RulerArea.MaxY) Position.Position.Y = y;
@@ -191,9 +189,9 @@ namespace Simulation
         }
         private void UpdateVelocity(AgentPosition position)
         {
-            var t1 = _random.NextDouble();
+            var t1 = Rand.NextDouble();
             t1 = (t1 - 0.5) * 2;
-            var t2 = _random.NextDouble();
+            var t2 = Rand.NextDouble();
             t2 = (t2 - 0.5) * 2;
             
             if ((position.Velocity.X * position.Velocity.X) + (position.Velocity.Y * position.Velocity.Y) > (Program.MaxSpeed * Program.MaxSpeed))

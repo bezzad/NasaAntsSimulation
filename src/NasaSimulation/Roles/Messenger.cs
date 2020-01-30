@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Simulation.Enums;
+using Simulation.Tools;
 
 namespace Simulation.Roles
 {

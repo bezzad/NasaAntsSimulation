@@ -75,7 +75,7 @@
     <Compile Include="Gui.cs" />
     <Compile Include="Media.cs" />
     <Compile Include="Message.cs" />
-    <Compile Include="OrganizationBoundries.cs" />
+    <Compile Include="Tools\OrganizationBoundries.cs" />
     <Compile Include="Tools\Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,7 +117,7 @@
     <Compile Include="Scenario\SelfHealingScenario1.cs" />
     <Compile Include="Enums\State.cs" />
     <Compile Include="Team.cs" />
-    <Compile Include="Time.cs" />
+    <Compile Include="Tools\Time.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

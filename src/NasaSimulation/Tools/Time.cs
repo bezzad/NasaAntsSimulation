@@ -1,4 +1,4 @@
-﻿namespace Simulation
+﻿namespace Simulation.Tools
 {
     public static class Time
     {

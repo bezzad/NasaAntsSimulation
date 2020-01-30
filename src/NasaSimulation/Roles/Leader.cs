@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using Simulation.Enums;
+using Simulation.Tools;
 
 namespace Simulation.Roles
 {
