@@ -71,7 +71,6 @@ namespace Simulation
 
             AnimationThread = new Thread(AnimationController.Run) { IsBackground = true, Priority = ThreadPriority.AboveNormal };
             AnimationThread.Start();
-
             //
             // create an timer to update UI form information like labels and size
             UiUpdater = new System.Timers.Timer(1000) { AutoReset = true };

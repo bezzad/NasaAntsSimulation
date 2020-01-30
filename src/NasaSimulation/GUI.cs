@@ -58,55 +58,6 @@ namespace Simulation
             }
         }
 
-        public void DrawMessenger(Point messengerCenter)
-        {
-            GL.Color3(0f, 255f, 0f);
-            var p1 = new Point();
-            var p2 = new Point();
-            var p3 = new Point();
-            var p4 = new Point();
-            var p5 = new Point();
-            var p6 = new Point();
-
-            p4.X = messengerCenter.X - 12;
-            p4.Y = messengerCenter.Y + 8;
-            p5.X = messengerCenter.X - 12;
-            p5.Y = messengerCenter.Y - 8;
-            p6.X = messengerCenter.X;
-            p6.Y = messengerCenter.Y;
-
-            p1.X = messengerCenter.X + 12;
-            p1.Y = messengerCenter.Y + 8;
-            p2.X = messengerCenter.X + 12;
-            p2.Y = messengerCenter.Y - 8;
-            p3.X = messengerCenter.X;
-            p3.Y = messengerCenter.Y;
-
-            GL.Begin(PrimitiveType.Lines);
-            GL.Vertex2(p3.X, p3.Y);
-            GL.Vertex2(p1.X, p1.Y);
-            GL.Vertex2(p1.X, p1.Y);
-            GL.Vertex2(p2.X, p2.Y);
-            GL.Vertex2(p2.X, p2.Y);
-            GL.Vertex2(p3.X, p3.Y);
-            GL.End();
-            GL.Begin(PrimitiveType.Lines);
-            GL.Vertex2(messengerCenter.X, messengerCenter.Y);
-            GL.Vertex2(messengerCenter.X, messengerCenter.Y - 20);
-            GL.End();
-
-
-            GL.Begin(PrimitiveType.Lines);
-
-            GL.Vertex2(p6.X, p6.Y);
-            GL.Vertex2(p4.X, p4.Y);
-            GL.Vertex2(p4.X, p4.Y);
-            GL.Vertex2(p5.X, p5.Y);
-            GL.Vertex2(p5.X, p5.Y);
-            GL.Vertex2(p6.X, p6.Y);
-            GL.End();
-        }
-
         public void DrawRuler(Point rulerCenter)
         {
             GL.Color3(0f, 255f, 255f);
@@ -241,7 +192,7 @@ namespace Simulation
 
                 foreach (var messenger in EnvironmentContainer.MessengerList)
                 {
-                    DrawMessenger(messenger.Position.Position);
+                    messenger.DrawMessenger();
                 }
 
                 foreach (var ruler in EnvironmentContainer.RulerList)

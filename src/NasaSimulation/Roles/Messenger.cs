@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Tools;
+using Configuration = Simulation.Core.Configuration;
 
 namespace Simulation.Roles
 {
@@ -341,6 +344,62 @@ namespace Simulation.Roles
 
             if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
                 UpdateVelocity(Position);
+        }
+
+        public void DrawMessenger()
+        {
+            var p = Position.Position;
+            GL.Color3(0f, 255f, 0f);
+            //
+            // +Y
+            // |     c________b  l_k  g________h
+            // |     |        \  | |  /        |
+            // |     |        a\_|p|_/f        |
+            // |     |         / | | \         |
+            // |     |________/  | |  \________|
+            // |     d       e   | |   j       i
+            // |                 |_|         
+            // |                 q r         
+            // |------------------------------------> +X                 
+            //
+            var a = new Point(p.X - 5, p.Y);
+            var b = new Point(a.X - 5, a.Y + 8);
+            var c = new Point(b.X - 15, b.Y);
+            var d = new Point(c.X, c.Y - 18);
+            var e = new Point(b.X, b.Y - 18);
+            var f = new Point(p.X + 5, p.Y);
+            var g = new Point(f.X + 5, f.Y + 8);
+            var h = new Point(g.X + 15, g.Y);
+            var i = new Point(h.X, h.Y - 18);
+            var j = new Point(g.X, g.Y - 18);
+            var l = new Point(p.X - 2, b.Y);
+            var k = new Point(p.X + 2, b.Y);
+            var q = new Point(l.X, e.Y - 18);
+            var r = new Point(k.X, j.Y - 18);
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(p.X, p.Y);
+            GL.Vertex2(a.X, a.Y);
+            GL.Vertex2(b.X, b.Y);
+            GL.Vertex2(c.X, c.Y);
+            GL.Vertex2(d.X, d.Y);
+            GL.Vertex2(e.X, e.Y);
+            GL.Vertex2(a.X, a.Y);
+            GL.Vertex2(f.X, f.Y);
+            GL.Vertex2(g.X, g.Y);
+            GL.Vertex2(h.X, h.Y);
+            GL.Vertex2(i.X, i.Y);
+            GL.Vertex2(j.X, j.Y);
+            GL.Vertex2(f.X, f.Y);
+            GL.End();
+            
+            GL.Begin(PrimitiveType.Polygon);
+            GL.Vertex2(k.X, k.Y);
+            GL.Vertex2(l.X, l.Y);
+            GL.Vertex2(q.X, q.Y);
+            GL.Vertex2(r.X, r.Y);
+            GL.Vertex2(k.X, k.Y);
+            GL.End();
         }
     }
 }
