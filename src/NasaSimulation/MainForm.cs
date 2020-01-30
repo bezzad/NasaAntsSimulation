@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
-using OpenTK.Graphics.OpenGL;
 using Simulation.Core;
 using Simulation.Scenario;
 using Simulation.Tools;
@@ -23,6 +23,7 @@ namespace Simulation
         private Gui AnimationController { get; set; }
         private Thread AnimationThread { get; set; }
         private Thread EnvironmentThread { get; set; }
+        protected System.Timers.Timer UiUpdater { get; set; }
         protected Configuration Config { get; set; }
 
 
@@ -42,8 +43,21 @@ namespace Simulation
 
         protected void RefreshInfo()
         {
-            lblAdapting.Text = Time.ConventionalAdaptingTime.ToString();
-            lblOptimizing.Text = (EnvironmentContainer.ContainerMedia.MessageCount - Config.StartMessageCount).ToString();
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(new MethodInvoker(RefreshInfo));
+                    return;
+                }
+
+                lblAdapting.Text = Time.ConventionalAdaptingTime.ToString();
+                lblOptimizing.Text = (EnvironmentContainer.ContainerMedia.MessageCount - Config.StartMessageCount).ToString();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         }
 
         private void BtnStartClick(object sender, EventArgs e)
@@ -72,9 +86,9 @@ namespace Simulation
 
             //
             // create an timer to update UI form information like labels and size
-            var uiUpdater = new System.Timers.Timer(1000) { AutoReset = true };
-            uiUpdater.Elapsed += delegate { Invoke(new MethodInvoker(RefreshInfo)); };
-            uiUpdater.Start();
+            UiUpdater = new System.Timers.Timer(1000) { AutoReset = true };
+            UiUpdater.Elapsed += delegate { RefreshInfo(); };
+            UiUpdater.Start();
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -82,6 +96,7 @@ namespace Simulation
             base.OnClosing(e);
 
             Config.EndOfApplication = true;
+            UiUpdater?.Stop();
             EnvironmentThread?.Abort();
             AnimationThread?.Abort();
         }

@@ -19,17 +19,18 @@ namespace Simulation
         protected Container EnvironmentContainer { get; }
         protected GLControl GuiFrame { get; set; }
         protected IGraphicsContext GlControlContext { get; set; }
-
+        protected double Padding { get; set; }
 
         public Gui(Configuration config, Container environmentContainer, GLControl frameControl)
         {
             Config = config;
             EnvironmentContainer = environmentContainer;
             GuiFrame = frameControl;
+            Padding = 100;
         }
 
         private void InitialGui()
-        {   
+        {
             if (GuiFrame.InvokeRequired)
             {
                 GuiFrame.Invoke(new MethodInvoker(InitialGui));
@@ -44,8 +45,9 @@ namespace Simulation
                 GL.MatrixMode(MatrixMode.Projection);
                 GL.LoadIdentity();
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit); // Clear the back buffer.
-                GL.Ortho(Config.LowerBoarder.X - 50, Config.UpperBoarder.X + 50, Config.LowerBoarder.Y - 50,
-                    Config.UpperBoarder.Y + 50, 0.0, 1.0);
+                GL.Ortho(Config.LowerBoarder.X - Padding, Config.UpperBoarder.X + Padding,
+                    Config.LowerBoarder.Y - Padding, Config.UpperBoarder.Y + Padding,
+                    0.0, 1.0);
                 GL.Enable(EnableCap.DepthTest);
                 GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
                 GL.DepthFunc(DepthFunction.Lequal);
@@ -189,8 +191,9 @@ namespace Simulation
         public void DrawCircle(Point orgCenter, double radius)
         {
             GL.Begin(PrimitiveType.LineLoop);
-           
-            for (var i = 0; i <= 300; i++){
+
+            for (var i = 0; i <= 300; i++)
+            {
                 var angle = 2 * Math.PI * i / 300;
                 var x = radius * Math.Cos(angle) + orgCenter.X + Config.LowerBoarder.X;
                 var y = radius * Math.Sin(angle) + orgCenter.Y + Config.LowerBoarder.Y;

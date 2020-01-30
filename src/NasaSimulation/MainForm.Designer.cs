@@ -80,7 +80,7 @@
             this.guiOpenGLFrame.AutoScroll = true;
             this.guiOpenGLFrame.BackColor = System.Drawing.Color.Black;
             this.guiOpenGLFrame.Location = new System.Drawing.Point(362, 0);
-            this.guiOpenGLFrame.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.guiOpenGLFrame.Margin = new System.Windows.Forms.Padding(5);
             this.guiOpenGLFrame.Name = "guiOpenGLFrame";
             this.guiOpenGLFrame.Size = new System.Drawing.Size(742, 639);
             this.guiOpenGLFrame.TabIndex = 0;
@@ -90,7 +90,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.MediumSpringGreen;
             this.button1.Location = new System.Drawing.Point(4, 573);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(72, 62);
             this.button1.TabIndex = 1;
@@ -102,7 +102,7 @@
             // 
             this.radioButtonSH.AutoSize = true;
             this.radioButtonSH.Location = new System.Drawing.Point(4, 4);
-            this.radioButtonSH.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonSH.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonSH.Name = "radioButtonSH";
             this.radioButtonSH.Size = new System.Drawing.Size(161, 21);
             this.radioButtonSH.TabIndex = 51;
@@ -114,7 +114,7 @@
             // 
             this.radioButtonSO.AutoSize = true;
             this.radioButtonSO.Location = new System.Drawing.Point(4, 33);
-            this.radioButtonSO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonSO.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonSO.Name = "radioButtonSO";
             this.radioButtonSO.Size = new System.Drawing.Size(184, 21);
             this.radioButtonSO.TabIndex = 52;
@@ -126,7 +126,7 @@
             // 
             this.radioButtonSP.AutoSize = true;
             this.radioButtonSP.Location = new System.Drawing.Point(4, 62);
-            this.radioButtonSP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonSP.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonSP.Name = "radioButtonSP";
             this.radioButtonSP.Size = new System.Drawing.Size(182, 21);
             this.radioButtonSP.TabIndex = 53;
@@ -138,7 +138,7 @@
             // 
             this.radioButtonSC.AutoSize = true;
             this.radioButtonSC.Location = new System.Drawing.Point(4, 91);
-            this.radioButtonSC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonSC.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonSC.Name = "radioButtonSC";
             this.radioButtonSC.Size = new System.Drawing.Size(190, 21);
             this.radioButtonSC.TabIndex = 54;
@@ -150,7 +150,7 @@
             // 
             this.checkBoxOurs.AutoSize = true;
             this.checkBoxOurs.Location = new System.Drawing.Point(4, 377);
-            this.checkBoxOurs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxOurs.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxOurs.Name = "checkBoxOurs";
             this.checkBoxOurs.Size = new System.Drawing.Size(101, 21);
             this.checkBoxOurs.TabIndex = 56;
@@ -218,7 +218,7 @@
             // 
             this.checkBoxMultiOff.AutoSize = true;
             this.checkBoxMultiOff.Location = new System.Drawing.Point(4, 348);
-            this.checkBoxMultiOff.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxMultiOff.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxMultiOff.Name = "checkBoxMultiOff";
             this.checkBoxMultiOff.Size = new System.Drawing.Size(78, 21);
             this.checkBoxMultiOff.TabIndex = 61;
@@ -557,7 +557,7 @@
             this.numWidth.Size = new System.Drawing.Size(55, 22);
             this.numWidth.TabIndex = 71;
             this.numWidth.Value = new decimal(new int[] {
-            1500,
+            1000,
             0,
             0,
             0});
@@ -580,7 +580,7 @@
             this.numHeight.Size = new System.Drawing.Size(55, 22);
             this.numHeight.TabIndex = 72;
             this.numHeight.Value = new decimal(new int[] {
-            1500,
+            1000,
             0,
             0,
             0});
@@ -621,7 +621,7 @@
             this.ClientSize = new System.Drawing.Size(1105, 639);
             this.Controls.Add(this.panelSetting);
             this.Controls.Add(this.guiOpenGLFrame);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "NASA ANTS Simulation";
             this.panelSetting.ResumeLayout(false);
