@@ -10,14 +10,14 @@ namespace Simulation.Core
         protected Configuration Config { get; }
         public int NumOfAgents { set; get; }
         public int OrganizationId { set; get; }
-        public string OrganizationName { set; get; }
         public List<Agent> AgentsArray;
-        public Agent OrgLeader;
+        public Leader OrgLeader;
         public OrganizationBoundries OrganizationBoundries;
         public Container Container;
 
 
-        public Team(Configuration config, int orgId, int agentCount, OrganizationBoundries orgBoundries, Container cont)
+        public Team(Configuration config, int orgId, int agentCount, 
+            OrganizationBoundries orgBoundries, Container cont)
         {
             Config = config;
             Container = cont;
@@ -35,12 +35,12 @@ namespace Simulation.Core
             OrgLeader = CreateLeader();
         }
 
-        private Agent CreateLeader()
+        private Leader CreateLeader()
         {
             var tempAgentPosition = SetAgentPosition();
             SetAgentVelocity(tempAgentPosition);
             var sId = "L" + OrganizationId;
-            var tempAgent = new Agent(Config, tempAgentPosition, sId, Role.RolesName.Leader, OrganizationBoundries, Container);
+            var tempAgent = new Leader(Config, tempAgentPosition, sId, OrganizationBoundries, Container);
             return tempAgent;
         }
 
@@ -49,7 +49,7 @@ namespace Simulation.Core
             var tempAgentPosition = SetAgentPosition();
             SetAgentVelocity(tempAgentPosition);
 
-            var tempAgent = new Agent(Config, tempAgentPosition, id, Role.RolesName.Worker, OrganizationBoundries, Container);
+            var tempAgent = new Worker(Config, tempAgentPosition, id, OrganizationBoundries, Container);
             return tempAgent;
         }
 
@@ -60,20 +60,6 @@ namespace Simulation.Core
             var degree = Config.Rnd.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);
             agentPosition.Velocity.X = v * Math.Cos(degree);
-
-            //if (degree >= 90 && degree < 180)
-            //{
-            //    agentPosition.Velocity.X *= -1;
-            //}
-            //if (degree >= 180 && degree < 270)
-            //{
-            //    agentPosition.Velocity.X *= -1;
-            //    agentPosition.Velocity.Y *= -1;
-            //}
-            //if (degree >= 270 && degree <= 360)
-            //{
-            //    agentPosition.Velocity.Y *= -1;
-            //}
         }
 
 

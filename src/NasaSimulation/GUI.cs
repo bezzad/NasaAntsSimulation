@@ -1,13 +1,12 @@
-﻿using System;
-using System.Drawing;
-using System.Threading;
-using System.Windows.Forms;
-using Simulation.Enums;
-using Simulation.Roles;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Simulation.Core;
+using Simulation.Enums;
+using System;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
 using Configuration = Simulation.Core.Configuration;
 using Point = Simulation.Tools.Point;
 
@@ -236,10 +235,6 @@ namespace Simulation
                     GL.Begin(PrimitiveType.Points);
                     GL.Vertex2(team.OrgLeader.GetPosition().Position.X, team.OrgLeader.GetPosition().Position.Y);
                     GL.End();
-
-
-
-
                 }
 
                 #endregion
@@ -249,14 +244,13 @@ namespace Simulation
                     DrawMessenger(messenger.GetPosition().Position);
                 }
 
-                foreach (var rulerAgent in EnvironmentContainer.RulerList)
+                foreach (var ruler in EnvironmentContainer.RulerList)
                 {
-                    var ruler = (Ruler)rulerAgent.AgentRole;
                     if (ruler.Status == State.Stable)
-                        DrawRuler(rulerAgent.GetPosition().Position);
+                        DrawRuler(ruler.GetPosition().Position);
                     else
                     {
-                        DrawDisabledRuler(rulerAgent.GetPosition().Position);
+                        DrawDisabledRuler(ruler.GetPosition().Position);
                     }
                 }
 

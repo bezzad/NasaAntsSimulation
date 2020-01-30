@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Simulation.Enums;
+﻿using Simulation.Enums;
+using Simulation.Roles;
+using System.Collections.Generic;
 
 namespace Simulation.Core
 {
@@ -17,7 +18,7 @@ namespace Simulation.Core
         public BroadcastType MessageType { set; get; }
         public int ReturnedStatus { set; get; }
         public MessagesContent MessageContent { set; get; }
-        public Agent RulerPingReply { set; get; }
+        public Ruler RulerPingReply { set; get; }
         public string DataMessageText { set; get; }
         public int NumOfBroadcastSteps { set; get; }
         public long RoutingTime { set; get; }

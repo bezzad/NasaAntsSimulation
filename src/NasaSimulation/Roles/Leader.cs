@@ -5,11 +5,11 @@ using Message = Simulation.Core.Message;
 
 namespace Simulation.Roles
 {
-    public class Leader : Role
+    public class Leader : Agent
     {
-        readonly Agent _leaderAgent;
-        readonly Container _container;
-        public Agent RulerAgent { set; get; }
+        public Ruler RulerAgent { set; get; }
+        protected OrganizationBoundries TeamBoundary { get; }
+
 
         //0 is corrupted 1 is OK and 2 is under ruler correction
         int _iStatus = 1;
@@ -17,12 +17,11 @@ namespace Simulation.Roles
         long _startPartialAdaptationTime = long.MaxValue;
 
 
-        public Leader(Configuration config, Agent agent, Container cont)
-            : base(config)
+        public Leader(Configuration config, AgentPosition pos, string id,
+            OrganizationBoundries orgBoundary, Container cont)
+            : base(config, pos, id, cont)
         {
-            RoleName = RolesName.Leader.ToString();
-            _leaderAgent = agent;
-            _container = cont;
+            TeamBoundary = orgBoundary;
         }
 
         public void OnTimedEvent()
@@ -33,7 +32,7 @@ namespace Simulation.Roles
                 {
                     _iStatus = 2;
                     _startPartialAdaptationTime = Time.GlobalSimulationTime;
-                    SendBroadcastMessage(_leaderAgent, _leaderAgent, BroadcastType.MessengerToLeaderBroadcast,
+                    SendBroadcastMessage(this, this, BroadcastType.MessengerToLeaderBroadcast,
                         MessagesContent.LostRuler, 1);
                 }
             }
@@ -42,7 +41,7 @@ namespace Simulation.Roles
             else if (RulerAgent != null && _iStatus == 1)
             {
                 _pingTime = Time.GlobalSimulationTime;
-                SendMessage(_leaderAgent, _leaderAgent, RulerAgent, RulerAgent.AgentId, BroadcastType.SendReceive,
+                SendMessage(this, this, RulerAgent, RulerAgent.AgentId, BroadcastType.SendReceive,
                          MessagesContent.Ping, "");
                 _iStatus = 3;
             }
@@ -54,7 +53,7 @@ namespace Simulation.Roles
                     Config.EndOfSimulation = true;
                 }
                 _startPartialAdaptationTime = Time.GlobalSimulationTime;
-                SendBroadcastMessage(_leaderAgent, _leaderAgent,
+                SendBroadcastMessage(this, this,
                     BroadcastType.MessengerToLeaderBroadcast,
                         MessagesContent.LostRuler, 2);
             }
@@ -67,7 +66,7 @@ namespace Simulation.Roles
             string receiverId,
             BroadcastType messageType,
             MessagesContent messageContent,
-            Agent rulerAgent)
+            Ruler rulerAgent)
         {
             var message = new Message
             {
@@ -81,13 +80,12 @@ namespace Simulation.Roles
                 MessageType = messageType
             };
 
-            var messengerAgent = FindNearestMessenger(_leaderAgent.GetPosition(), receiverAgent.GetPosition());
+            var messengerAgent = FindNearestMessenger(GetPosition(), receiverAgent.GetPosition());
 
             message.RulerPingReply = rulerAgent;
             if (messengerAgent == null)
             {
                 RadioRange += 50;
-                _leaderAgent.RadioRange += 50;
                 SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent, rulerAgent);
                 return;
 
@@ -95,7 +93,7 @@ namespace Simulation.Roles
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
-            _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
+            Container.ContainerMedia.SendMessage(this, message.Copy());
         }
 
         private void SendMessage(Agent senderAgent,
@@ -117,12 +115,11 @@ namespace Simulation.Roles
                 MessageType = messageType
             };
 
-            var messengerAgent = FindNearestMessenger(_leaderAgent.GetPosition(), receiverAgent.GetPosition());
+            var messengerAgent = FindNearestMessenger(GetPosition(), receiverAgent.GetPosition());
             message.DataMessageText = messageTextData;
             if (messengerAgent == null)
             {
                 RadioRange += 50;
-                _leaderAgent.RadioRange += 50;
                 SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent, messageTextData);
                 return;
 
@@ -130,7 +127,7 @@ namespace Simulation.Roles
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
-            _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
+            Container.ContainerMedia.SendMessage(this, message.Copy());
         }
 
         private void SendBroadcastMessage(Agent senderAgent, Agent currentSenderAgent,
@@ -149,11 +146,10 @@ namespace Simulation.Roles
                 MessageType = messageType,
                 NumOfBroadcastSteps = iBroadcastNum
             };
-            var messengerAgent = FindNearestMessenger(_leaderAgent.GetPosition());
+            var messengerAgent = FindNearestMessenger(GetPosition());
             if (messengerAgent == null)
             {
                 RadioRange += 50;
-                _leaderAgent.RadioRange += 50;
                 SendBroadcastMessage(senderAgent, currentSenderAgent, messageType, messageContent, iBroadcastNum);
                 return;
             }
@@ -161,14 +157,14 @@ namespace Simulation.Roles
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
-            _container.ContainerMedia.SendMessage(_leaderAgent, message.Copy());
+            Container.ContainerMedia.SendMessage(this, message.Copy());
         }
 
         public Agent FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
         {
             double minDist = 10000;
             Agent nAgent = null;
-            foreach (var mAgent in _container.MessengerList)
+            foreach (var mAgent in Container.MessengerList)
             {
                 //Role temptRole = (Role)mAgent.agentRole;
                 if (agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) <= RadioRange &&
@@ -186,7 +182,7 @@ namespace Simulation.Roles
         {
             double minDist = 10000;
             Agent nAgent = null;
-            foreach (var mAgent in _container.MessengerList)
+            foreach (var mAgent in Container.MessengerList)
             {
                 if (agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) <= RadioRange &&
                     agentPosition.Position.CalculateDistance(mAgent.GetPosition().Position) < minDist)
@@ -210,8 +206,8 @@ namespace Simulation.Roles
             {
                 if (_iStatus == 0 || _iStatus == 2)
                 {
-                    SendMessage(_leaderAgent,
-                        _leaderAgent,
+                    SendMessage(this,
+                        this,
                         message.SenderAgent,
                         message.SenderAgentId,
                         BroadcastType.SingleCast,
@@ -220,8 +216,8 @@ namespace Simulation.Roles
                 }
                 else
                 {
-                    SendMessage(_leaderAgent,
-                        _leaderAgent,
+                    SendMessage(this,
+                        this,
                         message.SenderAgent,
                         message.SenderAgentId,
                         BroadcastType.SingleCast,
@@ -257,7 +253,7 @@ namespace Simulation.Roles
 
         internal void GetMessage(Message message)
         {
-            if (message.ReceiverAgentId == _leaderAgent.AgentId)
+            if (message.ReceiverAgentId == AgentId)
             {
                 if (Config.OursExecutionMode)
                 {
@@ -277,8 +273,8 @@ namespace Simulation.Roles
             if (RulerAgent != null && _iStatus == 1)
             {
                 _pingTime = Time.GlobalSimulationTime;
-                SendMessage(_leaderAgent,
-                    _leaderAgent,
+                SendMessage(this,
+                    this,
                     RulerAgent,
                     RulerAgent.AgentId,
                     BroadcastType.SendReceive,
@@ -327,5 +323,54 @@ namespace Simulation.Roles
         }
 
         #endregion
+
+        protected override void Movement()
+        {
+            base.Movement();
+            
+            if (Position.Position.CalculateDistance(TeamBoundary.OrgCenter) > TeamBoundary.Radius)
+            {
+                Position.Position.X = TeamBoundary.OrgCenter.X;
+                Position.Position.Y = TeamBoundary.OrgCenter.Y;
+            }
+
+            if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
+            {
+                UpdateVelocity(Position);
+            }
+        }
+
+        public override void UpdateOneMillisecond()
+        {
+            base.UpdateOneMillisecond();
+
+            if (Config.OursExecutionMode)
+            {
+                if (Time.GlobalSimulationTime % 40 == 0)
+                {
+                    OursOnTimeEvent();
+                }
+            }
+            else
+            {
+                if (Time.GlobalSimulationTime % 40 == 0)
+                {
+                    OnTimedEvent();
+                }
+            }
+        }
+
+        protected override void FreeMovement()
+        {
+            base.FreeMovement();
+
+            if (Position.Position.X > (Config.UpperBoarder.X - Config.LowerBoarder.X)) Position.Position.X = 0;
+            if (Position.Position.X < 0) Position.Position.X = (Config.UpperBoarder.X + Config.LowerBoarder.X);
+            if (Position.Position.Y > (Config.UpperBoarder.Y - Config.LowerBoarder.Y)) Position.Position.Y = 0;
+            if (Position.Position.Y < 0) Position.Position.Y = (Config.UpperBoarder.Y + Config.LowerBoarder.Y);
+
+            if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
+                UpdateVelocity(Position);
+        }
     }
 }

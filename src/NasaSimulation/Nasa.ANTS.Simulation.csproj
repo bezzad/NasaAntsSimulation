@@ -107,7 +107,6 @@
     </Compile>
     <Compile Include="Roles\Leader.cs" />
     <Compile Include="Roles\Messenger.cs" />
-    <Compile Include="Roles\Role.cs" />
     <Compile Include="Roles\Ruler.cs" />
     <Compile Include="Roles\Worker.cs" />
     <Compile Include="Scenario\IScenario.cs" />

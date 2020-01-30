@@ -36,30 +36,25 @@ namespace Simulation.Tools
 
         public bool SendToAgent(Message message, Agent receiver)
         {
-            if (receiver.AgentType == Role.RolesName.Messenger)
+            if (receiver is Messenger tempMessenger)
             {
-                var tempMessenger = (Messenger)receiver.AgentRole;
                 tempMessenger.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
-            else if (receiver.AgentType == Role.RolesName.Worker)
+            else if (receiver is Worker)
             {
-                var tempWorker = (Worker)receiver.AgentRole;
-                //tempWorker.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
-            else if (receiver.AgentType == Role.RolesName.Ruler)
+            else if (receiver is Ruler tempRuler)
             {
-                var tempRuler = (Ruler)receiver.AgentRole;
                 tempRuler.GetAndSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
-            else if (receiver.AgentType == Role.RolesName.Leader)
+            else if (receiver is Leader tempLeader)
             {
-                var tempLeader = (Leader)receiver.AgentRole;
                 tempLeader.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
@@ -70,30 +65,25 @@ namespace Simulation.Tools
 
         public bool SendBroadcastToAgent(Message message, Agent receiver)
         {
-            if (receiver.AgentType == Role.RolesName.Messenger)
+            if (receiver is Messenger tempMessenger)
             {
-                var tempMessenger = (Messenger)receiver.AgentRole;
                 tempMessenger.GetMessage(message);
                 MessageList.Remove(message);
             }
 
-            else if (receiver.AgentType == Role.RolesName.Worker)
+            else if (receiver is Worker)
             {
-                var tempWorker = (Worker)receiver.AgentRole;
-                // tempWorker.GetMessage(message);
                 MessageList.Remove(message);
             }
 
-            else if (receiver.AgentType == Role.RolesName.Ruler)
+            else if (receiver is Ruler tempRuler)
             {
-                var tempRuler = (Ruler)receiver.AgentRole;
                 tempRuler.GetAndSendMessage(message);
                 MessageList.Remove(message);
             }
 
-            else if (receiver.AgentType == Role.RolesName.Leader)
+            else if (receiver is Leader tempLeader)
             {
-                var tempLeader = (Leader)receiver.AgentRole;
                 tempLeader.GetMessage(message);
                 MessageList.Remove(message);
             }
@@ -104,9 +94,8 @@ namespace Simulation.Tools
         {
 
 
-            if (receiver.AgentType == Role.RolesName.Ruler)
+            if (receiver is Ruler tempRuler)
             {
-                var tempRuler = (Ruler)receiver.AgentRole;
                 tempRuler.GetAndSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
@@ -164,7 +153,7 @@ namespace Simulation.Tools
                                 var agentList = Container.GetRulersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Ruler && agent.AgentId != tempMsg.SenderAgentId)
+                                    if (agent is Ruler && agent.AgentId != tempMsg.SenderAgentId)
                                     {
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -182,7 +171,7 @@ namespace Simulation.Tools
                                 var agentList = Container.GetRulersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Ruler && agent.AgentId != tempMsg.SenderAgentId)
+                                    if (agent is Ruler && agent.AgentId != tempMsg.SenderAgentId)
                                     {
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -197,7 +186,7 @@ namespace Simulation.Tools
                                 var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
+                                    if (agent is Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
                                     {
                                         var lostRulerMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -210,17 +199,13 @@ namespace Simulation.Tools
                                         lostRulerMessage.MessageType = BroadcastType.MessengersToRulersBroadcast;
                                         lostRulerMessage.NumOfBroadcastSteps = 1;
 
-
-
                                         lostRulerMessage.MessageContent = MessagesContent.LostRuler;
                                         SendBroadcastToAgent(lostRulerMessage, agent);
-
                                     }
                                 }
                             }
 
                             MessageList.Remove(tempMsg);
-
                         }
 
                         else
@@ -241,7 +226,7 @@ namespace Simulation.Tools
                                 var agentList = Container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Leader && agent.AgentId != tempMsg.SenderAgentId)
+                                    if (agent is Leader && agent.AgentId != tempMsg.SenderAgentId)
                                     {
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -259,7 +244,7 @@ namespace Simulation.Tools
                                 var agentList = Container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Leader && agent.AgentId != tempMsg.SenderAgentId)
+                                    if (agent is Leader && agent.AgentId != tempMsg.SenderAgentId)
                                     {
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -274,7 +259,7 @@ namespace Simulation.Tools
                                 var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
+                                    if (agent is Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
                                     {
                                         var lostRulerMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -297,7 +282,6 @@ namespace Simulation.Tools
                             }
 
                             MessageList.Remove(tempMsg);
-
                         }
 
                         else
@@ -315,7 +299,7 @@ namespace Simulation.Tools
                             var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
-                                if (agent.AgentType == Role.RolesName.Messenger)
+                                if (agent is Messenger)
                                 {
                                     var singleMessage = tempMsg.Copy();
                                     MessageCount++;
@@ -328,8 +312,6 @@ namespace Simulation.Tools
                                 }
                             }
                         }
-
-
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
@@ -345,7 +327,7 @@ namespace Simulation.Tools
                             var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
-                                if (agent.AgentType == Role.RolesName.Worker)
+                                if (agent is Worker)
                                 {
                                     var singleMessage = tempMsg.Copy();
                                     MessageCount++;

@@ -15,8 +15,8 @@ namespace Simulation.Core
         {
             Config = config;
             TeamList = new List<Team>();
-            MessengerList = new List<Agent>();
-            RulerList = new List<Agent>();
+            MessengerList = new List<Messenger>();
+            RulerList = new List<Ruler>();
             AreaArray = new List<Area>();
             ContainerMedia = new Media(Config, this);
             Time.GlobalSimulationTime = 0;
@@ -38,19 +38,13 @@ namespace Simulation.Core
         }
 
 
-
-
-        //Parameters ---------------------------------------------------------
         protected Configuration Config { get; }
+        protected List<Event> EventQueue { get; } = new List<Event>();
         public Media ContainerMedia { set; get; }
-        private List<Event> EventQueue { get; } = new List<Event>();
-
-
         public List<Team> TeamList { get; set; }
-        public List<Agent> MessengerList { get; set; }
-        public List<Agent> RulerList { get; set; }
+        public List<Messenger> MessengerList { get; set; }
+        public List<Ruler> RulerList { get; set; }
         public List<Area> AreaArray { get; set; }
-
 
 
         private void InitializeAreas()
@@ -76,14 +70,12 @@ namespace Simulation.Core
                     var tempPosition = SetAgentPosition();
                     SetAgentVelocity(tempPosition);
                     var sId = "M" + i + j;
-                    var tempAgent = new Agent(Config, tempPosition, sId, Role.RolesName.Messenger, AreaArray[i], this);
+                    var tempAgent = new Messenger(Config, tempPosition, sId, this, AreaArray[i]);
 
                     MessengerList.Add(tempAgent);
-
                 }
             }
         }
-
 
         public void CreateRulers()
         {
@@ -93,7 +85,7 @@ namespace Simulation.Core
                 var tempPosition = SetAgentPosition();
                 SetAgentVelocity(tempPosition);
                 var sId = "R" + i;
-                RulerList.Add(new Agent(Config, tempPosition, sId, Role.RolesName.Ruler, AreaArray[iArea], this));
+                RulerList.Add(new Ruler(Config, tempPosition, sId, AreaArray[iArea], this));
             }
         }
 
@@ -107,20 +99,6 @@ namespace Simulation.Core
             var degree = Config.Rnd.NextDouble() * 360;
             agentPosition.Velocity.Y = v * Math.Sin(degree);
             agentPosition.Velocity.X = v * Math.Cos(degree);
-
-            //if (degree >= 90 && degree < 180)
-            //{
-            //    agentPosition.Velocity.X *= -1;
-            //}
-            //if (degree >= 180 && degree < 270)
-            //{
-            //    agentPosition.Velocity.X *= -1;
-            //    agentPosition.Velocity.Y *= -1;
-            //}
-            //if (degree >= 270 && degree <= 360)
-            //{
-            //    agentPosition.Velocity.Y *= -1;
-            //}
         }
 
         public void Run()
@@ -165,14 +143,12 @@ namespace Simulation.Core
                     Time.StartSimulationTime = Time.GlobalSimulationTime;
                     Config.StartMessageCount = ContainerMedia.MessageCount;
                     var iRemoveIndex = Config.Rnd.Next(0, RulerList.Count - 1);
-                    var lostRulerAgent = RulerList[iRemoveIndex];
-                    var lostRuler = (Ruler)lostRulerAgent.AgentRole;
+                    var lostRuler = RulerList[iRemoveIndex];
 
                     while (lostRuler.LeaderList.Count == 0)
                     {
                         iRemoveIndex = Config.Rnd.Next(0, RulerList.Count - 1);
-                        lostRulerAgent = RulerList[iRemoveIndex];
-                        lostRuler = (Ruler)lostRulerAgent.AgentRole;
+                        lostRuler = RulerList[iRemoveIndex];
                     }
 
                     lostRuler.Status = State.Failed;
@@ -278,10 +254,7 @@ namespace Simulation.Core
                 {
                     if (agent.AgentId != messengerAgent.AgentId)
                     {
-                        if (messengerAgent.AgentType == Role.RolesName.Messenger)
-                        {
-                            listOfAgent.Add(messengerAgent);
-                        }
+                        listOfAgent.Add(messengerAgent);
                     }
                 }
             }
@@ -298,10 +271,7 @@ namespace Simulation.Core
                 var tempPosition = leaderAgent.GetPosition().Position;
                 if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
-                    if (leaderAgent.AgentType == Role.RolesName.Leader)
-                    {
-                        listOfAgent.Add(leaderAgent);
-                    }
+                    listOfAgent.Add(leaderAgent);
                 }
             }
             return listOfAgent;
@@ -317,10 +287,7 @@ namespace Simulation.Core
                 var tempPosition = rulerAgent.GetPosition().Position;
                 if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
-                    if (rulerAgent.AgentType == Role.RolesName.Ruler)
-                    {
-                        listOfAgent.Add(rulerAgent);
-                    }
+                    listOfAgent.Add(rulerAgent);
                 }
             }
             return listOfAgent;
@@ -339,10 +306,7 @@ namespace Simulation.Core
                 {
                     if (agent.AgentId != messengerAgent.AgentId)
                     {
-                        if (agent.AgentType == Role.RolesName.Messenger)
-                        {
-                            listOfAgent.Add(messengerAgent);
-                        }
+                        listOfAgent.Add(messengerAgent);
                     }
                 }
             }
@@ -353,10 +317,7 @@ namespace Simulation.Core
                 {
                     if (agent.AgentId != rulerAgent.AgentId)
                     {
-                        if (agent.AgentType == Role.RolesName.Ruler)
-                        {
-                            listOfAgent.Add(rulerAgent);
-                        }
+                        listOfAgent.Add(rulerAgent);
                     }
                 }
             }
@@ -369,10 +330,7 @@ namespace Simulation.Core
                     {
                         if (agent.AgentId != workerAgent.AgentId)
                         {
-                            if (agent.AgentType == Role.RolesName.Ruler)
-                            {
-                                listOfAgent.Add(workerAgent);
-                            }
+                            listOfAgent.Add(workerAgent);
                         }
                     }
                 }

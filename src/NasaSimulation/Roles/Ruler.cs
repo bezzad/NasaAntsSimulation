@@ -5,43 +5,35 @@ using System.Collections.Generic;
 
 namespace Simulation.Roles
 {
-    public class Ruler : Role
+    public class Ruler : Agent
     {
-        public Agent RulerAgent { set; get; }
         public Area RulerArea { set; get; }
-        public Container Container { set; get; }
-        public List<Agent> LeaderList { get; set; }
+        public List<Leader> LeaderList { get; set; }
         public State Status { set; get; }
 
 
-        public Ruler(Configuration config, Area area, Container cont, Agent agent)
-            : base(config)
+        public Ruler(Configuration config, AgentPosition pos, string id, Area area, Container cont)
+            : base(config, pos, id, cont)
         {
-            RoleName = RolesName.Ruler.ToString();
             RulerArea = area;
-            Container = cont;
-            RulerAgent = agent;
             LeaderList = InitialLeaderList();
             Status = State.Stable;
 
-            foreach (var leaderAgent in LeaderList)
+            foreach (var leader in LeaderList)
             {
-                var leader = (Leader)leaderAgent.AgentRole;
-                leader.RulerAgent = RulerAgent;
-                leaderAgent.AgentRole = leader;
+                leader.RulerAgent = this;
             }
         }
 
 
 
-        private List<Agent> InitialLeaderList()
+        private List<Leader> InitialLeaderList()
         {
             var tempTeamList = FindTeamsInArea();
-            var tempLeaderList = new List<Agent>();
+            var tempLeaderList = new List<Leader>();
             foreach (var team in tempTeamList)
             {
                 tempLeaderList.Add(team.OrgLeader);
-
             }
 
             return tempLeaderList;
@@ -62,7 +54,7 @@ namespace Simulation.Roles
 
         public void GetAndSendMessage(Message message)
         {
-            if (message.ReceiverAgentId == RulerAgent.AgentId)
+            if (message.ReceiverAgentId == AgentId)
             {
                 if (message.MessageContent == MessagesContent.Ping)
                 {
@@ -75,16 +67,16 @@ namespace Simulation.Roles
                                 MessageType = BroadcastType.SingleCast,
                                 ReceiverAgentId = message.SenderAgentId,
                                 ReceiverAgent = message.SenderAgent,
-                                SenderAgent = RulerAgent,
-                                SenderAgentId = RulerAgent.AgentId,
-                                CurrentSenderAgent = RulerAgent,
-                                CurrentSenderAgentId = RulerAgent.AgentId,
+                                SenderAgent = this,
+                                SenderAgentId = AgentId,
+                                CurrentSenderAgent = this,
+                                CurrentSenderAgentId = AgentId,
                                 MessageContent = MessagesContent.PingReply
                             };
                             var messengerAgent = message.CurrentSenderAgent;
                             replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
                             replyMessage.CurrentReceiverAgent = messengerAgent;
-                            Container.ContainerMedia.SendMessage(RulerAgent, replyMessage.Copy());
+                            Container.ContainerMedia.SendMessage(this, replyMessage.Copy());
                         }
                     }
                     else
@@ -96,19 +88,17 @@ namespace Simulation.Roles
                                 MessageType = BroadcastType.SingleCast,
                                 ReceiverAgentId = message.SenderAgentId,
                                 ReceiverAgent = message.SenderAgent,
-                                SenderAgent = RulerAgent,
-                                SenderAgentId = RulerAgent.AgentId,
-                                CurrentSenderAgent = RulerAgent,
-                                CurrentSenderAgentId = RulerAgent.AgentId,
+                                SenderAgent = this,
+                                SenderAgentId = AgentId,
+                                CurrentSenderAgent = this,
+                                CurrentSenderAgentId = AgentId,
                                 MessageContent = MessagesContent.PingReply
                             };
-                            var messengerAgent = FindNearestMessenger(RulerAgent.GetPosition(), message.SenderAgent.GetPosition());
+                            var messengerAgent = FindNearestMessenger(GetPosition(), message.SenderAgent.GetPosition());
                             if (messengerAgent == null)
                             {
 
                                 RadioRange += 50;
-                                RulerAgent.RadioRange += 50;
-
                                 GetAndSendMessage(message);
                                 return;
                             }
@@ -116,10 +106,7 @@ namespace Simulation.Roles
 
                             replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
                             replyMessage.CurrentReceiverAgent = messengerAgent;
-
-
-
-                            Container.ContainerMedia.SendMessage(RulerAgent, replyMessage.Copy());
+                            Container.ContainerMedia.SendMessage(this, replyMessage.Copy());
                         }
                     }
 
@@ -134,29 +121,26 @@ namespace Simulation.Roles
                             MessageType = BroadcastType.SingleCast,
                             ReceiverAgentId = message.SenderAgentId,
                             ReceiverAgent = message.SenderAgent,
-                            SenderAgent = RulerAgent,
-                            SenderAgentId = RulerAgent.AgentId,
-                            CurrentSenderAgent = RulerAgent,
-                            CurrentSenderAgentId = RulerAgent.AgentId,
+                            SenderAgent = this,
+                            SenderAgentId = AgentId,
+                            CurrentSenderAgent = this,
+                            CurrentSenderAgentId = AgentId,
                             MessageContent = MessagesContent.ReplyRulerNum,
-                            RulerPingReply = RulerAgent
+                            RulerPingReply = this
                         };
-                        if (message.ReceiverAgent.AgentType == RolesName.Messenger)
+                        if (message.ReceiverAgent is Messenger)
                         {
-                            if (RulerAgent.GetPosition().Position.CalculateDistance(replyMessage.ReceiverAgent.GetPosition().Position) < RadioRange)
+                            if (GetPosition().Position.CalculateDistance(replyMessage.ReceiverAgent.GetPosition().Position) < RadioRange)
                             {
                                 replyMessage.CurrentReceiverAgent = replyMessage.ReceiverAgent;
                                 replyMessage.CurrentReceiverAgentId = replyMessage.ReceiverAgentId;
                             }
                             else
                             {
-                                var messengerAgent = FindNearestMessenger(RulerAgent.GetPosition(), message.SenderAgent.GetPosition());
+                                var messengerAgent = FindNearestMessenger(GetPosition(), message.SenderAgent.GetPosition());
                                 if (messengerAgent == null)
                                 {
-
                                     RadioRange += 50;
-                                    RulerAgent.RadioRange += 50;
-
                                     GetAndSendMessage(message);
                                     return;
                                 }
@@ -167,12 +151,10 @@ namespace Simulation.Roles
                         }
                         else
                         {
-                            var messengerAgent = FindNearestMessenger(RulerAgent.GetPosition(), message.SenderAgent.GetPosition());
+                            var messengerAgent = FindNearestMessenger(GetPosition(), message.SenderAgent.GetPosition());
                             if (messengerAgent == null)
                             {
-
                                 RadioRange += 50;
-                                RulerAgent.RadioRange += 50;
 
                                 GetAndSendMessage(message);
                                 return;
@@ -188,10 +170,10 @@ namespace Simulation.Roles
 
         }
 
-        private Agent FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
+        private Messenger FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
         {
             double minDist = 10000;
-            Agent nAgent = null;
+            Messenger nAgent = null;
 
             foreach (var mAgent in Container.MessengerList)
             {
@@ -205,6 +187,21 @@ namespace Simulation.Roles
                 }
             }
             return nAgent;
+        }
+
+        protected override void FreeMovement()
+        {
+            base.FreeMovement();
+
+            var x = (double)Config.Rnd.Next((int)RulerArea.MinX, (int)RulerArea.MaxX);
+            var y = (double)Config.Rnd.Next((int)RulerArea.MinY, (int)RulerArea.MaxY);
+            if (Position.Position.X > RulerArea.MaxX) Position.Position.X = x;
+            if (Position.Position.X < RulerArea.MinX) Position.Position.X = x;
+            if (Position.Position.Y > RulerArea.MaxY) Position.Position.Y = y;
+            if (Position.Position.Y < RulerArea.MinY) Position.Position.Y = y;
+
+            if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
+                UpdateVelocity(Position);
         }
     }
 }
