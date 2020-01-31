@@ -37,29 +37,8 @@ namespace Simulation.Tools
 
         public bool SendToAgent(Message message, Agent receiver)
         {
-            if (receiver is Messenger tempMessenger)
-            {
-                tempMessenger.OnMessage(message);
-                MessageList.Remove(message);
-            }
-
-            else if (receiver is Worker worker)
-            {
-                worker.OnMessage(message);
-                MessageList.Remove(message);
-            }
-
-            else if (receiver is Ruler tempRuler)
-            {
-                tempRuler.OnMessage(message);
-                MessageList.Remove(message);
-            }
-
-            else if (receiver is Leader tempLeader)
-            {
-                tempLeader.OnMessage(message);
-                MessageList.Remove(message);
-            }
+            receiver.OnMessage(message);
+            MessageList.Remove(message);
             return true;
         }
 
@@ -72,7 +51,7 @@ namespace Simulation.Tools
 
         public bool SendToAgentAndReceive(Message message, Agent receiver)
         {
-            receiver.OnMessage(message.Copy());
+            receiver.OnMessage(message);
             MessageList.Remove(message);
 
             return true;

@@ -1,4 +1,5 @@
-﻿using Simulation.Enums;
+﻿using System.Collections.Generic;
+using Simulation.Enums;
 using Simulation.Roles;
 using Simulation.Tools;
 
@@ -20,6 +21,7 @@ namespace Simulation.Core
 
         protected Configuration Config { get; }
         protected Container Container { get; }
+        protected List<Message> PingList { get; set; }
         public string AgentId { set; get; }
         public double RadioRange { set; get; }
         public AgentPosition Position { get; }

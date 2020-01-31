@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL;
 using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Tools;
@@ -7,15 +8,18 @@ namespace Simulation.Roles
 {
     public class Worker : Agent
     {
-        public Worker(Configuration config, AgentPosition pos, string id, 
-            OrganizationBoundries orgBoundary, Container cont) 
+        public Worker(Configuration config, AgentPosition pos, string id,
+            OrganizationBoundries orgBoundary, Container cont)
             : base(config, pos, id, cont)
         {
             TeamBoundary = orgBoundary;
+            PingList = new List<Message>();
+            MaxPingDelay = 10000;
         }
 
         public Leader LeaderAgent { get; set; }
         protected OrganizationBoundries TeamBoundary { get; set; }
+        protected int MaxPingDelay { get; set; }
 
         protected override void Movement()
         {
@@ -24,7 +28,7 @@ namespace Simulation.Roles
             if (Position.Position.CalculateDistance(TeamBoundary.OrgCenter) > TeamBoundary.Radius)
             {
                 // go back to center slowly
-                Position.Velocity.X *= -1; 
+                Position.Velocity.X *= -1;
                 Position.Velocity.Y *= -1;
                 UpdateVelocity(Position);
             }
@@ -78,9 +82,10 @@ namespace Simulation.Roles
             if (Time.GlobalSimulationTime % period == 0) // ping per 1sec
             {
                 var messenger = FindNearestMessenger();
-                if(messenger == null) return;
-                var tempMessage = new Message()
+                if (messenger == null) return;
+                var ping = new Message()
                 {
+                    RoutingTime = Time.GlobalSimulationTime,
                     SenderAgent = this,
                     SenderAgentId = AgentId,
                     CurrentSenderAgent = this,
@@ -92,15 +97,33 @@ namespace Simulation.Roles
                     MessageContent = MessagesContent.Ping,
                     DataMessageText = ""
                 };
-                SendMessage(tempMessage);
+                SendMessage(ping);
+                PingList.Add(ping);
             }
+
+            CheckPingList();
         }
 
         public override void OnMessage(Message message)
         {
-            if(Status == State.Failed) return;
+            if (Status == State.Failed) return;
 
+            if (message.MessageContent == MessagesContent.PingReply)
+            {
+                var index = PingList.FindIndex(m => m.ReceiverAgentId == message.SenderAgentId);
+                if (index >= 0)
+                    PingList.RemoveAt(index);
+            }
+        }
 
+        protected void CheckPingList()
+        {
+            var expiredPing = PingList.Find(m => Time.GlobalSimulationTime - m.RoutingTime > MaxPingDelay);
+            if (expiredPing?.ReceiverAgent is Leader)
+            {
+                PingList.Remove(expiredPing);
+                // Leader is lost
+            }
         }
     }
 }
