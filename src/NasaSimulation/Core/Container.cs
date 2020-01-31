@@ -314,13 +314,7 @@ namespace Simulation.Core
 
         private bool CalculateInRange(Point position, Point position2, double radioRange)
         {
-            var x = position.X - position2.X;
-            var y = position.Y - position2.Y;
-            x *= x;
-            y *= y;
-            radioRange *= radioRange;
-            if ((x + y) < radioRange) return true;
-            return false;
+            return position.CalculateDistance(position2) < radioRange;
         }
 
         #endregion
