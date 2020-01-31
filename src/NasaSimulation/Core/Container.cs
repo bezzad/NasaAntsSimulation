@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using Simulation.Enums;
 using Simulation.Roles;
-using Simulation.Scenario;
 using Simulation.Tools;
 
 namespace Simulation.Core
@@ -131,6 +131,7 @@ namespace Simulation.Core
         }
 
         #region Simulation
+
         public void Simulation()
         {
             while (!Config.EndOfApplication)
@@ -138,19 +139,17 @@ namespace Simulation.Core
                 Time.Tick();
                 UpdateOrganizations();
 
-                Config.SelectedScenario?.Run();
-
                 Thread.Sleep(Config.HesitateValue);
                 HandleEvents();
             }
         }
+
         private void HandleEvents()
         {
             if (EventQueue.Count == 0) return;
-            while (EventQueue[EventQueue.Count - 1].EventTime == Time.GlobalSimulationTime)
+            while (EventQueue.Last().EventTime == Time.GlobalSimulationTime)
             {
-                var tempEvent = EventQueue[EventQueue.Count - 1];
-                DoEvent(tempEvent);
+                DoEvent(EventQueue.Last());
                 EventQueue.RemoveAt(EventQueue.Count - 1);
                 if (EventQueue.Count == 0) return;
             }
@@ -158,12 +157,7 @@ namespace Simulation.Core
 
         private void DoEvent(Event tempEvent)
         {
-            switch (tempEvent.EventType)
-            {
-                case EventType.Message:
-                    ContainerMedia.DoMessage(tempEvent.MessageId);
-                    break;
-            }
+            ContainerMedia.DoMessage(tempEvent.MessageId);
         }
 
         private void UpdateOrganizations()
@@ -171,7 +165,7 @@ namespace Simulation.Core
             foreach (var team in TeamList)
             {
                 team.UpdateOrgOneMillisecond();
-                team.OrgLeader.UpdateOneMillisecond();
+                team.ActiveLeader.UpdateOneMillisecond();
             }
 
             foreach (var agent in MessengerList)
@@ -206,13 +200,10 @@ namespace Simulation.Core
             var time = Time.GlobalSimulationTime;
 
             tempEvent.EventTime = time + timeFromNow;
-
             tempEvent.MessageId = messageId;
             tempEvent.EventType = EventType.Message;
 
-            var indexOccur = EventQueue.FindIndex(
-                ev => ev.EventTime > tempEvent.EventTime
-            );
+            var indexOccur = EventQueue.FindIndex(ev => ev.EventTime > tempEvent.EventTime);
             if (indexOccur == -1)
             {
                 indexOccur = 0;
@@ -248,7 +239,7 @@ namespace Simulation.Core
             var position = agent.Position.Position;
             foreach (var team in TeamList)
             {
-                var leaderAgent = team.OrgLeader;
+                var leaderAgent = team.ActiveLeader;
                 var tempPosition = leaderAgent.Position.Position;
                 if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {
@@ -320,13 +311,7 @@ namespace Simulation.Core
 
         private bool CalculateInRange(Point position, Point position2, double radioRange)
         {
-            var x = position.X - position2.X;
-            var y = position.Y - position2.Y;
-            x *= x;
-            y *= y;
-            radioRange *= radioRange;
-            if ((x + y) < radioRange) return true;
-            return false;
+            return position.CalculateDistance(position2) < radioRange;
         }
 
         #endregion

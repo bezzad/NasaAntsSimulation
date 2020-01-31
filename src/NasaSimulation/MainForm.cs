@@ -1,5 +1,4 @@
 ﻿using Simulation.Core;
-using Simulation.Scenario;
 using Simulation.Tools;
 using System;
 using System.ComponentModel;
@@ -55,7 +54,7 @@ namespace Simulation
             AnimationThread?.Abort();
             UiUpdater?.Stop();
             RefreshInfo();
-
+            
             SetButtonsEnable(false);
         }
 
@@ -65,9 +64,15 @@ namespace Simulation
                 return;
 
             SetButtonsEnable(true);
-
             SetConfiguration();
-            Config.SelectedScenario = new SelfHealingScenario1(Config);
+            Time.OursAdaptingTime = 0;
+            Time.EndSimulationTime = 0;
+            Time.StartSimulationTime = 0;
+            Time.ConventionalAdaptingTime = 0;
+            Time.GlobalSimulationTime = 0;
+            Time.OursOptimizingTime = 0;
+            Config.StartMessageCount = 0;
+
             EnvironmentContainer = new Container(Config);
             AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
             FaultGenerator = new FaultGenerator(Config, EnvironmentContainer);
@@ -97,7 +102,6 @@ namespace Simulation
 
         private void SetConfiguration()
         {
-            Config.SelectedScenario = new SelfHealingScenario1(Config); // radioButtonSH.Checked
             Config.LowerBoarder.X = 0;
             Config.LowerBoarder.Y = 0;
             Config.UpperBoarder.X = Width - settingPanel.Width;
@@ -109,8 +113,6 @@ namespace Simulation
             Config.MaxMessengerRadioRange = (double)numMaxMessengersRadioRange.Value;
             Config.MaxRadioRange = (double)numMaxRadioRange.Value;
             Config.MaxSpeed = (double)numSpeed.Value;
-            Config.OursExecutionMode = checkBoxOurs.Checked;
-            Config.MultiOff = checkBoxMultiOff.Checked;
 
             var maxOneTeamLength = 4 * Config.TeamOrganizationRadius; // Square width is 4R
             var xSquaresCount = Math.Floor(Config.UpperBoarder.X / maxOneTeamLength);

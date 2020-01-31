@@ -73,7 +73,8 @@ namespace Simulation
                     foreach (var worker in team.AgentsArray)
                         worker.Draw();
 
-                    team.OrgLeader.Draw();
+                    foreach (var leader in team.LeadersHistory)
+                        leader.Draw();
                 }
 
                 #endregion

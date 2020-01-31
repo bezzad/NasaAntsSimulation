@@ -33,7 +33,8 @@ namespace Simulation.Core
         {
             PreFailureProcess();
 
-            var rulersHasLeader = Container.RulerList.Where(r => r.LeaderList.Any()).ToList();
+            var rulersHasLeader = Container.RulerList.Where(r => r.LeaderList.Any() && r.Status == State.Stable).ToList();
+            if (rulersHasLeader.Count == 0) return;
             var iRemoveIndex = Config.Rnd.Next(0, rulersHasLeader.Count - 1);
             var lostRuler = rulersHasLeader[iRemoveIndex];
 
@@ -43,26 +44,30 @@ namespace Simulation.Core
         public void LeaderFailure()
         {
             PreFailureProcess();
-            var iRemoveIndex = Config.Rnd.Next(0, Container.TeamList.Count - 1);
-            var lostLeader = Container.TeamList[iRemoveIndex].OrgLeader;
+            var stableLeaders = Container.TeamList.Where(t => t.ActiveLeader.Status == State.Stable).ToList();
+            if (stableLeaders.Count == 0) return;
+            var iRemoveIndex = Config.Rnd.Next(0, stableLeaders.Count - 1);
+            var lostLeader = stableLeaders[iRemoveIndex].ActiveLeader;
             SetLostAgent(lostLeader);
         }
 
         public void MessengerFailure()
         {
             PreFailureProcess();
-            var iRemoveIndex = Config.Rnd.Next(0, Container.MessengerList.Count - 1);
-            var lostMessenger = Container.MessengerList[iRemoveIndex];
+            var stableMessengers = Container.MessengerList.Where(m => m.Status == State.Stable).ToList();
+            if (stableMessengers.Count == 0) return;
+            var iRemoveIndex = Config.Rnd.Next(0, stableMessengers.Count - 1);
+            var lostMessenger = stableMessengers[iRemoveIndex];
             SetLostAgent(lostMessenger);
         }
 
         public void WorkerFailure()
         {
             PreFailureProcess();
-            var randomTeamIndex = Config.Rnd.Next(0, Container.TeamList.Count - 1);
-            var workers = Container.TeamList[randomTeamIndex].AgentsArray;
-            var iRemoveIndex = Config.Rnd.Next(0, workers.Count - 1);
-            var lostWorker = workers[iRemoveIndex];
+            var stableWorkers = Container.TeamList.SelectMany(t => t.AgentsArray).Where(w => w.Status == State.Stable).ToList();
+            if (stableWorkers.Count == 0) return;
+            var iRemoveIndex = Config.Rnd.Next(0, stableWorkers.Count - 1);
+            var lostWorker = stableWorkers[iRemoveIndex];
             SetLostAgent(lostWorker);
         }
 

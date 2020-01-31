@@ -1,5 +1,4 @@
 ﻿using System;
-using Simulation.Scenario;
 using Simulation.Tools;
 
 namespace Simulation.Core
@@ -31,11 +30,8 @@ namespace Simulation.Core
         public double MaxSpeed { get; set; }
         public bool IsRunning { get; set; } 
         public bool EndOfApplication { get; set; }
-        public IScenario SelectedScenario { get; set; }
         public int StartMessageCount { get; set; }
-        public bool OursExecutionMode { get; set; }
         public bool EndOfSimulation { get; set; }
-        public bool MultiOff { get; set; }
         public int RulersCount { get; set; }
         public int MessengersCount { get; set; }
         public int TeamsCount { get; set; }

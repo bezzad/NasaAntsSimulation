@@ -16,37 +16,28 @@ namespace Simulation.Core
         public string CurrentSenderAgentId { set; get; }
         public string CurrentReceiverAgentId { set; get; }
         public BroadcastType MessageType { set; get; }
-        public int ReturnedStatus { set; get; }
         public MessagesContent MessageContent { set; get; }
         public Ruler RulerPingReply { set; get; }
         public string DataMessageText { set; get; }
+        public object Data { set; get; }
         public int NumOfBroadcastSteps { set; get; }
         public long RoutingTime { set; get; }
-        public List<Agent> RoutingList = new List<Agent>();
+        public List<Agent> RoutingList { set; get; } = new List<Agent>();
+
 
         public Message Copy()
         {
-            var tempMessage = new Message
+            var type = typeof(Message);
+            var properties = type.GetProperties();
+            var clonedMessage = new Message();
+
+            foreach (var property in properties)
             {
-                MessageId = MessageId,
-                SenderAgent = SenderAgent,
-                SenderAgentId = SenderAgentId,
-                ReceiverAgent = ReceiverAgent,
-                ReceiverAgentId = ReceiverAgentId,
-                CurrentSenderAgent = CurrentSenderAgent,
-                CurrentSenderAgentId = CurrentSenderAgentId,
-                CurrentReceiverAgent = CurrentReceiverAgent,
-                CurrentReceiverAgentId = CurrentReceiverAgentId,
-                MessageType = MessageType,
-                ReturnedStatus = ReturnedStatus,
-                MessageContent = MessageContent,
-                RulerPingReply = RulerPingReply,
-                DataMessageText = DataMessageText,
-                NumOfBroadcastSteps = NumOfBroadcastSteps,
-                RoutingList = RoutingList,
-                RoutingTime = RoutingTime
-            };
-            return tempMessage;
+                var value = property.GetValue(this);
+                property.SetValue(clonedMessage, value);
+            }
+            
+            return clonedMessage;
         }
     }
 }
