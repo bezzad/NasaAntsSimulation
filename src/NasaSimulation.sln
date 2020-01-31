@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B109B9C-D613-446B-9449-486CD51A4CDB}"
 	ProjectSection(SolutionItems) = preProject
 		..\document\document.docx = ..\document\document.docx
+		..\document\document.pdf = ..\document\document.pdf
 	EndProjectSection
 EndProject
 Global
