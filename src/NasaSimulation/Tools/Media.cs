@@ -17,8 +17,8 @@ namespace Simulation.Tools
 
         protected Configuration Config { get; }
         protected Container Container { get; }
+        protected List<Message> MessageList { get; set; }
         public int MessageCount { get; set; }
-        public List<Message> MessageList { get; set; }
 
 
         public bool SendMessage(Message msg)
@@ -30,34 +30,19 @@ namespace Simulation.Tools
             return true;
         }
 
-        private void AddMessageEventToContainer(int msgId)
+        protected void AddMessageEventToContainer(int msgId)
         {
             Container.AddEventToQueue(msgId, Config.MsgDelay);
         }
 
-        public bool SendToAgent(Message message, Agent receiver)
+        protected bool SendMessage(Message message, Agent receiver)
         {
             receiver.OnMessage(message);
             MessageList.Remove(message);
             return true;
         }
 
-        public bool SendBroadcastToAgent(Message message, Agent receiver)
-        {
-            receiver.OnMessage(message);
-            MessageList.Remove(message);
-            return true;
-        }
-
-        public bool SendToAgentAndReceive(Message message, Agent receiver)
-        {
-            receiver.OnMessage(message);
-            MessageList.Remove(message);
-
-            return true;
-        }
-
-        public bool DoMessage(int msgId)
+        internal bool DoMessage(int msgId)
         {
             var msgStatus = true;
             var tempMsg = MessageList.Find(msg => msg.MessageId == msgId);
@@ -77,14 +62,14 @@ namespace Simulation.Tools
                                 singleMessage.CurrentReceiverAgentId = agent.AgentId;
                                 singleMessage.ReceiverAgent = agent;
                                 singleMessage.ReceiverAgentId = agent.AgentId;
-                                SendBroadcastToAgent(singleMessage, agent);
+                                SendMessage(singleMessage, agent);
                             }
                         }
 
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
-                            SendToAgent(tempMsg, agent);
+                            SendMessage(tempMsg, agent);
                         }
                         break;
 
@@ -92,7 +77,7 @@ namespace Simulation.Tools
 
                 case BroadcastType.SingleCast:
                     {
-                        SendToAgent(tempMsg, tempMsg.CurrentReceiverAgent);
+                        SendMessage(tempMsg, tempMsg.CurrentReceiverAgent);
                         break;
                     }
 
@@ -114,7 +99,7 @@ namespace Simulation.Tools
                                         singleMessage.CurrentReceiverAgentId = agent.AgentId;
                                         singleMessage.ReceiverAgent = agent;
                                         singleMessage.ReceiverAgentId = agent.AgentId;
-                                        SendBroadcastToAgent(singleMessage, agent);
+                                        SendMessage(singleMessage, agent);
                                     }
                                 }
                             }
@@ -132,7 +117,7 @@ namespace Simulation.Tools
                                         singleMessage.CurrentReceiverAgentId = agent.AgentId;
                                         singleMessage.ReceiverAgent = agent;
                                         singleMessage.ReceiverAgentId = agent.AgentId;
-                                        SendBroadcastToAgent(singleMessage, agent);
+                                        SendMessage(singleMessage, agent);
                                     }
                                 }
                                 var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
@@ -152,7 +137,7 @@ namespace Simulation.Tools
                                         lostRulerMessage.NumOfBroadcastSteps = 1;
 
                                         lostRulerMessage.MessageContent = MessagesContent.LostRuler;
-                                        SendBroadcastToAgent(lostRulerMessage, agent);
+                                        SendMessage(lostRulerMessage, agent);
                                     }
                                 }
                             }
@@ -163,7 +148,7 @@ namespace Simulation.Tools
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
-                            SendToAgent(tempMsg, agent);
+                            SendMessage(tempMsg, agent);
                         }
                         break;
                     }
@@ -186,7 +171,7 @@ namespace Simulation.Tools
                                         singleMessage.CurrentReceiverAgentId = agent.AgentId;
                                         singleMessage.ReceiverAgent = agent;
                                         singleMessage.ReceiverAgentId = agent.AgentId;
-                                        SendBroadcastToAgent(singleMessage, agent);
+                                        SendMessage(singleMessage, agent);
                                     }
                                 }
                             }
@@ -204,7 +189,7 @@ namespace Simulation.Tools
                                         singleMessage.CurrentReceiverAgentId = agent.AgentId;
                                         singleMessage.ReceiverAgent = agent;
                                         singleMessage.ReceiverAgentId = agent.AgentId;
-                                        SendBroadcastToAgent(singleMessage, agent);
+                                        SendMessage(singleMessage, agent);
                                     }
                                 }
                                 var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
@@ -226,7 +211,7 @@ namespace Simulation.Tools
 
 
                                         lostRulerMessage.MessageContent = MessagesContent.LostRuler;
-                                        SendBroadcastToAgent(lostRulerMessage, agent);
+                                        SendMessage(lostRulerMessage, agent);
 
                                     }
                                 }
@@ -237,7 +222,7 @@ namespace Simulation.Tools
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
-                            SendToAgent(tempMsg, agent);
+                            SendMessage(tempMsg, agent);
                         }
                         break;
                     }
@@ -258,14 +243,14 @@ namespace Simulation.Tools
                                     singleMessage.CurrentReceiverAgentId = agent.AgentId;
                                     singleMessage.ReceiverAgent = agent;
                                     singleMessage.ReceiverAgentId = agent.AgentId;
-                                    SendBroadcastToAgent(singleMessage, agent);
+                                    SendMessage(singleMessage, agent);
                                 }
                             }
                         }
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
-                            SendToAgent(tempMsg, agent);
+                            SendMessage(tempMsg, agent);
                         }
                         break;
                     }
@@ -286,14 +271,14 @@ namespace Simulation.Tools
                                     singleMessage.CurrentReceiverAgentId = agent.AgentId;
                                     singleMessage.ReceiverAgent = agent;
                                     singleMessage.ReceiverAgentId = agent.AgentId;
-                                    SendBroadcastToAgent(singleMessage, agent);
+                                    SendMessage(singleMessage, agent);
                                 }
                             }
                         }
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
-                            SendToAgent(tempMsg, agent);
+                            SendMessage(tempMsg, agent);
                         }
                         break;
                     }
@@ -317,13 +302,13 @@ namespace Simulation.Tools
                         else if (tempMsg.CurrentReceiverAgentId == tempMsg.ReceiverAgentId)
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
-                            msgStatus = SendToAgentAndReceive(tempMsg, agent);
+                            msgStatus = SendMessage(tempMsg, agent);
                         }
 
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
-                            msgStatus = SendToAgent(tempMsg, agent);
+                            msgStatus = SendMessage(tempMsg, agent);
                         }
                         break;
                     }
