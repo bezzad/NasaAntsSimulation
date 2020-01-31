@@ -21,7 +21,7 @@ namespace Simulation.Core
 
         protected Configuration Config { get; }
         protected Container Container { get; }
-        protected List<Message> PingList { get; set; }
+        protected List<Message> ReplyWaitingList { get; set; }
         public string AgentId { set; get; }
         public double RadioRange { set; get; }
         public AgentPosition Position { get; }

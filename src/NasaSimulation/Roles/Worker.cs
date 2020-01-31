@@ -13,7 +13,7 @@ namespace Simulation.Roles
             : base(config, pos, id, cont)
         {
             TeamBoundary = orgBoundary;
-            PingList = new List<Message>();
+            ReplyWaitingList = new List<Message>();
             MaxPingDelay = 10000;
         }
 
@@ -98,7 +98,7 @@ namespace Simulation.Roles
                     DataMessageText = ""
                 };
                 SendMessage(ping);
-                PingList.Add(ping);
+                ReplyWaitingList.Add(ping);
             }
 
             CheckPingList();
@@ -110,19 +110,37 @@ namespace Simulation.Roles
 
             if (message.MessageContent == MessagesContent.PingReply)
             {
-                var index = PingList.FindIndex(m => m.ReceiverAgentId == message.SenderAgentId);
+                var index = ReplyWaitingList.FindIndex(m => m.ReceiverAgentId == message.SenderAgentId);
                 if (index >= 0)
-                    PingList.RemoveAt(index);
+                    ReplyWaitingList.RemoveAt(index);
             }
         }
 
         protected void CheckPingList()
         {
-            var expiredPing = PingList.Find(m => Time.GlobalSimulationTime - m.RoutingTime > MaxPingDelay);
+            var expiredPing = ReplyWaitingList.Find(m => Time.GlobalSimulationTime - m.RoutingTime > MaxPingDelay);
             if (expiredPing?.ReceiverAgent is Leader)
             {
-                PingList.Remove(expiredPing);
                 // Leader is lost
+                var messenger = FindNearestMessenger();
+                if (messenger != null)
+                {
+                    ReplyWaitingList.Remove(expiredPing); // remove to prevent duplicate request
+                    var ping = new Message()
+                    {
+                        RoutingTime = Time.GlobalSimulationTime,
+                        SenderAgent = this,
+                        SenderAgentId = AgentId,
+                        CurrentSenderAgent = this,
+                        CurrentReceiverAgent = messenger,
+                        CurrentReceiverAgentId = messenger.AgentId,
+                        ReceiverAgent = messenger,
+                        ReceiverAgentId = messenger.AgentId,
+                        MessageType = BroadcastType.SingleCast,
+                        MessageContent = MessagesContent.LostLeader,
+                    };
+                    SendMessage(ping);
+                }
             }
         }
     }

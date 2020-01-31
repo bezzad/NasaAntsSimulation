@@ -116,8 +116,6 @@ namespace Simulation
             Config.MaxMessengerRadioRange = (double)numMaxMessengersRadioRange.Value;
             Config.MaxRadioRange = (double)numMaxRadioRange.Value;
             Config.MaxSpeed = (double)numSpeed.Value;
-            Config.OursExecutionMode = checkBoxOurs.Checked;
-            Config.MultiOff = checkBoxMultiOff.Checked;
 
             var maxOneTeamLength = 4 * Config.TeamOrganizationRadius; // Square width is 4R
             var xSquaresCount = Math.Floor(Config.UpperBoarder.X / maxOneTeamLength);

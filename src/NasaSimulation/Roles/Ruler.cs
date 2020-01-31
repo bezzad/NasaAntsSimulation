@@ -60,52 +60,23 @@ namespace Simulation.Roles
             {
                 if (message.MessageContent == MessagesContent.Ping)
                 {
-                    if (Config.OursExecutionMode)
+                    var replyMessage = new Message
                     {
-                        var replyMessage = new Message
-                        {
-                            MessageType = BroadcastType.SingleCast,
-                            ReceiverAgentId = message.SenderAgentId,
-                            ReceiverAgent = message.SenderAgent,
-                            SenderAgent = this,
-                            SenderAgentId = AgentId,
-                            CurrentSenderAgent = this,
-                            CurrentSenderAgentId = AgentId,
-                            MessageContent = MessagesContent.PingReply
-                        };
-                        var messengerAgent = message.CurrentSenderAgent;
-                        replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
-                        replyMessage.CurrentReceiverAgent = messengerAgent;
-                        Container.ContainerMedia.SendMessage( replyMessage.Copy());
-                    }
-                    else
-                    {
-                        var replyMessage = new Message
-                        {
-                            MessageType = BroadcastType.SingleCast,
-                            ReceiverAgentId = message.SenderAgentId,
-                            ReceiverAgent = message.SenderAgent,
-                            SenderAgent = this,
-                            SenderAgentId = AgentId,
-                            CurrentSenderAgent = this,
-                            CurrentSenderAgentId = AgentId,
-                            MessageContent = MessagesContent.PingReply
-                        };
-                        var messengerAgent = FindNearestMessenger(message.SenderAgent.Position);
-                        if (messengerAgent == null)
-                        {
-
-                            RadioRange += 50;
-                            OnMessage(message);
-                            return;
-                        }
-
-                        replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
-                        replyMessage.CurrentReceiverAgent = messengerAgent;
-                        Container.ContainerMedia.SendMessage(replyMessage.Copy());
-                    }
+                        MessageType = BroadcastType.SingleCast,
+                        ReceiverAgentId = message.SenderAgentId,
+                        ReceiverAgent = message.SenderAgent,
+                        SenderAgent = this,
+                        SenderAgentId = AgentId,
+                        CurrentSenderAgent = this,
+                        CurrentSenderAgentId = AgentId,
+                        MessageContent = MessagesContent.PingReply
+                    };
+                    var messengerAgent = message.CurrentSenderAgent;
+                    replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
+                    replyMessage.CurrentReceiverAgent = messengerAgent;
+                    Container.ContainerMedia.SendMessage(replyMessage.Copy());
                 }
-                else if (Config.OursExecutionMode && message.MessageContent == MessagesContent.LostRuler)
+                else if (message.MessageContent == MessagesContent.LostRuler)
                 {
                     var replyMessage = new Message
                     {

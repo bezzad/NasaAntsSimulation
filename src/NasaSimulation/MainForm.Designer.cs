@@ -34,12 +34,10 @@
             this.radioButtonSO = new System.Windows.Forms.RadioButton();
             this.radioButtonSP = new System.Windows.Forms.RadioButton();
             this.radioButtonSC = new System.Windows.Forms.RadioButton();
-            this.checkBoxOurs = new System.Windows.Forms.CheckBox();
             this.lblAdaptingText = new System.Windows.Forms.Label();
             this.lblOptimizingText = new System.Windows.Forms.Label();
             this.lblAdapting = new System.Windows.Forms.Label();
             this.lblOptimizing = new System.Windows.Forms.Label();
-            this.checkBoxMultiOff = new System.Windows.Forms.CheckBox();
             this.panelSetting = new System.Windows.Forms.Panel();
             this.settingPanel = new System.Windows.Forms.TableLayoutPanel();
             this.btnStart = new System.Windows.Forms.Button();
@@ -166,23 +164,12 @@
             this.radioButtonSC.Text = "Self-Configuring Scenario";
             this.radioButtonSC.UseVisualStyleBackColor = true;
             // 
-            // checkBoxOurs
-            // 
-            this.checkBoxOurs.AutoSize = true;
-            this.checkBoxOurs.Location = new System.Drawing.Point(202, 415);
-            this.checkBoxOurs.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxOurs.Name = "checkBoxOurs";
-            this.checkBoxOurs.Size = new System.Drawing.Size(101, 21);
-            this.checkBoxOurs.TabIndex = 56;
-            this.checkBoxOurs.Text = "OurMethod";
-            this.checkBoxOurs.UseVisualStyleBackColor = true;
-            // 
             // lblAdaptingText
             // 
             this.lblAdaptingText.AutoSize = true;
             this.lblAdaptingText.BackColor = System.Drawing.Color.Transparent;
             this.lblAdaptingText.ForeColor = System.Drawing.Color.Black;
-            this.lblAdaptingText.Location = new System.Drawing.Point(0, 460);
+            this.lblAdaptingText.Location = new System.Drawing.Point(0, 431);
             this.lblAdaptingText.Margin = new System.Windows.Forms.Padding(0);
             this.lblAdaptingText.Name = "lblAdaptingText";
             this.lblAdaptingText.Size = new System.Drawing.Size(94, 20);
@@ -196,7 +183,7 @@
             this.lblOptimizingText.AutoSize = true;
             this.lblOptimizingText.BackColor = System.Drawing.Color.Transparent;
             this.lblOptimizingText.ForeColor = System.Drawing.Color.Black;
-            this.lblOptimizingText.Location = new System.Drawing.Point(0, 440);
+            this.lblOptimizingText.Location = new System.Drawing.Point(0, 411);
             this.lblOptimizingText.Margin = new System.Windows.Forms.Padding(0);
             this.lblOptimizingText.Name = "lblOptimizingText";
             this.lblOptimizingText.Size = new System.Drawing.Size(103, 20);
@@ -210,7 +197,7 @@
             this.lblAdapting.AutoSize = true;
             this.lblAdapting.BackColor = System.Drawing.Color.Transparent;
             this.lblAdapting.ForeColor = System.Drawing.Color.Black;
-            this.lblAdapting.Location = new System.Drawing.Point(198, 460);
+            this.lblAdapting.Location = new System.Drawing.Point(198, 431);
             this.lblAdapting.Margin = new System.Windows.Forms.Padding(0);
             this.lblAdapting.Name = "lblAdapting";
             this.lblAdapting.Size = new System.Drawing.Size(35, 20);
@@ -224,7 +211,7 @@
             this.lblOptimizing.AutoSize = true;
             this.lblOptimizing.BackColor = System.Drawing.Color.Transparent;
             this.lblOptimizing.ForeColor = System.Drawing.Color.Black;
-            this.lblOptimizing.Location = new System.Drawing.Point(198, 440);
+            this.lblOptimizing.Location = new System.Drawing.Point(198, 411);
             this.lblOptimizing.Margin = new System.Windows.Forms.Padding(0);
             this.lblOptimizing.Name = "lblOptimizing";
             this.lblOptimizing.Size = new System.Drawing.Size(35, 20);
@@ -232,17 +219,6 @@
             this.lblOptimizing.Text = "0000";
             this.lblOptimizing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblOptimizing.UseCompatibleTextRendering = true;
-            // 
-            // checkBoxMultiOff
-            // 
-            this.checkBoxMultiOff.AutoSize = true;
-            this.checkBoxMultiOff.Location = new System.Drawing.Point(4, 415);
-            this.checkBoxMultiOff.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxMultiOff.Name = "checkBoxMultiOff";
-            this.checkBoxMultiOff.Size = new System.Drawing.Size(78, 21);
-            this.checkBoxMultiOff.TabIndex = 61;
-            this.checkBoxMultiOff.Text = "multiOff";
-            this.checkBoxMultiOff.UseVisualStyleBackColor = true;
             // 
             // panelSetting
             // 
@@ -261,7 +237,7 @@
             this.settingPanel.ColumnCount = 3;
             this.settingPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.settingPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.settingPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this.settingPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.settingPanel.Controls.Add(this.btnStart, 0, 27);
             this.settingPanel.Controls.Add(this.radioButtonSH, 0, 0);
             this.settingPanel.Controls.Add(this.radioButtonSO, 0, 1);
@@ -280,9 +256,7 @@
             this.settingPanel.Controls.Add(this.lblOptimizing, 1, 18);
             this.settingPanel.Controls.Add(this.lblAdaptingText, 0, 20);
             this.settingPanel.Controls.Add(this.lblOptimizingText, 0, 18);
-            this.settingPanel.Controls.Add(this.checkBoxMultiOff, 0, 17);
             this.settingPanel.Controls.Add(this.lblAdapting, 1, 20);
-            this.settingPanel.Controls.Add(this.checkBoxOurs, 1, 17);
             this.settingPanel.Controls.Add(this.pictureBox2, 2, 5);
             this.settingPanel.Controls.Add(this.pictureBox3, 2, 12);
             this.settingPanel.Controls.Add(this.pictureBox4, 2, 13);
@@ -733,7 +707,7 @@
             // btnMessengerFailure
             // 
             this.btnMessengerFailure.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMessengerFailure.Location = new System.Drawing.Point(3, 483);
+            this.btnMessengerFailure.Location = new System.Drawing.Point(3, 454);
             this.btnMessengerFailure.Name = "btnMessengerFailure";
             this.btnMessengerFailure.Size = new System.Drawing.Size(146, 37);
             this.btnMessengerFailure.TabIndex = 85;
@@ -744,7 +718,7 @@
             // btnWorkerFailure
             // 
             this.btnWorkerFailure.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnWorkerFailure.Location = new System.Drawing.Point(3, 526);
+            this.btnWorkerFailure.Location = new System.Drawing.Point(3, 497);
             this.btnWorkerFailure.Name = "btnWorkerFailure";
             this.btnWorkerFailure.Size = new System.Drawing.Size(146, 37);
             this.btnWorkerFailure.TabIndex = 86;
@@ -755,7 +729,7 @@
             // btnRulerFailure
             // 
             this.btnRulerFailure.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRulerFailure.Location = new System.Drawing.Point(201, 483);
+            this.btnRulerFailure.Location = new System.Drawing.Point(201, 454);
             this.btnRulerFailure.Name = "btnRulerFailure";
             this.btnRulerFailure.Size = new System.Drawing.Size(110, 37);
             this.btnRulerFailure.TabIndex = 86;
@@ -766,7 +740,7 @@
             // btnLeaderFailure
             // 
             this.btnLeaderFailure.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLeaderFailure.Location = new System.Drawing.Point(201, 526);
+            this.btnLeaderFailure.Location = new System.Drawing.Point(201, 497);
             this.btnLeaderFailure.Name = "btnLeaderFailure";
             this.btnLeaderFailure.Size = new System.Drawing.Size(110, 37);
             this.btnLeaderFailure.TabIndex = 87;
@@ -816,12 +790,10 @@
         private System.Windows.Forms.RadioButton radioButtonSO;
         private System.Windows.Forms.RadioButton radioButtonSP;
         private System.Windows.Forms.RadioButton radioButtonSC;
-        private System.Windows.Forms.CheckBox checkBoxOurs;
         private System.Windows.Forms.Label lblAdaptingText;
         private System.Windows.Forms.Label lblOptimizingText;
         public System.Windows.Forms.Label lblAdapting;
         public System.Windows.Forms.Label lblOptimizing;
-        private System.Windows.Forms.CheckBox checkBoxMultiOff;
         private System.Windows.Forms.Panel panelSetting;
         private System.Windows.Forms.TableLayoutPanel settingPanel;
         private System.Windows.Forms.Label label2;

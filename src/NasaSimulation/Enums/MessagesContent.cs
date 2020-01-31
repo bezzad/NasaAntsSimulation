@@ -4,6 +4,7 @@
     {
         UnavailableReceiver,
         LostRuler,
+        LostLeader,
         ReplyRulerNum,
         Ping,
         PingReply
