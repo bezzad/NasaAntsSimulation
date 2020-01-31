@@ -1,82 +1,93 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using Simulation.Core;
+using Simulation.Enums;
+using Simulation.Tools;
 
 namespace Simulation.Roles
 {
-    public class Worker : Role
+    public class Worker : Agent
     {
-        Container _container;
-
-        Agent _workerAgent;
-        public Worker(Container cont, Agent agent)
+        public Worker(Configuration config, AgentPosition pos, string id, 
+            OrganizationBoundries orgBoundary, Container cont) 
+            : base(config, pos, id, cont)
         {
-            _container = cont;
-            _workerAgent = agent;
-
-
-
-
+            TeamBoundary = orgBoundary;
         }
 
 
-        public void ProcessMessage(Message message)
-        {
-
-        }
-
-        internal void GetMessage(Message message)
-        {
-            if (message.ReceiverAgentId == _workerAgent.AgentId)
-            {
-                ProcessMessage(message);
-            }
-            else //must route Message
-            {
-                // SendMessage(message, recieverAgent);
-
-            }
-        }
+        protected OrganizationBoundries TeamBoundary { get; set; }
 
 
-        //public void SendMessage(Message message, Agent recieverAgent)
-        //{
-        //   Agent messengerAgent = FindNearestMessenger(workerAgent.getPosition(), recieverAgent.getPosition());
-
-        //   message.currentRecieverAgentID = messengerAgent.agentID;
-
-        //   Messenger messenger = (Messenger)messengerAgent.agentRole;
-        //   messenger.getMessage(message);         
-        //}
-
-        private Agent FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
+        private Messenger FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
         {
             double minDist = 10000;
-            Agent nAgent = null;
-            foreach (var mAgent in _container.MessangerList)
+            Messenger nAgent = null;
+            foreach (var mAgent in Container.MessengerList)
             {
-                //Role temptRole = (Role)mAgent.agentRole;
-                if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)
+                if (agentPosition.Position.CalculateDistance(mAgent.Position.Position) <= RadioRange &&
+                    agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
+                    destPosition.Position.CalculateDistance(mAgent.Position.Position) < minDist)
                 {
-                    minDist = CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position);
+                    minDist = agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
+                              destPosition.Position.CalculateDistance(mAgent.Position.Position);
                     nAgent = mAgent;
                 }
             }
             return nAgent;
         }
 
-        public double CalculateDistance(Point position, Point position2)
+        protected override void Movement()
         {
-            double dest;
+            base.Movement();
 
-            var x = position.X - position2.X;
-            var y = position.Y - position2.Y;
-            x *= x;
-            y *= y;
-            dest = Math.Sqrt(x + y);
-            return dest;
+            if (Position.Position.CalculateDistance(TeamBoundary.OrgCenter) > TeamBoundary.Radius)
+            {
+                // go back to center slowly
+                Position.Velocity.X *= -1; 
+                Position.Velocity.Y *= -1;
+                UpdateVelocity(Position);
+            }
         }
 
+        protected override void FreeMovement()
+        {
+            base.FreeMovement();
 
+            if (Position.Position.X > Config.UpperBoarder.X - Config.LowerBoarder.X)
+            {
+                Position.Velocity.X *= -1;
+                UpdateVelocity(Position);
+            }
+            if (Position.Position.X < 0)
+            {
+                Position.Position.X = Config.LowerBoarder.X;
+                Position.Velocity.X *= -1;
+                UpdateVelocity(Position);
+            }
 
+            if (Position.Position.Y > Config.UpperBoarder.Y - Config.LowerBoarder.Y)
+            {
+                Position.Velocity.Y *= -1;
+                UpdateVelocity(Position);
+            }
+            if (Position.Position.Y < 0)
+            {
+                Position.Position.Y = Config.LowerBoarder.Y;
+                Position.Velocity.Y *= -1;
+                UpdateVelocity(Position);
+            }
+        }
 
+        public override void Draw()
+        {
+            var p = Position.Position;
+            if (Status == State.Failed)
+                GL.Color3(255f, 0f, 0f);
+            else
+                GL.Color3(125f, 125f, 0f);
+            GL.Begin(PrimitiveType.Points);
+            GL.Vertex2(p.X, p.Y);
+            GL.End();
+        }
     }
 }

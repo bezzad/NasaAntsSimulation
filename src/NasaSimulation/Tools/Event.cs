@@ -1,6 +1,7 @@
-﻿namespace Simulation
+﻿using Simulation.Enums;
+
+namespace Simulation.Tools
 {
-    public enum EventType { Message, BroadcastMessage };
     public struct Event
     {
         public EventType EventType { set; get; }

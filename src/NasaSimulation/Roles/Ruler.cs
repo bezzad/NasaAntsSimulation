@@ -1,45 +1,39 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using Simulation.Core;
+using Simulation.Enums;
+using Simulation.Tools;
 using System.Collections.Generic;
 
 namespace Simulation.Roles
 {
-    public class Ruler:Role
+    public class Ruler : Agent
     {
-        public Agent RulerAgent { set; get; }
         public Area RulerArea { set; get; }
-        public Container Container { set; get; }
-        public List<Agent> LeaderList;
-        // 1 is OK, 0 is Failed
-        public int Status { set; get; }
+        public List<Leader> LeaderList { get; set; }
 
 
-        public Ruler(Area area, Container cont, Agent agent)
+        public Ruler(Configuration config, AgentPosition pos, string id, Area area, Container cont)
+            : base(config, pos, id, cont)
         {
             RulerArea = area;
-            Container = cont;
-            RulerAgent = agent;
             LeaderList = InitialLeaderList();
-            foreach(var leaderAgent in LeaderList)
+            Status = State.Stable;
+
+            foreach (var leader in LeaderList)
             {
-                var leader = (Leader)leaderAgent.AgentRole;
-                leader.RulerAgent = this.RulerAgent;
-                leaderAgent.AgentRole = leader;
+                leader.RulerAgent = this;
             }
-
-            Status = 1;
-
         }
 
 
 
-        private List<Agent> InitialLeaderList()
+        private List<Leader> InitialLeaderList()
         {
             var tempTeamList = FindTeamsInArea();
-            var tempLeaderList = new List<Agent>();
+            var tempLeaderList = new List<Leader>();
             foreach (var team in tempTeamList)
             {
                 tempLeaderList.Add(team.OrgLeader);
-
             }
 
             return tempLeaderList;
@@ -58,138 +52,96 @@ namespace Simulation.Roles
             return tempTeamList;
         }
 
-        public void ProcessMessage(Message message)
+        public void GetAndSendMessage(Message message)
         {
-
-        }
-
-        public void GetandSendMessage(Message message)
-        {
-            if (message.ReceiverAgentId == RulerAgent.AgentId)
+            if (message.ReceiverAgentId == AgentId)
             {
-                if (message.MessageContent == Program.MessagesContent.Ping)
+                if (message.MessageContent == MessagesContent.Ping)
                 {
-                    if (Program.OursExecutionMode)
+                    if (Config.OursExecutionMode)
                     {
-                        ProcessMessage(message);
-                        if (Status == 1)
+                        if (Status == State.Stable)
                         {
-                            //message.returnedStatus = 1;
-                            var replyMessage = new Message();
-                            replyMessage.MessageType = Program.BroadcastType.SingleCast;
-                            replyMessage.ReceiverAgentId = message.SenderAgentId;
-                            replyMessage.ReceiverAgent = message.SenderAgent;
-                            replyMessage.SenderAgent = this.RulerAgent;
-                            replyMessage.SenderAgentId = this.RulerAgent.AgentId;
-                            replyMessage.CurrentSenderAgent = this.RulerAgent;
-                            replyMessage.CurrentSenderAgentId = this.RulerAgent.AgentId;
-                            replyMessage.MessageContent = Program.MessagesContent.PingReply;
+                            var replyMessage = new Message
+                            {
+                                MessageType = BroadcastType.SingleCast,
+                                ReceiverAgentId = message.SenderAgentId,
+                                ReceiverAgent = message.SenderAgent,
+                                SenderAgent = this,
+                                SenderAgentId = AgentId,
+                                CurrentSenderAgent = this,
+                                CurrentSenderAgentId = AgentId,
+                                MessageContent = MessagesContent.PingReply
+                            };
                             var messengerAgent = message.CurrentSenderAgent;
-
-                            //shoulf be revised
-
-                            //    FindNearestMessenger(rulerAgent.getPosition(), message.senderAgent.getPosition());
-                            //if (messengerAgent == null)
-                            //{
-
-                            //    RadioRange += 50;
-                            //    rulerAgent.RadioRange += 50;
-
-                            //    GetandSendMessage(message);
-                            //    return;
-                            //}
-
-                         
                             replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
                             replyMessage.CurrentReceiverAgent = messengerAgent;
-
-
-
-
-                            Container.ContainerMedia.SendMessage(this.RulerAgent, replyMessage.Copy());
-                        }
-
-                        else
-                        {
-                            var x = 0;
-                            // message.returnedStatus = 0;
+                            Container.ContainerMedia.SendMessage(this, replyMessage.Copy());
                         }
                     }
                     else
                     {
-                        ProcessMessage(message);
-                        if (Status == 1)
+                        if (Status == State.Stable)
                         {
-                            //message.returnedStatus = 1;
-                            var replyMessage = new Message();
-                            replyMessage.MessageType = Program.BroadcastType.SingleCast;
-                            replyMessage.ReceiverAgentId = message.SenderAgentId;
-                            replyMessage.ReceiverAgent = message.SenderAgent;
-                            replyMessage.SenderAgent = this.RulerAgent;
-                            replyMessage.SenderAgentId = this.RulerAgent.AgentId;
-                            replyMessage.CurrentSenderAgent = this.RulerAgent;
-                            replyMessage.CurrentSenderAgentId = this.RulerAgent.AgentId;
-                            replyMessage.MessageContent = Program.MessagesContent.PingReply;
-                            var messengerAgent = FindNearestMessenger(RulerAgent.GetPosition(), message.SenderAgent.GetPosition());
+                            var replyMessage = new Message
+                            {
+                                MessageType = BroadcastType.SingleCast,
+                                ReceiverAgentId = message.SenderAgentId,
+                                ReceiverAgent = message.SenderAgent,
+                                SenderAgent = this,
+                                SenderAgentId = AgentId,
+                                CurrentSenderAgent = this,
+                                CurrentSenderAgentId = AgentId,
+                                MessageContent = MessagesContent.PingReply
+                            };
+                            var messengerAgent = FindNearestMessenger(Position, message.SenderAgent.Position);
                             if (messengerAgent == null)
                             {
 
                                 RadioRange += 50;
-                                RulerAgent.RadioRange += 50;
-
-                                GetandSendMessage(message);
+                                GetAndSendMessage(message);
                                 return;
                             }
 
 
                             replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
                             replyMessage.CurrentReceiverAgent = messengerAgent;
-
-
-
-                            Container.ContainerMedia.SendMessage(this.RulerAgent, replyMessage.Copy());
-                        }
-
-                        else
-                        {
-                            var x = 0;
-                            // message.returnedStatus = 0;
+                            Container.ContainerMedia.SendMessage(this, replyMessage.Copy());
                         }
                     }
 
 
                 }
-                else if (Program.OursExecutionMode && message.MessageContent == Program.MessagesContent.LostRuler)
+                else if (Config.OursExecutionMode && message.MessageContent == MessagesContent.LostRuler)
                 {
-                    if (Status == 1)
+                    if (Status == State.Stable)
                     {
-                        var replyMessage = new Message();
-                        replyMessage.MessageType = Program.BroadcastType.SingleCast;
-                        replyMessage.ReceiverAgentId = message.SenderAgentId;
-                        replyMessage.ReceiverAgent = message.SenderAgent;
-                        replyMessage.SenderAgent = this.RulerAgent;
-                        replyMessage.SenderAgentId = this.RulerAgent.AgentId;
-                        replyMessage.CurrentSenderAgent = this.RulerAgent;
-                        replyMessage.CurrentSenderAgentId = this.RulerAgent.AgentId;
-                        replyMessage.MessageContent = Program.MessagesContent.ReplyRulerNum;
-                        replyMessage.RulerPingReply = this.RulerAgent;
-                        if (message.ReceiverAgent.AgentType == RolesName.Messenger)
+                        var replyMessage = new Message
                         {
-                            if (CalculateDistance(this.RulerAgent.GetPosition().Position, replyMessage.ReceiverAgent.GetPosition().Position) < this.RadioRange)
+                            MessageType = BroadcastType.SingleCast,
+                            ReceiverAgentId = message.SenderAgentId,
+                            ReceiverAgent = message.SenderAgent,
+                            SenderAgent = this,
+                            SenderAgentId = AgentId,
+                            CurrentSenderAgent = this,
+                            CurrentSenderAgentId = AgentId,
+                            MessageContent = MessagesContent.ReplyRulerNum,
+                            RulerPingReply = this
+                        };
+                        if (message.ReceiverAgent is Messenger)
+                        {
+                            if (Position.Position.CalculateDistance(replyMessage.ReceiverAgent.Position.Position) < RadioRange)
                             {
                                 replyMessage.CurrentReceiverAgent = replyMessage.ReceiverAgent;
                                 replyMessage.CurrentReceiverAgentId = replyMessage.ReceiverAgentId;
                             }
                             else
                             {
-                                var messengerAgent = FindNearestMessenger(RulerAgent.GetPosition(), message.SenderAgent.GetPosition());
+                                var messengerAgent = FindNearestMessenger(Position, message.SenderAgent.Position);
                                 if (messengerAgent == null)
                                 {
-
                                     RadioRange += 50;
-                                    RulerAgent.RadioRange += 50;
-
-                                    GetandSendMessage(message);
+                                    GetAndSendMessage(message);
                                     return;
                                 }
 
@@ -199,94 +151,100 @@ namespace Simulation.Roles
                         }
                         else
                         {
-                            var messengerAgent = FindNearestMessenger(RulerAgent.GetPosition(), message.SenderAgent.GetPosition());
+                            var messengerAgent = FindNearestMessenger(Position, message.SenderAgent.Position);
                             if (messengerAgent == null)
                             {
-
                                 RadioRange += 50;
-                                RulerAgent.RadioRange += 50;
-
-                                GetandSendMessage(message);
+                                GetAndSendMessage(message);
                                 return;
                             }
 
                             replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
                             replyMessage.CurrentReceiverAgent = messengerAgent;
-
                         }
-                     
-
-
-
                         Container.ContainerMedia.SendMessage(replyMessage.SenderAgent, replyMessage.Copy());
-
                     }
                 }
             }
 
         }
 
-        internal void GetMessage(Message message)
-        {
-            if (message.ReceiverAgentId == RulerAgent.AgentId)
-            {
-                ProcessMessage(message);
-            }
-            else //must route Message
-            {
-                // SendMessage(message, recieverAgent);
-            }
-        }
-
-        //public void SendMessage(Message message, Agent recieverAgent)
-        //{
-        //    Agent messengerAgent = FindNearestMessenger(rulerAgent.getPosition(), recieverAgent.getPosition());
-
-        //    message.currentRecieverAgentID = messengerAgent.agentID;
-
-        //    Messenger messenger = (Messenger)messengerAgent.agentRole;
-        //    messenger.getMessage(message);
-        //}
-
-        private Agent FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
+        private Messenger FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
         {
             double minDist = 10000;
-            Agent nAgent = null;
-            var testList = new List<double>();
+            Messenger nAgent = null;
 
-            //foreach (Agent mAgent in container.MessangerList)
-            //{
-            //    //Role temptRole = (Role)mAgent.agentRole;
-            //    testList.Add(calculateDistance(agentPosition.Position, mAgent.getPosition().Position));
-                
-            //}
-
-            foreach (var mAgent in Container.MessangerList)
+            foreach (var mAgent in Container.MessengerList)
             {
-                //Role temptRole = (Role)mAgent.agentRole;
-                if (CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) <= RadioRange && CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position) < minDist)
+                if (agentPosition.Position.CalculateDistance(mAgent.Position.Position) <= RadioRange &&
+                    agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
+                    destPosition.Position.CalculateDistance(mAgent.Position.Position) < minDist)
                 {
-                    minDist = CalculateDistance(agentPosition.Position, mAgent.GetPosition().Position) + CalculateDistance(destPosition.Position, mAgent.GetPosition().Position);
+                    minDist = agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
+                              destPosition.Position.CalculateDistance(mAgent.Position.Position);
                     nAgent = mAgent;
                 }
             }
             return nAgent;
         }
 
-        public double CalculateDistance(Point position, Point position2)
+        protected override void FreeMovement()
         {
-            double dest;
+            base.FreeMovement();
 
-            var x = position.X - position2.X;
-            var y = position.Y - position2.Y;
-            x *= x;
-            y *= y;
-            dest = Math.Sqrt(x + y);
-            return dest;
+            if (Position.Position.X > RulerArea.MaxX)
+            {
+                Position.Velocity.X *= -1;
+                Position.Position.X = RulerArea.MaxX;
+                UpdateVelocity(Position);
+            }
+
+            if (Position.Position.X < RulerArea.MinX)
+            {
+                Position.Velocity.X *= -1;
+                Position.Position.X = RulerArea.MinX;
+                UpdateVelocity(Position);
+            }
+
+            if (Position.Position.Y > RulerArea.MaxY)
+            {
+                Position.Velocity.Y *= -1;
+                Position.Position.Y = RulerArea.MaxY;
+                UpdateVelocity(Position);
+            }
+
+            if (Position.Position.Y < RulerArea.MinY)
+            {
+                Position.Velocity.Y *= -1;
+                Position.Position.Y = RulerArea.MinY;
+                UpdateVelocity(Position);
+            }
         }
 
+        public override void Draw()
+        {
+            var p = Position.Position;
+            if (Status == State.Failed)
+                GL.Color3(255f, 0f, 0f);
+            else
+                GL.Color3(0f, 255f, 255f);
 
+            var p1 = new Point(p.X, p.Y + 10);
+            var p2 = new Point(p.X + 10, p.Y + 5);
+            var p3 = new Point(p.X + 10, p.Y - 5);
+            var p4 = new Point(p.X, p.Y - 10);
+            var p5 = new Point(p.X - 10, p.Y - 5);
+            var p6 = new Point(p.X - 10, p.Y + 5);
 
-
+            GL.Begin(PrimitiveType.Polygon);
+            GL.Vertex2(p1.X, p1.Y);
+            GL.Vertex2(p2.X, p2.Y);
+            GL.Vertex2(p3.X, p3.Y);
+            GL.Vertex2(p4.X, p4.Y);
+            GL.Vertex2(p5.X, p5.Y);
+            GL.Vertex2(p6.X, p6.Y);
+            GL.Vertex2(p1.X, p1.Y);
+            GL.End();
+        }
     }
 }

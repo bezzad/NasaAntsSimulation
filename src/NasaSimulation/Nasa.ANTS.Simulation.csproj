@@ -38,6 +38,12 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -50,28 +56,29 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\Tao.OpenGl.dll</HintPath>
-    </Reference>
-    <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\Tao.Platform.Windows.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent.cs" />
-    <Compile Include="Container.cs" />
-    <Compile Include="Event.cs" />
+    <Compile Include="Core\Agent.cs" />
+    <Compile Include="Core\Configuration.cs" />
+    <Compile Include="Core\FaultGenerator.cs" />
+    <Compile Include="Tools\AgentPosition.cs" />
+    <Compile Include="Tools\Area.cs" />
+    <Compile Include="Enums\BroadcastType.cs" />
+    <Compile Include="Core\Container.cs" />
+    <Compile Include="Enums\MessagesContent.cs" />
+    <Compile Include="Tools\Event.cs" />
+    <Compile Include="Enums\EventType.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI.cs" />
-    <Compile Include="Media.cs" />
-    <Compile Include="Message.cs" />
+    <Compile Include="Gui.cs" />
+    <Compile Include="Tools\Media.cs" />
+    <Compile Include="Core\Message.cs" />
+    <Compile Include="Tools\OrganizationBoundries.cs" />
+    <Compile Include="Tools\Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -88,6 +95,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -99,12 +108,31 @@
     </Compile>
     <Compile Include="Roles\Leader.cs" />
     <Compile Include="Roles\Messenger.cs" />
-    <Compile Include="Roles\Role.cs" />
     <Compile Include="Roles\Ruler.cs" />
     <Compile Include="Roles\Worker.cs" />
+    <Compile Include="Scenario\IScenario.cs" />
     <Compile Include="Scenario\SelfHealingScenario1.cs" />
-    <Compile Include="Team.cs" />
-    <Compile Include="Time.cs" />
+    <Compile Include="Enums\State.cs" />
+    <Compile Include="Core\Team.cs" />
+    <Compile Include="Tools\Time.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\failed-ruler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\leader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\messenger.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ruler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\team.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\workers.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

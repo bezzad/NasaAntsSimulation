@@ -1,24 +1,27 @@
 ﻿using System.Collections.Generic;
+using Simulation.Core;
+using Simulation.Enums;
 using Simulation.Roles;
 
-namespace Simulation
+namespace Simulation.Tools
 {
     public class Media
     {
         public List<Message> MessageList = new List<Message>();
-        readonly Container _container;
+        protected Configuration Config { get; }
+        protected Container Container { get; }
         public int MessageCount = 1;
-        public Media(Container cont)
+        public Media(Configuration config, Container cont)
         {
-            _container = cont;
+            Config = config;
+            Container = cont;
         }
         public bool SendMessage(Agent sender, Message msg)
         {
             MessageCount++;
             msg.MessageId = MessageCount;
             MessageList.Add(msg);
-            //--- must do --- check if this agent is in forbiden area
-            //------------------
+            //--- must do --- check if this agent is in forbidden area
             AddMessageEventToContainer(MessageCount);
             return true;
         }
@@ -28,35 +31,30 @@ namespace Simulation
 
 
 
-            _container.AddEventToQeue(msgId, Program.Msgdelay);
+            Container.AddEventToQueue(msgId, Config.MsgDelay);
         }
 
-        public bool SendToAgent(Message message, Agent reciever)
+        public bool SendToAgent(Message message, Agent receiver)
         {
-            if (reciever.AgentType == Role.RolesName.Messenger)
+            if (receiver is Messenger tempMessenger)
             {
-                var tempMesenger = (Messenger)reciever.AgentRole;
-                tempMesenger.GetMessage(message.Copy());
+                tempMessenger.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Worker)
+            else if (receiver is Worker)
             {
-                var tempWorker = (Worker)reciever.AgentRole;
-                tempWorker.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Ruler)
+            else if (receiver is Ruler tempRuler)
             {
-                var tempRuler = (Ruler)reciever.AgentRole;
-                tempRuler.GetandSendMessage(message.Copy());
+                tempRuler.GetAndSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Leader)
+            else if (receiver is Leader tempLeader)
             {
-                var tempLeader = (Leader)reciever.AgentRole;
                 tempLeader.GetMessage(message.Copy());
                 MessageList.Remove(message);
             }
@@ -65,46 +63,40 @@ namespace Simulation
 
 
 
-        public bool SendBroadcastToAgent(Message message, Agent reciever)
+        public bool SendBroadcastToAgent(Message message, Agent receiver)
         {
-            if (reciever.AgentType == Role.RolesName.Messenger)
+            if (receiver is Messenger tempMessenger)
             {
-                var tempMesenger = (Messenger)reciever.AgentRole;
-                tempMesenger.GetMessage(message);
+                tempMessenger.GetMessage(message);
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Worker)
+            else if (receiver is Worker)
             {
-                var tempWorker = (Worker)reciever.AgentRole;
-                tempWorker.GetMessage(message);
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Ruler)
+            else if (receiver is Ruler tempRuler)
             {
-                var tempRuler = (Ruler)reciever.AgentRole;
-                tempRuler.GetandSendMessage(message);
+                tempRuler.GetAndSendMessage(message);
                 MessageList.Remove(message);
             }
 
-            else if (reciever.AgentType == Role.RolesName.Leader)
+            else if (receiver is Leader tempLeader)
             {
-                var tempLeader = (Leader)reciever.AgentRole;
                 tempLeader.GetMessage(message);
-                var x = MessageList.Remove(message);
+                MessageList.Remove(message);
             }
             return true;
         }
 
-        public bool SendToAgentAndRecieve(Message message, Agent reciever)
+        public bool SendToAgentAndReceive(Message message, Agent receiver)
         {
 
 
-            if (reciever.AgentType == Role.RolesName.Ruler)
+            if (receiver is Ruler tempRuler)
             {
-                var tempRuler = (Ruler)reciever.AgentRole;
-                tempRuler.GetandSendMessage(message.Copy());
+                tempRuler.GetAndSendMessage(message.Copy());
                 MessageList.Remove(message);
             }
 
@@ -115,24 +107,16 @@ namespace Simulation
         {
             var msgStatus = true;
             var tempMsg = MessageList.Find(
-                delegate (Message msg)
-                {
-                    return msg.MessageId == msgId;
-                }
-                );
+                msg => msg.MessageId == msgId
+            );
 
-
-            if (tempMsg == null)
-            {
-                var r = 0;
-            }
             switch (tempMsg.MessageType)
             {
-                case Program.BroadcastType.Broadcast:
+                case BroadcastType.Broadcast:
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
-                            var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
 
@@ -153,23 +137,23 @@ namespace Simulation
                         break;
 
                     }
-                case Program.BroadcastType.SingleCast:
+                case BroadcastType.SingleCast:
                     {
                         var agent = tempMsg.CurrentReceiverAgent;
                         SendToAgent(tempMsg, agent);
                         break;
                     }
 
-                case Program.BroadcastType.MessengersToRulersBroadcast:
+                case BroadcastType.MessengersToRulersBroadcast:
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
                             if (tempMsg.NumOfBroadcastSteps == 1)
                             {
-                                var agentList = _container.GetRulersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetRulersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Ruler && agent.AgentId != tempMsg.SenderAgentId)
+                                    if (agent is Ruler && agent.AgentId != tempMsg.SenderAgentId)
                                     {
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -184,10 +168,10 @@ namespace Simulation
                             }
                             else if (tempMsg.NumOfBroadcastSteps == 2)
                             {
-                                var agentList = _container.GetRulersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetRulersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Ruler && agent.AgentId != tempMsg.SenderAgentId)
+                                    if (agent is Ruler && agent.AgentId != tempMsg.SenderAgentId)
                                     {
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -199,10 +183,10 @@ namespace Simulation
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
-                                var messengerAgentList = _container.GetMessangersInRange(tempMsg.CurrentSenderAgent);
+                                var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
+                                    if (agent is Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
                                     {
                                         var lostRulerMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -212,20 +196,16 @@ namespace Simulation
                                         lostRulerMessage.ReceiverAgent = null;
                                         lostRulerMessage.ReceiverAgentId = "-1";
 
-                                        lostRulerMessage.MessageType = Program.BroadcastType.MessengersToRulersBroadcast;
+                                        lostRulerMessage.MessageType = BroadcastType.MessengersToRulersBroadcast;
                                         lostRulerMessage.NumOfBroadcastSteps = 1;
 
-
-
-                                        lostRulerMessage.MessageContent = Program.MessagesContent.LostRuler;
+                                        lostRulerMessage.MessageContent = MessagesContent.LostRuler;
                                         SendBroadcastToAgent(lostRulerMessage, agent);
-
                                     }
                                 }
                             }
 
                             MessageList.Remove(tempMsg);
-
                         }
 
                         else
@@ -237,16 +217,16 @@ namespace Simulation
                     }
 
 
-                case Program.BroadcastType.MessengerToLeaderBroadcast:
+                case BroadcastType.MessengerToLeaderBroadcast:
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
                             if (tempMsg.NumOfBroadcastSteps == 1)
                             {
-                                var agentList = _container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Leader && agent.AgentId != tempMsg.SenderAgentId)
+                                    if (agent is Leader && agent.AgentId != tempMsg.SenderAgentId)
                                     {
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -261,10 +241,10 @@ namespace Simulation
                             }
                             else if (tempMsg.NumOfBroadcastSteps == 2)
                             {
-                                var agentList = _container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Leader && agent.AgentId != tempMsg.SenderAgentId)
+                                    if (agent is Leader && agent.AgentId != tempMsg.SenderAgentId)
                                     {
                                         var singleMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -276,10 +256,10 @@ namespace Simulation
                                         SendBroadcastToAgent(singleMessage, agent);
                                     }
                                 }
-                                var messengerAgentList = _container.GetMessangersInRange(tempMsg.CurrentSenderAgent);
+                                var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
-                                    if (agent.AgentType == Role.RolesName.Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
+                                    if (agent is Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
                                     {
                                         var lostRulerMessage = tempMsg.Copy();
                                         MessageCount++;
@@ -289,12 +269,12 @@ namespace Simulation
                                         lostRulerMessage.ReceiverAgent = null;
                                         lostRulerMessage.ReceiverAgentId = "-1";
 
-                                        lostRulerMessage.MessageType = Program.BroadcastType.MessengerToLeaderBroadcast;
+                                        lostRulerMessage.MessageType = BroadcastType.MessengerToLeaderBroadcast;
                                         lostRulerMessage.NumOfBroadcastSteps = 1;
 
 
 
-                                        lostRulerMessage.MessageContent = Program.MessagesContent.LostRuler;
+                                        lostRulerMessage.MessageContent = MessagesContent.LostRuler;
                                         SendBroadcastToAgent(lostRulerMessage, agent);
 
                                     }
@@ -302,7 +282,6 @@ namespace Simulation
                             }
 
                             MessageList.Remove(tempMsg);
-
                         }
 
                         else
@@ -313,14 +292,14 @@ namespace Simulation
                         break;
                     }
 
-                case Program.BroadcastType.MessengerToMessengersBroadcast:
+                case BroadcastType.MessengerToMessengersBroadcast:
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
-                            var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
-                                if (agent.AgentType == Role.RolesName.Messenger)
+                                if (agent is Messenger)
                                 {
                                     var singleMessage = tempMsg.Copy();
                                     MessageCount++;
@@ -333,8 +312,6 @@ namespace Simulation
                                 }
                             }
                         }
-
-
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
@@ -343,14 +320,14 @@ namespace Simulation
                         break;
                     }
 
-                case Program.BroadcastType.MessengerToWorkersBroadcast:
+                case BroadcastType.MessengerToWorkersBroadcast:
                     {
                         if (tempMsg.ReceiverAgentId == "-1")
                         {
-                            var agentList = _container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
-                                if (agent.AgentType == Role.RolesName.Worker)
+                                if (agent is Worker)
                                 {
                                     var singleMessage = tempMsg.Copy();
                                     MessageCount++;
@@ -360,12 +337,9 @@ namespace Simulation
                                     singleMessage.ReceiverAgent = agent;
                                     singleMessage.ReceiverAgentId = agent.AgentId;
                                     SendBroadcastToAgent(singleMessage, agent);
-
                                 }
-
                             }
                         }
-
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
@@ -374,7 +348,7 @@ namespace Simulation
                         break;
                     }
 
-                case Program.BroadcastType.SendRecieve:
+                case BroadcastType.SendReceive:
                     {
                         if (tempMsg.ReceiverAgentId == "-1")
                         {
@@ -394,7 +368,7 @@ namespace Simulation
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
 
-                            msgStatus = SendToAgentAndRecieve(tempMsg, agent);
+                            msgStatus = SendToAgentAndReceive(tempMsg, agent);
                         }
 
                         else
@@ -402,33 +376,10 @@ namespace Simulation
                             var agent = tempMsg.CurrentReceiverAgent;
                             msgStatus = SendToAgent(tempMsg, agent);
                         }
-
-
                         break;
-
                     }
-
-
-
-
-
-
-
             }
-
             return msgStatus;
-
         }
-
-
-
-
-
     }
-
-
-
-
-
 }
-
