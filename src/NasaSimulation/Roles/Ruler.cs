@@ -52,7 +52,7 @@ namespace Simulation.Roles
             return tempTeamList;
         }
 
-        public void GetAndSendMessage(Message message)
+        public override void OnMessage(Message message)
         {
             if (Status == State.Failed) return;
 
@@ -62,7 +62,6 @@ namespace Simulation.Roles
                 {
                     if (Config.OursExecutionMode)
                     {
-
                         var replyMessage = new Message
                         {
                             MessageType = BroadcastType.SingleCast,
@@ -97,7 +96,7 @@ namespace Simulation.Roles
                         {
 
                             RadioRange += 50;
-                            GetAndSendMessage(message);
+                            OnMessage(message);
                             return;
                         }
 
@@ -133,7 +132,7 @@ namespace Simulation.Roles
                             if (messengerAgent == null)
                             {
                                 RadioRange += 50;
-                                GetAndSendMessage(message);
+                                OnMessage(message);
                                 return;
                             }
 
@@ -147,7 +146,7 @@ namespace Simulation.Roles
                         if (messengerAgent == null)
                         {
                             RadioRange += 50;
-                            GetAndSendMessage(message);
+                            OnMessage(message);
                             return;
                         }
 
@@ -219,9 +218,5 @@ namespace Simulation.Roles
             GL.End();
         }
 
-        public override void OnMessage(Message message)
-        {
-            if (Status == State.Failed) return;
-        }
     }
 }

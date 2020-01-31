@@ -99,6 +99,8 @@ namespace Simulation.Roles
         public override void OnMessage(Message message)
         {
             if(Status == State.Failed) return;
+
+
         }
     }
 }

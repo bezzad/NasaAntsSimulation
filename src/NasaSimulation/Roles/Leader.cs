@@ -157,6 +157,24 @@ namespace Simulation.Roles
                     }
                 }
             }
+            else if(message.MessageContent == MessagesContent.Ping)
+            {
+                var replyMessage = new Message
+                {
+                    MessageType = BroadcastType.SingleCast,
+                    ReceiverAgentId = message.SenderAgentId,
+                    ReceiverAgent = message.SenderAgent,
+                    SenderAgent = this,
+                    SenderAgentId = AgentId,
+                    CurrentSenderAgent = this,
+                    CurrentSenderAgentId = AgentId,
+                    MessageContent = MessagesContent.PingReply
+                };
+                var messengerAgent = message.CurrentSenderAgent;
+                replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
+                replyMessage.CurrentReceiverAgent = messengerAgent;
+                Container.ContainerMedia.SendMessage(replyMessage);
+            }
         }
 
         private void MeasureAdaptingTime()

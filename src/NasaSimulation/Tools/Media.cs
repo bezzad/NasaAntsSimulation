@@ -43,14 +43,15 @@ namespace Simulation.Tools
                 MessageList.Remove(message);
             }
 
-            else if (receiver is Worker)
+            else if (receiver is Worker worker)
             {
+                worker.OnMessage(message);
                 MessageList.Remove(message);
             }
 
             else if (receiver is Ruler tempRuler)
             {
-                tempRuler.GetAndSendMessage(message);
+                tempRuler.OnMessage(message);
                 MessageList.Remove(message);
             }
 
@@ -64,38 +65,15 @@ namespace Simulation.Tools
 
         public bool SendBroadcastToAgent(Message message, Agent receiver)
         {
-            if (receiver is Messenger tempMessenger)
-            {
-                tempMessenger.OnMessage(message);
-                MessageList.Remove(message);
-            }
-
-            else if (receiver is Worker)
-            {
-                MessageList.Remove(message);
-            }
-
-            else if (receiver is Ruler tempRuler)
-            {
-                tempRuler.GetAndSendMessage(message);
-                MessageList.Remove(message);
-            }
-
-            else if (receiver is Leader tempLeader)
-            {
-                tempLeader.OnMessage(message);
-                MessageList.Remove(message);
-            }
+            receiver.OnMessage(message);
+            MessageList.Remove(message);
             return true;
         }
 
         public bool SendToAgentAndReceive(Message message, Agent receiver)
         {
-            if (receiver is Ruler tempRuler)
-            {
-                tempRuler.GetAndSendMessage(message.Copy());
-                MessageList.Remove(message);
-            }
+            receiver.OnMessage(message.Copy());
+            MessageList.Remove(message);
 
             return true;
         }
