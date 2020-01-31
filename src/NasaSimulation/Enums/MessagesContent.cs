@@ -7,6 +7,7 @@
         LostLeader,
         ReplyRulerNum,
         Ping,
-        PingReply
+        PingReply,
+        AssignLeader
     }
 }

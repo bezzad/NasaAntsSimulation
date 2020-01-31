@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenTK.Graphics.OpenGL;
 using Simulation.Roles;
 using Simulation.Tools;
@@ -11,27 +12,29 @@ namespace Simulation.Core
         protected Configuration Config { get; }
         public int NumOfAgents { set; get; }
         public int OrganizationId { set; get; }
-        public List<Agent> AgentsArray;
-        public Leader OrgLeader;
-        public OrganizationBoundries OrganizationBoundries;
-        public Container Container;
+        public List<Worker> AgentsArray { set; get; }
+        public List<Leader> LeadersHistory { set; get; }
+        public Leader ActiveLeader => LeadersHistory?.LastOrDefault();
+        public OrganizationBoundries OrganizationBoundries { set; get; }
+        public Container Container { get; }
 
 
         public Team(Configuration config, int orgId, int agentCount, 
             OrganizationBoundries orgBoundries, Container cont)
         {
+            LeadersHistory = new List<Leader>();
             Config = config;
             Container = cont;
             OrganizationBoundries = orgBoundries;
             OrganizationId = orgId;
             NumOfAgents = agentCount;
-            OrgLeader = CreateLeader();
-            AgentsArray = new List<Agent>(NumOfAgents);
+            LeadersHistory.Add(CreateLeader());
+            AgentsArray = new List<Worker>(NumOfAgents);
             for (var i = 0; i < NumOfAgents; i++)
             {
                 var sId = "W" + OrganizationId + i;
                 var worker = CreateNode(sId);
-                worker.LeaderAgent = OrgLeader;
+                worker.LeaderAgent = ActiveLeader;
                 AgentsArray.Add(worker);
             }
         }
@@ -72,22 +75,6 @@ namespace Simulation.Core
             tempAgentPosition.Position.X = randomRadius * Math.Sin(randomDegree) + OrganizationBoundries.OrgCenter.X;
             tempAgentPosition.Position.Y = randomRadius * Math.Cos(randomDegree) + OrganizationBoundries.OrgCenter.Y;
             return tempAgentPosition;
-        }
-
-        public Agent GetAgent(int index)
-        {
-            var t = AgentsArray[index];
-            return t;
-        }
-
-        public void SubscribeAgent(Agent agent)
-        {
-            AgentsArray.Add(agent);
-        }
-
-        public void UnsubscribeAgent(Agent agent)
-        {
-            AgentsArray.Remove(agent);
         }
 
         public void UpdateOrgOneMillisecond()

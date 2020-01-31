@@ -16,10 +16,10 @@ namespace Simulation.Core
         public string CurrentSenderAgentId { set; get; }
         public string CurrentReceiverAgentId { set; get; }
         public BroadcastType MessageType { set; get; }
-        public int ReturnedStatus { set; get; }
         public MessagesContent MessageContent { set; get; }
         public Ruler RulerPingReply { set; get; }
         public string DataMessageText { set; get; }
+        public object Data { set; get; }
         public int NumOfBroadcastSteps { set; get; }
         public long RoutingTime { set; get; }
         public List<Agent> RoutingList { set; get; } = new List<Agent>();

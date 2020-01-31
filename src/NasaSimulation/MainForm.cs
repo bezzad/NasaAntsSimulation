@@ -1,5 +1,4 @@
 ﻿using Simulation.Core;
-using Simulation.Scenario;
 using Simulation.Tools;
 using System;
 using System.ComponentModel;
@@ -74,7 +73,6 @@ namespace Simulation
             Time.OursOptimizingTime = 0;
             Config.StartMessageCount = 0;
 
-            Config.SelectedScenario = new SelfHealingScenario1(Config);
             EnvironmentContainer = new Container(Config);
             AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
             FaultGenerator = new FaultGenerator(Config, EnvironmentContainer);
@@ -104,7 +102,6 @@ namespace Simulation
 
         private void SetConfiguration()
         {
-            Config.SelectedScenario = new SelfHealingScenario1(Config); // radioButtonSH.Checked
             Config.LowerBoarder.X = 0;
             Config.LowerBoarder.Y = 0;
             Config.UpperBoarder.X = Width - settingPanel.Width;

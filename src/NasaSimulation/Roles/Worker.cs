@@ -114,6 +114,30 @@ namespace Simulation.Roles
                 if (index >= 0)
                     ReplyWaitingList.RemoveAt(index);
             }
+            else if (message.MessageContent == MessagesContent.AssignLeader &&
+                     message.Data is Team team)
+            {
+                // assign self as leader
+                var leader = new Leader(team, Config, Position, "L" + AgentId, Container);
+                team.LeadersHistory.Add(leader);
+                team.AgentsArray.Remove(this);
+                // aware other workers of this team
+                var awareMessage = new Message()
+                {
+                    RoutingTime = Time.GlobalSimulationTime,
+                    SenderAgent = leader,
+                    SenderAgentId = leader.AgentId,
+                    CurrentSenderAgent = this,
+                    CurrentReceiverAgent = message.SenderAgent,
+                    CurrentReceiverAgentId = message.SenderAgent.AgentId,
+                    ReceiverAgent = message.SenderAgent,
+                    ReceiverAgentId = message.SenderAgent.AgentId,
+                    MessageType = BroadcastType.MessengerToWorkersBroadcast,
+                    MessageContent = MessagesContent.AssignLeader,
+                    Data = team
+                };
+                SendMessage(awareMessage);
+            }
         }
 
         protected void CheckPingList()
@@ -126,6 +150,7 @@ namespace Simulation.Roles
                 if (messenger != null)
                 {
                     ReplyWaitingList.Remove(expiredPing); // remove to prevent duplicate request
+                    if(expiredPing.ReceiverAgentId != LeaderAgent.AgentId) return;
                     var ping = new Message()
                     {
                         RoutingTime = Time.GlobalSimulationTime,
@@ -138,6 +163,7 @@ namespace Simulation.Roles
                         ReceiverAgentId = messenger.AgentId,
                         MessageType = BroadcastType.SingleCast,
                         MessageContent = MessagesContent.LostLeader,
+                        DataMessageText = LeaderAgent.AgentId
                     };
                     SendMessage(ping);
                 }

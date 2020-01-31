@@ -3,6 +3,7 @@ using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Tools;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Configuration = Simulation.Core.Configuration;
 
@@ -82,6 +83,35 @@ namespace Simulation.Roles
                     }
                 }
             }
+            else if (message.MessageContent == MessagesContent.LostLeader) // reply worker to assign it to leader of team
+            {
+                var team = Container.TeamList.Find(t => t.ActiveLeader.AgentId == message.DataMessageText);
+                var tempMessage = new Message()
+                {
+                    SenderAgent = this,
+                    SenderAgentId = AgentId,
+                    CurrentSenderAgent = this,
+                    ReceiverAgent = message.SenderAgent,
+                    ReceiverAgentId = message.SenderAgent.AgentId,
+                    MessageType = BroadcastType.SingleCast,
+                    MessageContent = MessagesContent.AssignLeader,
+                    DataMessageText = "GetTeamData",
+                    Data = team
+                };
+                SendMessage(tempMessage);
+            }
+            else if(message.MessageContent == MessagesContent.AssignLeader) 
+            {
+                if (message.Data is Team team && message.SenderAgent is Leader leader)
+                {
+                    foreach (var worker in team.AgentsArray)
+                    {
+                        worker.LeaderAgent = leader;
+                    }
+
+                    Time.OursAdaptingTime = Time.GlobalSimulationTime;
+                }
+            }
         }
 
         public override void OnMessage(Message message)
@@ -90,10 +120,9 @@ namespace Simulation.Roles
 
             if (message.ReceiverAgentId == AgentId)
             {
-                {
-                    ProcessMessage(message);
-                }
+                ProcessMessage(message);
             }
+
             else if (message.ReceiverAgentId == "-1")
             {
                 message.CurrentReceiverAgentId = "-1";
@@ -166,7 +195,6 @@ namespace Simulation.Roles
                 if (mAgent == null)
                 {
                     RadioRange += 50;
-                    RadioRange += 50;
                     OnMessage(message);
                     return;
                 }
@@ -176,7 +204,6 @@ namespace Simulation.Roles
                 message.CurrentSenderAgentId = AgentId;
                 message.RoutingList.Add(this);
                 Container.ContainerMedia.SendMessage(message.Copy());
-
             }
         }
 

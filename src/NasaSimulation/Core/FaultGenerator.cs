@@ -44,10 +44,10 @@ namespace Simulation.Core
         public void LeaderFailure()
         {
             PreFailureProcess();
-            var stableLeaders = Container.TeamList.Where(t => t.OrgLeader.Status == State.Stable).ToList();
+            var stableLeaders = Container.TeamList.Where(t => t.ActiveLeader.Status == State.Stable).ToList();
             if (stableLeaders.Count == 0) return;
             var iRemoveIndex = Config.Rnd.Next(0, stableLeaders.Count - 1);
-            var lostLeader = stableLeaders[iRemoveIndex].OrgLeader;
+            var lostLeader = stableLeaders[iRemoveIndex].ActiveLeader;
             SetLostAgent(lostLeader);
         }
 

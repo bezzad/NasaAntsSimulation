@@ -33,7 +33,7 @@ namespace Simulation.Roles
             var tempLeaderList = new List<Leader>();
             foreach (var team in tempTeamList)
             {
-                tempLeaderList.Add(team.OrgLeader);
+                tempLeaderList.Add(team.ActiveLeader);
             }
 
             return tempLeaderList;

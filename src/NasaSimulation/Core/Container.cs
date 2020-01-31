@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using Simulation.Enums;
 using Simulation.Roles;
-using Simulation.Scenario;
 using Simulation.Tools;
 
 namespace Simulation.Core
@@ -140,8 +139,6 @@ namespace Simulation.Core
                 Time.Tick();
                 UpdateOrganizations();
 
-                Config.SelectedScenario?.Run();
-
                 Thread.Sleep(Config.HesitateValue);
                 HandleEvents();
             }
@@ -168,7 +165,7 @@ namespace Simulation.Core
             foreach (var team in TeamList)
             {
                 team.UpdateOrgOneMillisecond();
-                team.OrgLeader.UpdateOneMillisecond();
+                team.ActiveLeader.UpdateOneMillisecond();
             }
 
             foreach (var agent in MessengerList)
@@ -242,7 +239,7 @@ namespace Simulation.Core
             var position = agent.Position.Position;
             foreach (var team in TeamList)
             {
-                var leaderAgent = team.OrgLeader;
+                var leaderAgent = team.ActiveLeader;
                 var tempPosition = leaderAgent.Position.Position;
                 if (CalculateInRange(position, tempPosition, agent.RadioRange))
                 {

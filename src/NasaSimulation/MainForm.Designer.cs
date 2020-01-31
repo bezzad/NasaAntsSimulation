@@ -30,10 +30,6 @@
         {
             this.guiOpenGLFrame = new OpenTK.GLControl();
             this.btnStop = new System.Windows.Forms.Button();
-            this.radioButtonSH = new System.Windows.Forms.RadioButton();
-            this.radioButtonSO = new System.Windows.Forms.RadioButton();
-            this.radioButtonSP = new System.Windows.Forms.RadioButton();
-            this.radioButtonSC = new System.Windows.Forms.RadioButton();
             this.lblAdaptingText = new System.Windows.Forms.Label();
             this.lblOptimizingText = new System.Windows.Forms.Label();
             this.lblAdapting = new System.Windows.Forms.Label();
@@ -107,7 +103,7 @@
             // btnStop
             // 
             this.btnStop.BackColor = System.Drawing.Color.PaleVioletRed;
-            this.btnStop.Location = new System.Drawing.Point(202, 664);
+            this.btnStop.Location = new System.Drawing.Point(186, 664);
             this.btnStop.Margin = new System.Windows.Forms.Padding(4);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(72, 62);
@@ -116,60 +112,12 @@
             this.btnStop.UseVisualStyleBackColor = false;
             this.btnStop.Click += new System.EventHandler(this.BtnStopClick);
             // 
-            // radioButtonSH
-            // 
-            this.radioButtonSH.AutoSize = true;
-            this.radioButtonSH.Location = new System.Drawing.Point(4, 4);
-            this.radioButtonSH.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButtonSH.Name = "radioButtonSH";
-            this.radioButtonSH.Size = new System.Drawing.Size(161, 21);
-            this.radioButtonSH.TabIndex = 51;
-            this.radioButtonSH.TabStop = true;
-            this.radioButtonSH.Text = "Self-Healing Scenaio";
-            this.radioButtonSH.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonSO
-            // 
-            this.radioButtonSO.AutoSize = true;
-            this.radioButtonSO.Location = new System.Drawing.Point(4, 33);
-            this.radioButtonSO.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButtonSO.Name = "radioButtonSO";
-            this.radioButtonSO.Size = new System.Drawing.Size(184, 21);
-            this.radioButtonSO.TabIndex = 52;
-            this.radioButtonSO.TabStop = true;
-            this.radioButtonSO.Text = "Self-Optimizing Scenario";
-            this.radioButtonSO.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonSP
-            // 
-            this.radioButtonSP.AutoSize = true;
-            this.radioButtonSP.Location = new System.Drawing.Point(4, 62);
-            this.radioButtonSP.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButtonSP.Name = "radioButtonSP";
-            this.radioButtonSP.Size = new System.Drawing.Size(182, 21);
-            this.radioButtonSP.TabIndex = 53;
-            this.radioButtonSP.TabStop = true;
-            this.radioButtonSP.Text = "Self-Protecting Scenario";
-            this.radioButtonSP.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonSC
-            // 
-            this.radioButtonSC.AutoSize = true;
-            this.radioButtonSC.Location = new System.Drawing.Point(4, 91);
-            this.radioButtonSC.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButtonSC.Name = "radioButtonSC";
-            this.radioButtonSC.Size = new System.Drawing.Size(190, 21);
-            this.radioButtonSC.TabIndex = 54;
-            this.radioButtonSC.TabStop = true;
-            this.radioButtonSC.Text = "Self-Configuring Scenario";
-            this.radioButtonSC.UseVisualStyleBackColor = true;
-            // 
             // lblAdaptingText
             // 
             this.lblAdaptingText.AutoSize = true;
             this.lblAdaptingText.BackColor = System.Drawing.Color.Transparent;
             this.lblAdaptingText.ForeColor = System.Drawing.Color.Black;
-            this.lblAdaptingText.Location = new System.Drawing.Point(0, 431);
+            this.lblAdaptingText.Location = new System.Drawing.Point(0, 315);
             this.lblAdaptingText.Margin = new System.Windows.Forms.Padding(0);
             this.lblAdaptingText.Name = "lblAdaptingText";
             this.lblAdaptingText.Size = new System.Drawing.Size(94, 20);
@@ -183,7 +131,7 @@
             this.lblOptimizingText.AutoSize = true;
             this.lblOptimizingText.BackColor = System.Drawing.Color.Transparent;
             this.lblOptimizingText.ForeColor = System.Drawing.Color.Black;
-            this.lblOptimizingText.Location = new System.Drawing.Point(0, 411);
+            this.lblOptimizingText.Location = new System.Drawing.Point(0, 295);
             this.lblOptimizingText.Margin = new System.Windows.Forms.Padding(0);
             this.lblOptimizingText.Name = "lblOptimizingText";
             this.lblOptimizingText.Size = new System.Drawing.Size(103, 20);
@@ -197,7 +145,7 @@
             this.lblAdapting.AutoSize = true;
             this.lblAdapting.BackColor = System.Drawing.Color.Transparent;
             this.lblAdapting.ForeColor = System.Drawing.Color.Black;
-            this.lblAdapting.Location = new System.Drawing.Point(198, 431);
+            this.lblAdapting.Location = new System.Drawing.Point(182, 315);
             this.lblAdapting.Margin = new System.Windows.Forms.Padding(0);
             this.lblAdapting.Name = "lblAdapting";
             this.lblAdapting.Size = new System.Drawing.Size(35, 20);
@@ -211,7 +159,7 @@
             this.lblOptimizing.AutoSize = true;
             this.lblOptimizing.BackColor = System.Drawing.Color.Transparent;
             this.lblOptimizing.ForeColor = System.Drawing.Color.Black;
-            this.lblOptimizing.Location = new System.Drawing.Point(198, 411);
+            this.lblOptimizing.Location = new System.Drawing.Point(182, 295);
             this.lblOptimizing.Margin = new System.Windows.Forms.Padding(0);
             this.lblOptimizing.Name = "lblOptimizing";
             this.lblOptimizing.Size = new System.Drawing.Size(35, 20);
@@ -239,10 +187,6 @@
             this.settingPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.settingPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.settingPanel.Controls.Add(this.btnStart, 0, 27);
-            this.settingPanel.Controls.Add(this.radioButtonSH, 0, 0);
-            this.settingPanel.Controls.Add(this.radioButtonSO, 0, 1);
-            this.settingPanel.Controls.Add(this.radioButtonSP, 0, 2);
-            this.settingPanel.Controls.Add(this.radioButtonSC, 0, 3);
             this.settingPanel.Controls.Add(this.btnStop, 0, 27);
             this.settingPanel.Controls.Add(this.label7, 0, 15);
             this.settingPanel.Controls.Add(this.label6, 0, 14);
@@ -323,7 +267,7 @@
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(0, 359);
+            this.label7.Location = new System.Drawing.Point(0, 243);
             this.label7.Margin = new System.Windows.Forms.Padding(0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(105, 20);
@@ -337,7 +281,7 @@
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(0, 333);
+            this.label6.Location = new System.Drawing.Point(0, 217);
             this.label6.Margin = new System.Windows.Forms.Padding(0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(182, 20);
@@ -351,7 +295,7 @@
             this.label5.AutoEllipsis = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(0, 275);
+            this.label5.Location = new System.Drawing.Point(0, 159);
             this.label5.Margin = new System.Windows.Forms.Padding(0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 58);
@@ -365,7 +309,7 @@
             this.label4.AutoEllipsis = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(0, 208);
+            this.label4.Location = new System.Drawing.Point(0, 92);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(86, 67);
@@ -379,7 +323,7 @@
             this.label3.AutoEllipsis = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(0, 164);
+            this.label3.Location = new System.Drawing.Point(0, 48);
             this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 44);
@@ -390,7 +334,7 @@
             // 
             // numMaxRadioRange
             // 
-            this.numMaxRadioRange.Location = new System.Drawing.Point(200, 361);
+            this.numMaxRadioRange.Location = new System.Drawing.Point(184, 245);
             this.numMaxRadioRange.Margin = new System.Windows.Forms.Padding(2);
             this.numMaxRadioRange.Maximum = new decimal(new int[] {
             10000,
@@ -414,7 +358,7 @@
             // 
             // numMaxMessengersRadioRange
             // 
-            this.numMaxMessengersRadioRange.Location = new System.Drawing.Point(200, 335);
+            this.numMaxMessengersRadioRange.Location = new System.Drawing.Point(184, 219);
             this.numMaxMessengersRadioRange.Margin = new System.Windows.Forms.Padding(2);
             this.numMaxMessengersRadioRange.Maximum = new decimal(new int[] {
             10000,
@@ -438,7 +382,7 @@
             // 
             // numSpeed
             // 
-            this.numSpeed.Location = new System.Drawing.Point(200, 387);
+            this.numSpeed.Location = new System.Drawing.Point(184, 271);
             this.numSpeed.Margin = new System.Windows.Forms.Padding(2);
             this.numSpeed.Maximum = new decimal(new int[] {
             10000,
@@ -465,7 +409,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(0, 385);
+            this.label1.Location = new System.Drawing.Point(0, 269);
             this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 20);
@@ -477,7 +421,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::Simulation.Properties.Resources.messenger;
-            this.pictureBox2.Location = new System.Drawing.Point(317, 119);
+            this.pictureBox2.Location = new System.Drawing.Point(301, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(72, 42);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -487,7 +431,7 @@
             // pictureBox3
             // 
             this.pictureBox3.Image = global::Simulation.Properties.Resources.team;
-            this.pictureBox3.Location = new System.Drawing.Point(317, 211);
+            this.pictureBox3.Location = new System.Drawing.Point(301, 95);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(69, 61);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -497,7 +441,7 @@
             // pictureBox4
             // 
             this.pictureBox4.Image = global::Simulation.Properties.Resources.workers;
-            this.pictureBox4.Location = new System.Drawing.Point(317, 278);
+            this.pictureBox4.Location = new System.Drawing.Point(301, 162);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(69, 52);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -511,7 +455,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBox5, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(317, 167);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(301, 51);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -543,7 +487,7 @@
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Controls.Add(this.numMessengersCount, 0, 1);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(201, 119);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(185, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 3;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -581,7 +525,7 @@
             this.label2.AutoEllipsis = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(0, 116);
+            this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(124, 48);
@@ -595,7 +539,7 @@
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.numRulersCount, 0, 1);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(201, 167);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(185, 51);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 3;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -633,7 +577,7 @@
             this.tableLayoutPanel5.ColumnCount = 1;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.Controls.Add(this.numTeamsCount, 0, 1);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(201, 211);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(185, 95);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 3;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -671,7 +615,7 @@
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Controls.Add(this.numWorkersCount, 0, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(201, 278);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(185, 162);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -707,7 +651,7 @@
             // btnMessengerFailure
             // 
             this.btnMessengerFailure.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMessengerFailure.Location = new System.Drawing.Point(3, 454);
+            this.btnMessengerFailure.Location = new System.Drawing.Point(3, 338);
             this.btnMessengerFailure.Name = "btnMessengerFailure";
             this.btnMessengerFailure.Size = new System.Drawing.Size(146, 37);
             this.btnMessengerFailure.TabIndex = 85;
@@ -718,7 +662,7 @@
             // btnWorkerFailure
             // 
             this.btnWorkerFailure.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnWorkerFailure.Location = new System.Drawing.Point(3, 497);
+            this.btnWorkerFailure.Location = new System.Drawing.Point(3, 381);
             this.btnWorkerFailure.Name = "btnWorkerFailure";
             this.btnWorkerFailure.Size = new System.Drawing.Size(146, 37);
             this.btnWorkerFailure.TabIndex = 86;
@@ -729,7 +673,7 @@
             // btnRulerFailure
             // 
             this.btnRulerFailure.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRulerFailure.Location = new System.Drawing.Point(201, 454);
+            this.btnRulerFailure.Location = new System.Drawing.Point(185, 338);
             this.btnRulerFailure.Name = "btnRulerFailure";
             this.btnRulerFailure.Size = new System.Drawing.Size(110, 37);
             this.btnRulerFailure.TabIndex = 86;
@@ -740,7 +684,7 @@
             // btnLeaderFailure
             // 
             this.btnLeaderFailure.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLeaderFailure.Location = new System.Drawing.Point(201, 497);
+            this.btnLeaderFailure.Location = new System.Drawing.Point(185, 381);
             this.btnLeaderFailure.Name = "btnLeaderFailure";
             this.btnLeaderFailure.Size = new System.Drawing.Size(110, 37);
             this.btnLeaderFailure.TabIndex = 87;
@@ -786,10 +730,6 @@
 
         private OpenTK.GLControl guiOpenGLFrame;
         private System.Windows.Forms.Button btnStop;
-        private System.Windows.Forms.RadioButton radioButtonSH;
-        private System.Windows.Forms.RadioButton radioButtonSO;
-        private System.Windows.Forms.RadioButton radioButtonSP;
-        private System.Windows.Forms.RadioButton radioButtonSC;
         private System.Windows.Forms.Label lblAdaptingText;
         private System.Windows.Forms.Label lblOptimizingText;
         public System.Windows.Forms.Label lblAdapting;

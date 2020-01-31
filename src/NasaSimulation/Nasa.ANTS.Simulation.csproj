@@ -114,8 +114,6 @@
     <Compile Include="Roles\Messenger.cs" />
     <Compile Include="Roles\Ruler.cs" />
     <Compile Include="Roles\Worker.cs" />
-    <Compile Include="Scenario\IScenario.cs" />
-    <Compile Include="Scenario\SelfHealingScenario1.cs" />
     <Compile Include="Enums\State.cs" />
     <Compile Include="Core\Team.cs" />
     <Compile Include="Tools\Time.cs" />

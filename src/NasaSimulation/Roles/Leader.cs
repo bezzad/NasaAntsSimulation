@@ -25,41 +25,6 @@ namespace Simulation.Roles
             Team = team;
         }
 
-        public void OnTimedEvent()
-        {
-            if (_pingTime != -1 && Time.GlobalSimulationTime - _pingTime > 100 && _iStatus == 3)
-            {
-                _iStatus = 2;
-                _startPartialAdaptationTime = Time.GlobalSimulationTime;
-                SendBroadcastMessage(this, this, BroadcastType.MessengerToLeaderBroadcast,
-                    MessagesContent.LostRuler, 1);
-            }
-            else if (RulerAgent != null && _iStatus == 1)
-            {
-                _pingTime = Time.GlobalSimulationTime;
-                var message = new Message()
-                {
-                    SenderAgent = this,
-                    SenderAgentId = this.AgentId,
-                    CurrentSenderAgent = this,
-                    ReceiverAgent = RulerAgent,
-                    ReceiverAgentId = RulerAgent.AgentId,
-                    MessageType = BroadcastType.SendReceive,
-                    MessageContent = MessagesContent.Ping,
-                    DataMessageText = ""
-                };
-                SendMessage(message);
-                _iStatus = 3;
-            }
-            else if (_iStatus == 2 && Time.GlobalSimulationTime - _startPartialAdaptationTime > 200)
-            {
-                _startPartialAdaptationTime = Time.GlobalSimulationTime;
-                SendBroadcastMessage(this, this,
-                    BroadcastType.MessengerToLeaderBroadcast,
-                    MessagesContent.LostRuler, 2);
-            }
-        }
-
 
         private void SendBroadcastMessage(Agent senderAgent,
             Agent currentSenderAgent,
@@ -112,9 +77,7 @@ namespace Simulation.Roles
             }
         }
 
-        #region Ours
-
-        public void OursOnTimeEvent()
+        public void OnTimeEvent()
         {
             if (RulerAgent != null && _iStatus == 1)
             {
@@ -132,6 +95,37 @@ namespace Simulation.Roles
                 };
                 SendMessage(tempMessage);
                 _iStatus = 3;
+            }
+            else if (_pingTime != -1 && Time.GlobalSimulationTime - _pingTime > 100 && _iStatus == 3)
+            {
+                _iStatus = 2;
+                _startPartialAdaptationTime = Time.GlobalSimulationTime;
+                SendBroadcastMessage(this, this, BroadcastType.MessengerToLeaderBroadcast,
+                    MessagesContent.LostRuler, 1);
+            }
+            else if (RulerAgent != null && _iStatus == 1)
+            {
+                _pingTime = Time.GlobalSimulationTime;
+                var message = new Message()
+                {
+                    SenderAgent = this,
+                    SenderAgentId = this.AgentId,
+                    CurrentSenderAgent = this,
+                    ReceiverAgent = RulerAgent,
+                    ReceiverAgentId = RulerAgent.AgentId,
+                    MessageType = BroadcastType.SendReceive,
+                    MessageContent = MessagesContent.Ping,
+                    DataMessageText = ""
+                };
+                SendMessage(message);
+                _iStatus = 3;
+            }
+            else if (_iStatus == 2 && Time.GlobalSimulationTime - _startPartialAdaptationTime > 200)
+            {
+                _startPartialAdaptationTime = Time.GlobalSimulationTime;
+                SendBroadcastMessage(this, this,
+                    BroadcastType.MessengerToLeaderBroadcast,
+                    MessagesContent.LostRuler, 2);
             }
         }
 
@@ -211,8 +205,6 @@ namespace Simulation.Roles
             }
         }
 
-        #endregion
-
         protected override void Movement()
         {
             base.Movement();
@@ -232,7 +224,7 @@ namespace Simulation.Roles
 
             if (Time.GlobalSimulationTime % 40 == 0)
             {
-                OursOnTimeEvent();
+                OnTimeEvent();
             }
         }
 
