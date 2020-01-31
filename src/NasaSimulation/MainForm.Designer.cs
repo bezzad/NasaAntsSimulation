@@ -562,7 +562,7 @@
             this.numMessengersCount.Size = new System.Drawing.Size(74, 22);
             this.numMessengersCount.TabIndex = 70;
             this.numMessengersCount.Value = new decimal(new int[] {
-            160,
+            85,
             0,
             0,
             0});

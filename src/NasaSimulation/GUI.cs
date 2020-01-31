@@ -92,7 +92,7 @@ namespace Simulation
         {
             InitialGui();
 
-            while (Config.IsRunning && !Config.EndOfApplication)
+            while (Config.IsRunning)
             {
                 GuiDraw();
 
