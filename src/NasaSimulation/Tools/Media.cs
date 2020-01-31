@@ -11,13 +11,14 @@ namespace Simulation.Tools
         {
             Config = config;
             Container = cont;
+            MessageList = new List<Message>();
         }
 
 
-        public List<Message> MessageList = new List<Message>();
         protected Configuration Config { get; }
         protected Container Container { get; }
         public int MessageCount { get; set; }
+        public List<Message> MessageList { get; set; }
 
 
         public bool SendMessage(Agent sender, Message msg)
@@ -32,9 +33,6 @@ namespace Simulation.Tools
 
         private void AddMessageEventToContainer(int msgId)
         {
-
-
-
             Container.AddEventToQueue(msgId, Config.MsgDelay);
         }
 
@@ -64,9 +62,7 @@ namespace Simulation.Tools
             }
             return true;
         }
-
-
-
+        
         public bool SendBroadcastToAgent(Message message, Agent receiver)
         {
             if (receiver is Messenger tempMessenger)
@@ -96,8 +92,6 @@ namespace Simulation.Tools
 
         public bool SendToAgentAndReceive(Message message, Agent receiver)
         {
-
-
             if (receiver is Ruler tempRuler)
             {
                 tempRuler.GetAndSendMessage(message.Copy());
@@ -110,9 +104,7 @@ namespace Simulation.Tools
         public bool DoMessage(int msgId)
         {
             var msgStatus = true;
-            var tempMsg = MessageList.Find(
-                msg => msg.MessageId == msgId
-            );
+            var tempMsg = MessageList.Find(msg => msg.MessageId == msgId);
 
             switch (tempMsg.MessageType)
             {
@@ -141,10 +133,10 @@ namespace Simulation.Tools
                         break;
 
                     }
+
                 case BroadcastType.SingleCast:
                     {
-                        var agent = tempMsg.CurrentReceiverAgent;
-                        SendToAgent(tempMsg, agent);
+                        SendToAgent(tempMsg, tempMsg.CurrentReceiverAgent);
                         break;
                     }
 
@@ -220,7 +212,6 @@ namespace Simulation.Tools
                         break;
                     }
 
-
                 case BroadcastType.MessengerToLeaderBroadcast:
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
@@ -287,7 +278,6 @@ namespace Simulation.Tools
 
                             MessageList.Remove(tempMsg);
                         }
-
                         else
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
@@ -371,7 +361,6 @@ namespace Simulation.Tools
                         else if (tempMsg.CurrentReceiverAgentId == tempMsg.ReceiverAgentId)
                         {
                             var agent = tempMsg.CurrentReceiverAgent;
-
                             msgStatus = SendToAgentAndReceive(tempMsg, agent);
                         }
 

@@ -1,18 +1,11 @@
 ﻿using Simulation.Enums;
+using Simulation.Roles;
 using Simulation.Tools;
 
 namespace Simulation.Core
 {
     public abstract class Agent
     {
-        protected Configuration Config { get; }
-        protected Container Container { get; }
-        public string AgentId { set; get; }
-        public double RadioRange { set; get; }
-        public AgentPosition Position { get; }
-        public State Status { set; get; }
-
-
         protected Agent(Configuration config, AgentPosition position, string id, Container cont)
         {
             Config = config;
@@ -23,6 +16,15 @@ namespace Simulation.Core
         }
 
 
+
+        protected Configuration Config { get; }
+        protected Container Container { get; }
+        public string AgentId { set; get; }
+        public double RadioRange { set; get; }
+        public AgentPosition Position { get; }
+        public State Status { set; get; }
+        
+        
         public virtual void UpdateOneMillisecond()
         {
             Movement();
@@ -56,6 +58,40 @@ namespace Simulation.Core
 
             position.Velocity.X += t1;
             position.Velocity.Y += t2;
+        }
+        protected Messenger FindNearestMessenger(AgentPosition destPosition)
+        {
+            double minMessengerDistance = 10000;
+            Messenger messenger = null;
+
+            foreach (var mAgent in Container.MessengerList)
+            {
+                if (Position.Position.CalculateDistance(mAgent.Position.Position) <= RadioRange &&
+                    Position.Position.CalculateDistance(mAgent.Position.Position) +
+                    destPosition.Position.CalculateDistance(mAgent.Position.Position) < minMessengerDistance)
+                {
+                    minMessengerDistance = Position.Position.CalculateDistance(mAgent.Position.Position) +
+                                           destPosition.Position.CalculateDistance(mAgent.Position.Position);
+                    messenger = mAgent;
+                }
+            }
+            return messenger;
+        }
+        protected Messenger FindNearestMessenger()
+        {
+            double minMessengerDistance = 10000;
+            Messenger messenger = null;
+
+            foreach (var mAgent in Container.MessengerList)
+            {
+                if (Position.Position.CalculateDistance(mAgent.Position.Position) <= RadioRange &&
+                    Position.Position.CalculateDistance(mAgent.Position.Position) < minMessengerDistance)
+                {
+                    minMessengerDistance = Position.Position.CalculateDistance(mAgent.Position.Position);
+                    messenger = mAgent;
+                }
+            }
+            return messenger;
         }
 
         public abstract void Draw();

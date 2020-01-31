@@ -17,25 +17,6 @@ namespace Simulation.Roles
 
         protected OrganizationBoundries TeamBoundary { get; set; }
 
-
-        private Messenger FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
-        {
-            double minDist = 10000;
-            Messenger nAgent = null;
-            foreach (var mAgent in Container.MessengerList)
-            {
-                if (agentPosition.Position.CalculateDistance(mAgent.Position.Position) <= RadioRange &&
-                    agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
-                    destPosition.Position.CalculateDistance(mAgent.Position.Position) < minDist)
-                {
-                    minDist = agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
-                              destPosition.Position.CalculateDistance(mAgent.Position.Position);
-                    nAgent = mAgent;
-                }
-            }
-            return nAgent;
-        }
-
         protected override void Movement()
         {
             base.Movement();

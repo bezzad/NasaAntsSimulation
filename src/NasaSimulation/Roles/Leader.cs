@@ -37,16 +37,15 @@ namespace Simulation.Roles
                         MessagesContent.LostRuler, 1);
                 }
             }
-
-
             else if (RulerAgent != null && _iStatus == 1)
             {
                 _pingTime = Time.GlobalSimulationTime;
-                SendMessage(this, this, RulerAgent, RulerAgent.AgentId, BroadcastType.SendReceive,
+                SendMessage(this, this, 
+                    RulerAgent, RulerAgent.AgentId, 
+                    BroadcastType.SendReceive,
                     MessagesContent.Ping, "");
                 _iStatus = 3;
             }
-
             else if (_iStatus == 2 && Time.GlobalSimulationTime - _startPartialAdaptationTime > 200)
             {
                 if (Config.MultiOff)
@@ -59,7 +58,6 @@ namespace Simulation.Roles
                     BroadcastType.MessengerToLeaderBroadcast,
                     MessagesContent.LostRuler, 2);
             }
-
         }
 
         private void SendMessage(Agent senderAgent,
@@ -70,6 +68,8 @@ namespace Simulation.Roles
             MessagesContent messageContent,
             Ruler rulerAgent)
         {
+            if(Status == State.Failed) return;
+
             var message = new Message
             {
                 CurrentSenderAgent = currentSenderAgent,
@@ -82,16 +82,14 @@ namespace Simulation.Roles
                 MessageType = messageType
             };
 
-            var messengerAgent = FindNearestMessenger(Position, receiverAgent.Position);
+            var messengerAgent = FindNearestMessenger(receiverAgent.Position);
 
             message.RulerPingReply = rulerAgent;
             if (messengerAgent == null)
             {
                 RadioRange += 50;
-                SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent,
-                    rulerAgent);
+                SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent, rulerAgent);
                 return;
-
             }
 
             message.CurrentReceiverAgent = messengerAgent;
@@ -107,6 +105,8 @@ namespace Simulation.Roles
             BroadcastType messageType,
             MessagesContent messageContent, string messageTextData)
         {
+            if (Status == State.Failed) return;
+
             var message = new Message
             {
                 CurrentSenderAgent = currentSenderAgent,
@@ -119,7 +119,7 @@ namespace Simulation.Roles
                 MessageType = messageType
             };
 
-            var messengerAgent = FindNearestMessenger(Position, receiverAgent.Position);
+            var messengerAgent = FindNearestMessenger(receiverAgent.Position);
             message.DataMessageText = messageTextData;
             if (messengerAgent == null)
             {
@@ -140,6 +140,8 @@ namespace Simulation.Roles
             BroadcastType messageType,
             MessagesContent messageContent, int iBroadcastNum)
         {
+            if (Status == State.Failed) return;
+
             var message = new Message
             {
                 CurrentSenderAgent = currentSenderAgent,
@@ -164,43 +166,6 @@ namespace Simulation.Roles
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
             Container.ContainerMedia.SendMessage(this, message.Copy());
-        }
-
-        public Agent FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition)
-        {
-            double minDist = 10000;
-            Agent nAgent = null;
-            foreach (var mAgent in Container.MessengerList)
-            {
-                //Role temptRole = (Role)mAgent.agentRole;
-                if (agentPosition.Position.CalculateDistance(mAgent.Position.Position) <= RadioRange &&
-                    agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
-                    destPosition.Position.CalculateDistance(mAgent.Position.Position) < minDist)
-                {
-                    minDist = agentPosition.Position.CalculateDistance(mAgent.Position.Position) +
-                              destPosition.Position.CalculateDistance(mAgent.Position.Position);
-                    nAgent = mAgent;
-                }
-            }
-
-            return nAgent;
-        }
-
-        public Agent FindNearestMessenger(AgentPosition agentPosition)
-        {
-            double minDist = 10000;
-            Agent nAgent = null;
-            foreach (var mAgent in Container.MessengerList)
-            {
-                if (agentPosition.Position.CalculateDistance(mAgent.Position.Position) <= RadioRange &&
-                    agentPosition.Position.CalculateDistance(mAgent.Position.Position) < minDist)
-                {
-                    minDist = agentPosition.Position.CalculateDistance(mAgent.Position.Position);
-                    nAgent = mAgent;
-                }
-            }
-
-            return nAgent;
         }
 
         public void ProcessMessage(Message message)

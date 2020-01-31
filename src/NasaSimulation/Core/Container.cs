@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using Simulation.Enums;
 using Simulation.Roles;
@@ -131,6 +132,7 @@ namespace Simulation.Core
         }
 
         #region Simulation
+
         public void Simulation()
         {
             while (!Config.EndOfApplication)
@@ -144,13 +146,13 @@ namespace Simulation.Core
                 HandleEvents();
             }
         }
+
         private void HandleEvents()
         {
             if (EventQueue.Count == 0) return;
-            while (EventQueue[EventQueue.Count - 1].EventTime == Time.GlobalSimulationTime)
+            while (EventQueue.Last().EventTime == Time.GlobalSimulationTime)
             {
-                var tempEvent = EventQueue[EventQueue.Count - 1];
-                DoEvent(tempEvent);
+                DoEvent(EventQueue.Last());
                 EventQueue.RemoveAt(EventQueue.Count - 1);
                 if (EventQueue.Count == 0) return;
             }
@@ -158,12 +160,7 @@ namespace Simulation.Core
 
         private void DoEvent(Event tempEvent)
         {
-            switch (tempEvent.EventType)
-            {
-                case EventType.Message:
-                    ContainerMedia.DoMessage(tempEvent.MessageId);
-                    break;
-            }
+            ContainerMedia.DoMessage(tempEvent.MessageId);
         }
 
         private void UpdateOrganizations()
@@ -206,13 +203,10 @@ namespace Simulation.Core
             var time = Time.GlobalSimulationTime;
 
             tempEvent.EventTime = time + timeFromNow;
-
             tempEvent.MessageId = messageId;
             tempEvent.EventType = EventType.Message;
 
-            var indexOccur = EventQueue.FindIndex(
-                ev => ev.EventTime > tempEvent.EventTime
-            );
+            var indexOccur = EventQueue.FindIndex(ev => ev.EventTime > tempEvent.EventTime);
             if (indexOccur == -1)
             {
                 indexOccur = 0;

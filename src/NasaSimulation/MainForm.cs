@@ -55,7 +55,7 @@ namespace Simulation
             AnimationThread?.Abort();
             UiUpdater?.Stop();
             RefreshInfo();
-
+            
             SetButtonsEnable(false);
         }
 
@@ -65,8 +65,15 @@ namespace Simulation
                 return;
 
             SetButtonsEnable(true);
-
             SetConfiguration();
+            Time.OursAdaptingTime = 0;
+            Time.EndSimulationTime = 0;
+            Time.StartSimulationTime = 0;
+            Time.ConventionalAdaptingTime = 0;
+            Time.GlobalSimulationTime = 0;
+            Time.OursOptimizingTime = 0;
+            Config.StartMessageCount = 0;
+
             Config.SelectedScenario = new SelfHealingScenario1(Config);
             EnvironmentContainer = new Container(Config);
             AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
