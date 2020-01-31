@@ -21,6 +21,8 @@ namespace Simulation.Roles
         public List<Message> ReplyWaitingList { get; set; }
         public List<Message> AdaptingWaitingList { get; set; }
 
+
+
         public void OnTimedEvent()
         {
             //
@@ -56,7 +58,6 @@ namespace Simulation.Roles
                 }
             }
         }
-
 
         public void OursProcessMessage(Message message)
         {

@@ -16,5 +16,9 @@ namespace Simulation.Scenario
             //    TeamList.Add(new Team(TeamList.Count,"org"+TeamList.Count,initNumOfWorkersInOrganization));
             //}
         }
+
+        public void Run()
+        {
+        }
     }
 }

@@ -16,9 +16,11 @@ namespace Simulation
         {
             Config = new Configuration();
             InitializeComponent();
+            SetButtonsEnable(false);
         }
 
 
+        private FaultGenerator FaultGenerator { get; set; }
         private Container EnvironmentContainer { get; set; }
         private Gui AnimationController { get; set; }
         private Thread AnimationThread { get; set; }
@@ -53,6 +55,8 @@ namespace Simulation
             AnimationThread?.Abort();
             UiUpdater?.Stop();
             RefreshInfo();
+
+            SetButtonsEnable(false);
         }
 
         private void BtnStartClick(object sender, EventArgs e)
@@ -60,10 +64,13 @@ namespace Simulation
             if (EnvironmentThread?.IsAlive == true)
                 return;
 
+            SetButtonsEnable(true);
+
             SetConfiguration();
             Config.SelectedScenario = new SelfHealingScenario1(Config);
             EnvironmentContainer = new Container(Config);
             AnimationController = new Gui(Config, EnvironmentContainer, guiOpenGLFrame);
+            FaultGenerator = new FaultGenerator(Config, EnvironmentContainer);
 
             var ts = new ThreadStart(EnvironmentContainer.Run);
             EnvironmentThread = new Thread(ts) { IsBackground = true, Priority = ThreadPriority.Highest };
@@ -121,5 +128,34 @@ namespace Simulation
             Text = $@"NASA ANTS Simulation by OpenGL    |   Environment Size:{guiOpenGLFrame.Size}";
         }
 
+        private void BtnMessengerFailureClick(object sender, EventArgs e)
+        {
+            FaultGenerator.MessengerFailure();
+        }
+
+        private void BtnRulerFailureClick(object sender, EventArgs e)
+        {
+            FaultGenerator.RulerFailure();
+        }
+
+        private void BtnLeaderFailureClick(object sender, EventArgs e)
+        {
+            FaultGenerator.LeaderFailure();
+        }
+
+        private void BtnWorkerFailureClick(object sender, EventArgs e)
+        {
+            FaultGenerator.WorkerFailure();
+        }
+
+        private void SetButtonsEnable(bool enable)
+        {
+            btnLeaderFailure.Enabled = enable;
+            btnWorkerFailure.Enabled = enable;
+            btnMessengerFailure.Enabled = enable;
+            btnRulerFailure.Enabled = enable;
+            btnStart.Enabled = !enable;
+            btnStop.Enabled = enable;
+        }
     }
 }

@@ -137,22 +137,8 @@ namespace Simulation.Core
             {
                 Time.Tick();
                 UpdateOrganizations();
-                if (Time.GlobalSimulationTime == 100 &&
-                    Config.SelectedScenario is SelfHealingScenario1)
-                {
-                    Time.StartSimulationTime = Time.GlobalSimulationTime;
-                    Config.StartMessageCount = ContainerMedia.MessageCount;
-                    var iRemoveIndex = Config.Rnd.Next(0, RulerList.Count - 1);
-                    var lostRuler = RulerList[iRemoveIndex];
 
-                    while (lostRuler.LeaderList.Count == 0)
-                    {
-                        iRemoveIndex = Config.Rnd.Next(0, RulerList.Count - 1);
-                        lostRuler = RulerList[iRemoveIndex];
-                    }
-
-                    lostRuler.Status = State.Failed;
-                }
+                Config.SelectedScenario?.Run();
 
                 Thread.Sleep(Config.HesitateValue);
                 HandleEvents();
@@ -168,7 +154,6 @@ namespace Simulation.Core
                 EventQueue.RemoveAt(EventQueue.Count - 1);
                 if (EventQueue.Count == 0) return;
             }
-
         }
 
         private void DoEvent(Event tempEvent)
@@ -214,9 +199,7 @@ namespace Simulation.Core
             };
             return tempAgentPosition;
         }
-
-
-
+        
         public bool AddEventToQueue(int messageId, int timeFromNow)
         {
             var tempEvent = new Event();
@@ -238,11 +221,9 @@ namespace Simulation.Core
 
             return true;
         }
-
-
-
-
+        
         #region MessengerInRange
+
         internal List<Agent> GetMessengersInRange(Agent agent)
         {
             var listOfAgent = new List<Agent>();
@@ -277,7 +258,6 @@ namespace Simulation.Core
             return listOfAgent;
         }
 
-
         internal List<Agent> GetRulersInRange(Agent agent)
         {
             var listOfAgent = new List<Agent>();
@@ -292,7 +272,6 @@ namespace Simulation.Core
             }
             return listOfAgent;
         }
-
 
         internal List<Agent> GetAgentsInRange(Agent agent)
         {
@@ -349,6 +328,7 @@ namespace Simulation.Core
             if ((x + y) < radioRange) return true;
             return false;
         }
+
+        #endregion
     }
 }
-#endregion

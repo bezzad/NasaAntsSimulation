@@ -10,11 +10,6 @@
         public static long OursAdaptingTime { set; get; }
         public static long OursOptimizingTime { set; get; }
 
-        public static long OneSecTick()
-        {
-            GlobalSimulationTime += 1000;
-            return GlobalSimulationTime;
-        }
         public static long Tick()
         {
             GlobalSimulationTime += 1;
