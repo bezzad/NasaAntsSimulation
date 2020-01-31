@@ -7,15 +7,19 @@ namespace Simulation.Tools
 {
     public class Media
     {
-        public List<Message> MessageList = new List<Message>();
-        protected Configuration Config { get; }
-        protected Container Container { get; }
-        public int MessageCount = 1;
         public Media(Configuration config, Container cont)
         {
             Config = config;
             Container = cont;
         }
+
+
+        public List<Message> MessageList = new List<Message>();
+        protected Configuration Config { get; }
+        protected Container Container { get; }
+        public int MessageCount { get; set; }
+
+
         public bool SendMessage(Agent sender, Message msg)
         {
             MessageCount++;
