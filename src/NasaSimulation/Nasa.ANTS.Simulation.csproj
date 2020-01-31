@@ -115,7 +115,24 @@
     <Compile Include="Core\Team.cs" />
     <Compile Include="Tools\Time.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\failed-ruler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\leader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\messenger.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ruler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\team.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\workers.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

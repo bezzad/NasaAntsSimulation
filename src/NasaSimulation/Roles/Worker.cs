@@ -44,10 +44,6 @@ namespace Simulation.Roles
                 // go back to center slowly
                 Position.Velocity.X *= -1; 
                 Position.Velocity.Y *= -1;
-            }
-
-            if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
-            {
                 UpdateVelocity(Position);
             }
         }

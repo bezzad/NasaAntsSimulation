@@ -57,6 +57,12 @@
             this.numSpeed = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.numMessengersCount = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelSetting.SuspendLayout();
             this.settingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxRadioRange)).BeginInit();
@@ -66,6 +72,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.numRulersCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMessengersCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // guiOpenGLFrame
@@ -75,10 +87,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.guiOpenGLFrame.AutoScroll = true;
             this.guiOpenGLFrame.BackColor = System.Drawing.Color.Black;
-            this.guiOpenGLFrame.Location = new System.Drawing.Point(362, 0);
+            this.guiOpenGLFrame.Location = new System.Drawing.Point(392, 0);
             this.guiOpenGLFrame.Margin = new System.Windows.Forms.Padding(5);
             this.guiOpenGLFrame.Name = "guiOpenGLFrame";
-            this.guiOpenGLFrame.Size = new System.Drawing.Size(742, 639);
+            this.guiOpenGLFrame.Size = new System.Drawing.Size(712, 639);
             this.guiOpenGLFrame.TabIndex = 0;
             this.guiOpenGLFrame.VSync = true;
             // 
@@ -145,7 +157,7 @@
             // checkBoxOurs
             // 
             this.checkBoxOurs.AutoSize = true;
-            this.checkBoxOurs.Location = new System.Drawing.Point(202, 302);
+            this.checkBoxOurs.Location = new System.Drawing.Point(202, 432);
             this.checkBoxOurs.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxOurs.Name = "checkBoxOurs";
             this.checkBoxOurs.Size = new System.Drawing.Size(101, 21);
@@ -158,7 +170,7 @@
             this.lblAdaptingText.AutoSize = true;
             this.lblAdaptingText.BackColor = System.Drawing.Color.Transparent;
             this.lblAdaptingText.ForeColor = System.Drawing.Color.Black;
-            this.lblAdaptingText.Location = new System.Drawing.Point(0, 347);
+            this.lblAdaptingText.Location = new System.Drawing.Point(0, 477);
             this.lblAdaptingText.Margin = new System.Windows.Forms.Padding(0);
             this.lblAdaptingText.Name = "lblAdaptingText";
             this.lblAdaptingText.Size = new System.Drawing.Size(94, 20);
@@ -172,7 +184,7 @@
             this.lblOptimizingText.AutoSize = true;
             this.lblOptimizingText.BackColor = System.Drawing.Color.Transparent;
             this.lblOptimizingText.ForeColor = System.Drawing.Color.Black;
-            this.lblOptimizingText.Location = new System.Drawing.Point(0, 327);
+            this.lblOptimizingText.Location = new System.Drawing.Point(0, 457);
             this.lblOptimizingText.Margin = new System.Windows.Forms.Padding(0);
             this.lblOptimizingText.Name = "lblOptimizingText";
             this.lblOptimizingText.Size = new System.Drawing.Size(103, 20);
@@ -186,7 +198,7 @@
             this.lblAdapting.AutoSize = true;
             this.lblAdapting.BackColor = System.Drawing.Color.Transparent;
             this.lblAdapting.ForeColor = System.Drawing.Color.Black;
-            this.lblAdapting.Location = new System.Drawing.Point(198, 347);
+            this.lblAdapting.Location = new System.Drawing.Point(198, 477);
             this.lblAdapting.Margin = new System.Windows.Forms.Padding(0);
             this.lblAdapting.Name = "lblAdapting";
             this.lblAdapting.Size = new System.Drawing.Size(35, 20);
@@ -200,7 +212,7 @@
             this.lblOptimizing.AutoSize = true;
             this.lblOptimizing.BackColor = System.Drawing.Color.Transparent;
             this.lblOptimizing.ForeColor = System.Drawing.Color.Black;
-            this.lblOptimizing.Location = new System.Drawing.Point(198, 327);
+            this.lblOptimizing.Location = new System.Drawing.Point(198, 457);
             this.lblOptimizing.Margin = new System.Windows.Forms.Padding(0);
             this.lblOptimizing.Name = "lblOptimizing";
             this.lblOptimizing.Size = new System.Drawing.Size(35, 20);
@@ -212,7 +224,7 @@
             // checkBoxMultiOff
             // 
             this.checkBoxMultiOff.AutoSize = true;
-            this.checkBoxMultiOff.Location = new System.Drawing.Point(4, 302);
+            this.checkBoxMultiOff.Location = new System.Drawing.Point(4, 432);
             this.checkBoxMultiOff.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxMultiOff.Name = "checkBoxMultiOff";
             this.checkBoxMultiOff.Size = new System.Drawing.Size(78, 21);
@@ -228,15 +240,16 @@
             this.panelSetting.Location = new System.Drawing.Point(0, 0);
             this.panelSetting.Margin = new System.Windows.Forms.Padding(2);
             this.panelSetting.Name = "panelSetting";
-            this.panelSetting.Size = new System.Drawing.Size(355, 639);
+            this.panelSetting.Size = new System.Drawing.Size(385, 639);
             this.panelSetting.TabIndex = 62;
             // 
             // settingPanel
             // 
             this.settingPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.settingPanel.ColumnCount = 2;
+            this.settingPanel.ColumnCount = 3;
             this.settingPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.settingPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.settingPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.settingPanel.Controls.Add(this.btnStart, 0, 24);
             this.settingPanel.Controls.Add(this.radioButtonSH, 0, 0);
             this.settingPanel.Controls.Add(this.radioButtonSO, 0, 1);
@@ -263,6 +276,10 @@
             this.settingPanel.Controls.Add(this.lblAdapting, 1, 20);
             this.settingPanel.Controls.Add(this.checkBoxOurs, 1, 17);
             this.settingPanel.Controls.Add(this.numMessengersCount, 1, 5);
+            this.settingPanel.Controls.Add(this.pictureBox2, 2, 5);
+            this.settingPanel.Controls.Add(this.pictureBox3, 2, 12);
+            this.settingPanel.Controls.Add(this.pictureBox4, 2, 13);
+            this.settingPanel.Controls.Add(this.tableLayoutPanel1, 2, 6);
             this.settingPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.settingPanel.Location = new System.Drawing.Point(0, 0);
             this.settingPanel.Margin = new System.Windows.Forms.Padding(2);
@@ -293,7 +310,7 @@
             this.settingPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.settingPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.settingPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.settingPanel.Size = new System.Drawing.Size(355, 639);
+            this.settingPanel.Size = new System.Drawing.Size(385, 639);
             this.settingPanel.TabIndex = 0;
             // 
             // btnStart
@@ -313,7 +330,7 @@
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(0, 246);
+            this.label7.Location = new System.Drawing.Point(0, 376);
             this.label7.Margin = new System.Windows.Forms.Padding(0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(105, 20);
@@ -327,7 +344,7 @@
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(0, 220);
+            this.label6.Location = new System.Drawing.Point(0, 350);
             this.label6.Margin = new System.Windows.Forms.Padding(0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(182, 20);
@@ -341,7 +358,7 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(0, 194);
+            this.label5.Location = new System.Drawing.Point(0, 281);
             this.label5.Margin = new System.Windows.Forms.Padding(0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 20);
@@ -355,7 +372,7 @@
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(0, 168);
+            this.label4.Location = new System.Drawing.Point(0, 203);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(86, 20);
@@ -369,7 +386,7 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(0, 142);
+            this.label3.Location = new System.Drawing.Point(0, 162);
             this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 20);
@@ -394,7 +411,7 @@
             // 
             // numMaxRadioRange
             // 
-            this.numMaxRadioRange.Location = new System.Drawing.Point(200, 248);
+            this.numMaxRadioRange.Location = new System.Drawing.Point(200, 378);
             this.numMaxRadioRange.Margin = new System.Windows.Forms.Padding(2);
             this.numMaxRadioRange.Maximum = new decimal(new int[] {
             10000,
@@ -417,7 +434,7 @@
             // 
             // numMaxMessengersRadioRange
             // 
-            this.numMaxMessengersRadioRange.Location = new System.Drawing.Point(200, 222);
+            this.numMaxMessengersRadioRange.Location = new System.Drawing.Point(200, 352);
             this.numMaxMessengersRadioRange.Margin = new System.Windows.Forms.Padding(2);
             this.numMaxMessengersRadioRange.Maximum = new decimal(new int[] {
             10000,
@@ -440,7 +457,7 @@
             // 
             // numWorkersCount
             // 
-            this.numWorkersCount.Location = new System.Drawing.Point(200, 196);
+            this.numWorkersCount.Location = new System.Drawing.Point(200, 283);
             this.numWorkersCount.Margin = new System.Windows.Forms.Padding(2);
             this.numWorkersCount.Maximum = new decimal(new int[] {
             10000,
@@ -463,7 +480,7 @@
             // 
             // numTeamsCount
             // 
-            this.numTeamsCount.Location = new System.Drawing.Point(200, 170);
+            this.numTeamsCount.Location = new System.Drawing.Point(200, 205);
             this.numTeamsCount.Margin = new System.Windows.Forms.Padding(2);
             this.numTeamsCount.Maximum = new decimal(new int[] {
             10000,
@@ -486,7 +503,7 @@
             // 
             // numRulersCount
             // 
-            this.numRulersCount.Location = new System.Drawing.Point(200, 144);
+            this.numRulersCount.Location = new System.Drawing.Point(200, 164);
             this.numRulersCount.Margin = new System.Windows.Forms.Padding(2);
             this.numRulersCount.Maximum = new decimal(new int[] {
             10000,
@@ -509,7 +526,7 @@
             // 
             // numSpeed
             // 
-            this.numSpeed.Location = new System.Drawing.Point(200, 274);
+            this.numSpeed.Location = new System.Drawing.Point(200, 404);
             this.numSpeed.Margin = new System.Windows.Forms.Padding(2);
             this.numSpeed.Maximum = new decimal(new int[] {
             10000,
@@ -535,7 +552,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(0, 272);
+            this.label1.Location = new System.Drawing.Point(0, 402);
             this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 20);
@@ -567,6 +584,70 @@
             0,
             0});
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Simulation.Properties.Resources.ruler;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(30, 29);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 75;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::Simulation.Properties.Resources.messenger;
+            this.pictureBox2.Location = new System.Drawing.Point(310, 119);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(72, 40);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.TabIndex = 76;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::Simulation.Properties.Resources.team;
+            this.pictureBox3.Location = new System.Drawing.Point(310, 206);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(72, 72);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 77;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::Simulation.Properties.Resources.workers;
+            this.pictureBox4.Location = new System.Drawing.Point(310, 284);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(72, 63);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 78;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::Simulation.Properties.Resources.failed_ruler;
+            this.pictureBox5.Location = new System.Drawing.Point(39, 3);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(30, 29);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox5.TabIndex = 79;
+            this.pictureBox5.TabStop = false;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox5, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(310, 165);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(72, 35);
+            this.tableLayoutPanel1.TabIndex = 80;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -587,6 +668,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.numRulersCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMessengersCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -622,5 +709,11 @@
         private System.Windows.Forms.NumericUpDown numSpeed;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.PictureBox pictureBox5;
     }
 }
