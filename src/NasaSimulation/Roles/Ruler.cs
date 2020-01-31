@@ -1,9 +1,8 @@
-﻿using Simulation.Core;
+﻿using OpenTK.Graphics.OpenGL;
+using Simulation.Core;
 using Simulation.Enums;
 using Simulation.Tools;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using OpenTK.Graphics.OpenGL;
 
 namespace Simulation.Roles
 {
@@ -194,15 +193,33 @@ namespace Simulation.Roles
         {
             base.FreeMovement();
 
-            var x = (double)Config.Rnd.Next((int)RulerArea.MinX, (int)RulerArea.MaxX);
-            var y = (double)Config.Rnd.Next((int)RulerArea.MinY, (int)RulerArea.MaxY);
-            if (Position.Position.X > RulerArea.MaxX) Position.Position.X = x;
-            if (Position.Position.X < RulerArea.MinX) Position.Position.X = x;
-            if (Position.Position.Y > RulerArea.MaxY) Position.Position.Y = y;
-            if (Position.Position.Y < RulerArea.MinY) Position.Position.Y = y;
-
-            if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
+            if (Position.Position.X > RulerArea.MaxX)
+            {
+                Position.Velocity.X *= -1;
+                Position.Position.X = RulerArea.MaxX;
                 UpdateVelocity(Position);
+            }
+
+            if (Position.Position.X < RulerArea.MinX)
+            {
+                Position.Velocity.X *= -1;
+                Position.Position.X = RulerArea.MinX;
+                UpdateVelocity(Position);
+            }
+
+            if (Position.Position.Y > RulerArea.MaxY)
+            {
+                Position.Velocity.Y *= -1;
+                Position.Position.Y = RulerArea.MaxY;
+                UpdateVelocity(Position);
+            }
+
+            if (Position.Position.Y < RulerArea.MinY)
+            {
+                Position.Velocity.Y *= -1;
+                Position.Position.Y = RulerArea.MinY;
+                UpdateVelocity(Position);
+            }
         }
 
         public override void Draw()

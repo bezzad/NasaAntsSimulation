@@ -339,8 +339,9 @@ namespace Simulation.Roles
 
             if (Position.Position.CalculateDistance(TeamBoundary.OrgCenter) > TeamBoundary.Radius)
             {
-                Position.Position.X = TeamBoundary.OrgCenter.X;
-                Position.Position.Y = TeamBoundary.OrgCenter.Y;
+                // go back to center slowly
+                Position.Velocity.X *= -1; 
+                Position.Velocity.Y *= -1;
             }
 
             if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
@@ -373,13 +374,29 @@ namespace Simulation.Roles
         {
             base.FreeMovement();
 
-            if (Position.Position.X > (Config.UpperBoarder.X - Config.LowerBoarder.X)) Position.Position.X = 0;
-            if (Position.Position.X < 0) Position.Position.X = (Config.UpperBoarder.X + Config.LowerBoarder.X);
-            if (Position.Position.Y > (Config.UpperBoarder.Y - Config.LowerBoarder.Y)) Position.Position.Y = 0;
-            if (Position.Position.Y < 0) Position.Position.Y = (Config.UpperBoarder.Y + Config.LowerBoarder.Y);
-
-            if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
+            if (Position.Position.X > Config.UpperBoarder.X - Config.LowerBoarder.X)
+            {
+                Position.Velocity.X *= -1;
                 UpdateVelocity(Position);
+            }
+            if (Position.Position.X < 0)
+            {
+                Position.Position.X = Config.LowerBoarder.X;
+                Position.Velocity.X *= -1;
+                UpdateVelocity(Position);
+            }
+
+            if (Position.Position.Y > Config.UpperBoarder.Y - Config.LowerBoarder.Y)
+            {
+                Position.Velocity.Y *= -1;
+                UpdateVelocity(Position);
+            }
+            if (Position.Position.Y < 0)
+            {
+                Position.Position.Y = Config.LowerBoarder.Y;
+                Position.Velocity.Y *= -1;
+                UpdateVelocity(Position);
+            }
         }
 
         public override void Draw()

@@ -334,15 +334,33 @@ namespace Simulation.Roles
         {
             base.FreeMovement();
 
-            var x = (double)Config.Rnd.Next((int)MessengerArea.MinX, (int)MessengerArea.MaxX);
-            var y = (double)Config.Rnd.Next((int)MessengerArea.MinY, (int)MessengerArea.MaxY);
-            if (Position.Position.X > MessengerArea.MaxX) Position.Position.X = x;
-            if (Position.Position.X < MessengerArea.MinX) Position.Position.X = x;
-            if (Position.Position.Y > MessengerArea.MaxY) Position.Position.Y = y;
-            if (Position.Position.Y < MessengerArea.MinY) Position.Position.Y = y;
-
-            if (Time.GlobalSimulationTime > 1000 & Time.GlobalSimulationTime % 1000 == 0)
+            if (Position.Position.X > MessengerArea.MaxX)
+            {
+                Position.Velocity.X *= -1;
+                Position.Position.X = MessengerArea.MaxX;
                 UpdateVelocity(Position);
+            }
+
+            if (Position.Position.X < MessengerArea.MinX)
+            {
+                Position.Velocity.X *= -1;
+                Position.Position.X = MessengerArea.MinX;
+                UpdateVelocity(Position);
+            }
+
+            if (Position.Position.Y > MessengerArea.MaxY)
+            {
+                Position.Velocity.Y *= -1;
+                Position.Position.Y = MessengerArea.MaxY;
+                UpdateVelocity(Position);
+            }
+
+            if (Position.Position.Y < MessengerArea.MinY)
+            {
+                Position.Velocity.Y *= -1;
+                Position.Position.Y = MessengerArea.MinY;
+                UpdateVelocity(Position);
+            }
         }
 
         public override void Draw()
