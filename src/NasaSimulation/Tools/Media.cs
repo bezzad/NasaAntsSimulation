@@ -21,10 +21,9 @@ namespace Simulation.Tools
         public List<Message> MessageList { get; set; }
 
 
-        public bool SendMessage(Agent sender, Message msg)
+        public bool SendMessage(Message msg)
         {
-            MessageCount++;
-            msg.MessageId = MessageCount;
+            msg.MessageId = ++MessageCount;
             MessageList.Add(msg);
             //--- must do --- check if this agent is in forbidden area
             AddMessageEventToContainer(MessageCount);
@@ -40,34 +39,7 @@ namespace Simulation.Tools
         {
             if (receiver is Messenger tempMessenger)
             {
-                tempMessenger.GetMessage(message.Copy());
-                MessageList.Remove(message);
-            }
-
-            else if (receiver is Worker)
-            {
-                MessageList.Remove(message);
-            }
-
-            else if (receiver is Ruler tempRuler)
-            {
-                tempRuler.GetAndSendMessage(message.Copy());
-                MessageList.Remove(message);
-            }
-
-            else if (receiver is Leader tempLeader)
-            {
-                tempLeader.GetMessage(message.Copy());
-                MessageList.Remove(message);
-            }
-            return true;
-        }
-        
-        public bool SendBroadcastToAgent(Message message, Agent receiver)
-        {
-            if (receiver is Messenger tempMessenger)
-            {
-                tempMessenger.GetMessage(message);
+                tempMessenger.OnMessage(message);
                 MessageList.Remove(message);
             }
 
@@ -84,7 +56,34 @@ namespace Simulation.Tools
 
             else if (receiver is Leader tempLeader)
             {
-                tempLeader.GetMessage(message);
+                tempLeader.OnMessage(message);
+                MessageList.Remove(message);
+            }
+            return true;
+        }
+
+        public bool SendBroadcastToAgent(Message message, Agent receiver)
+        {
+            if (receiver is Messenger tempMessenger)
+            {
+                tempMessenger.OnMessage(message);
+                MessageList.Remove(message);
+            }
+
+            else if (receiver is Worker)
+            {
+                MessageList.Remove(message);
+            }
+
+            else if (receiver is Ruler tempRuler)
+            {
+                tempRuler.GetAndSendMessage(message);
+                MessageList.Remove(message);
+            }
+
+            else if (receiver is Leader tempLeader)
+            {
+                tempLeader.OnMessage(message);
                 MessageList.Remove(message);
             }
             return true;

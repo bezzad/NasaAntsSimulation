@@ -13,6 +13,7 @@ namespace Simulation.Core
             Position = position;
             AgentId = id;
             RadioRange = Config.MaxRadioRange;
+            Status = State.Stable;
         }
 
 
@@ -93,7 +94,25 @@ namespace Simulation.Core
             }
             return messenger;
         }
+        protected void SendMessage(Message message)
+        {
+            if (Status == State.Failed) return;
 
+            var messengerAgent = FindNearestMessenger(message.ReceiverAgent.Position);
+            if (messengerAgent == null)
+            {
+                RadioRange += 50; // increase radio range to find messenger again! 
+                SendMessage(message);
+                return;
+            }
+
+            message.CurrentReceiverAgent = messengerAgent;
+            message.CurrentReceiverAgentId = messengerAgent.AgentId;
+
+            Container.ContainerMedia.SendMessage(message);
+        }
+
+        public abstract void OnMessage(Message message);
         public abstract void Draw();
     }
 }

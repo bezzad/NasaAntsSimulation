@@ -14,7 +14,7 @@ namespace Simulation.Roles
             TeamBoundary = orgBoundary;
         }
 
-
+        public Leader LeaderAgent { get; set; }
         protected OrganizationBoundries TeamBoundary { get; set; }
 
         protected override void Movement()
@@ -69,6 +69,36 @@ namespace Simulation.Roles
             GL.Begin(PrimitiveType.Points);
             GL.Vertex2(p.X, p.Y);
             GL.End();
+        }
+
+        public override void UpdateOneMillisecond()
+        {
+            base.UpdateOneMillisecond();
+            var period = Config.Rnd.Next(10000, 10100);
+            if (Time.GlobalSimulationTime % period == 0) // ping per 1sec
+            {
+                var messenger = FindNearestMessenger();
+                if(messenger == null) return;
+                var tempMessage = new Message()
+                {
+                    SenderAgent = this,
+                    SenderAgentId = AgentId,
+                    CurrentSenderAgent = this,
+                    CurrentReceiverAgent = messenger,
+                    CurrentReceiverAgentId = messenger.AgentId,
+                    ReceiverAgent = LeaderAgent,
+                    ReceiverAgentId = LeaderAgent.AgentId,
+                    MessageType = BroadcastType.SendReceive,
+                    MessageContent = MessagesContent.Ping,
+                    DataMessageText = ""
+                };
+                SendMessage(tempMessage);
+            }
+        }
+
+        public override void OnMessage(Message message)
+        {
+            if(Status == State.Failed) return;
         }
     }
 }

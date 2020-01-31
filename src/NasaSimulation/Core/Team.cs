@@ -25,15 +25,15 @@ namespace Simulation.Core
             OrganizationBoundries = orgBoundries;
             OrganizationId = orgId;
             NumOfAgents = agentCount;
-
+            OrgLeader = CreateLeader();
             AgentsArray = new List<Agent>(NumOfAgents);
             for (var i = 0; i < NumOfAgents; i++)
             {
                 var sId = "W" + OrganizationId + i;
-                AgentsArray.Add(CreateNode(sId));
+                var worker = CreateNode(sId);
+                worker.LeaderAgent = OrgLeader;
+                AgentsArray.Add(worker);
             }
-
-            OrgLeader = CreateLeader();
         }
 
         private Leader CreateLeader()
@@ -41,11 +41,11 @@ namespace Simulation.Core
             var tempAgentPosition = SetAgentPosition();
             SetAgentVelocity(tempAgentPosition);
             var sId = "L" + OrganizationId;
-            var tempAgent = new Leader(Config, tempAgentPosition, sId, OrganizationBoundries, Container);
+            var tempAgent = new Leader(this, Config, tempAgentPosition, sId, Container);
             return tempAgent;
         }
 
-        private Agent CreateNode(string id)
+        private Worker CreateNode(string id)
         {
             var tempAgentPosition = SetAgentPosition();
             SetAgentVelocity(tempAgentPosition);

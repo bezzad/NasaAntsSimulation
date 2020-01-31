@@ -9,20 +9,20 @@ namespace Simulation.Roles
     public class Leader : Agent
     {
         public Ruler RulerAgent { set; get; }
-        protected OrganizationBoundries TeamBoundary { get; }
+        public Team Team { get; set; }
+        protected OrganizationBoundries TeamBoundary => Team.OrganizationBoundries;
 
 
-        //0 is corrupted 1 is OK and 2 is under ruler correction
-        int _iStatus = 1;
+        //1 is corrupted 2 is OK and 3 is under ruler correction
+        int _iStatus = 2;
         long _pingTime = -1;
         long _startPartialAdaptationTime = long.MaxValue;
 
 
-        public Leader(Configuration config, AgentPosition pos, string id,
-            OrganizationBoundries orgBoundary, Container cont)
+        public Leader(Team team, Configuration config, AgentPosition pos, string id, Container cont)
             : base(config, pos, id, cont)
         {
-            TeamBoundary = orgBoundary;
+            Team = team;
         }
 
         public void OnTimedEvent()
@@ -40,10 +40,18 @@ namespace Simulation.Roles
             else if (RulerAgent != null && _iStatus == 1)
             {
                 _pingTime = Time.GlobalSimulationTime;
-                SendMessage(this, this, 
-                    RulerAgent, RulerAgent.AgentId, 
-                    BroadcastType.SendReceive,
-                    MessagesContent.Ping, "");
+                var message = new Message()
+                {
+                    SenderAgent = this,
+                    SenderAgentId = this.AgentId,
+                    CurrentSenderAgent = this,
+                    ReceiverAgent = RulerAgent,
+                    ReceiverAgentId = RulerAgent.AgentId,
+                    MessageType = BroadcastType.SendReceive,
+                    MessageContent = MessagesContent.Ping,
+                    DataMessageText = ""
+                };
+                SendMessage(message);
                 _iStatus = 3;
             }
             else if (_iStatus == 2 && Time.GlobalSimulationTime - _startPartialAdaptationTime > 200)
@@ -60,81 +68,6 @@ namespace Simulation.Roles
             }
         }
 
-        private void SendMessage(Agent senderAgent,
-            Agent currentSenderAgent,
-            Agent receiverAgent,
-            string receiverId,
-            BroadcastType messageType,
-            MessagesContent messageContent,
-            Ruler rulerAgent)
-        {
-            if(Status == State.Failed) return;
-
-            var message = new Message
-            {
-                CurrentSenderAgent = currentSenderAgent,
-                CurrentSenderAgentId = currentSenderAgent.AgentId,
-                SenderAgentId = senderAgent.AgentId,
-                SenderAgent = senderAgent,
-                ReceiverAgent = receiverAgent,
-                ReceiverAgentId = receiverId,
-                MessageContent = messageContent,
-                MessageType = messageType
-            };
-
-            var messengerAgent = FindNearestMessenger(receiverAgent.Position);
-
-            message.RulerPingReply = rulerAgent;
-            if (messengerAgent == null)
-            {
-                RadioRange += 50;
-                SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent, rulerAgent);
-                return;
-            }
-
-            message.CurrentReceiverAgent = messengerAgent;
-            message.CurrentReceiverAgentId = messengerAgent.AgentId;
-
-            Container.ContainerMedia.SendMessage(this, message.Copy());
-        }
-
-        private void SendMessage(Agent senderAgent,
-            Agent currentSenderAgent,
-            Agent receiverAgent,
-            string receiverId,
-            BroadcastType messageType,
-            MessagesContent messageContent, string messageTextData)
-        {
-            if (Status == State.Failed) return;
-
-            var message = new Message
-            {
-                CurrentSenderAgent = currentSenderAgent,
-                CurrentSenderAgentId = currentSenderAgent.AgentId,
-                SenderAgentId = senderAgent.AgentId,
-                SenderAgent = senderAgent,
-                ReceiverAgent = receiverAgent,
-                ReceiverAgentId = receiverId,
-                MessageContent = messageContent,
-                MessageType = messageType
-            };
-
-            var messengerAgent = FindNearestMessenger(receiverAgent.Position);
-            message.DataMessageText = messageTextData;
-            if (messengerAgent == null)
-            {
-                RadioRange += 50;
-                SendMessage(senderAgent, currentSenderAgent, receiverAgent, receiverId, messageType, messageContent,
-                    messageTextData);
-                return;
-
-            }
-
-            message.CurrentReceiverAgent = messengerAgent;
-            message.CurrentReceiverAgentId = messengerAgent.AgentId;
-
-            Container.ContainerMedia.SendMessage(this, message.Copy());
-        }
 
         private void SendBroadcastMessage(Agent senderAgent, Agent currentSenderAgent,
             BroadcastType messageType,
@@ -165,7 +98,7 @@ namespace Simulation.Roles
             message.CurrentReceiverAgent = messengerAgent;
             message.CurrentReceiverAgentId = messengerAgent.AgentId;
 
-            Container.ContainerMedia.SendMessage(this, message.Copy());
+            Container.ContainerMedia.SendMessage(message.Copy());
         }
 
         public void ProcessMessage(Message message)
@@ -180,23 +113,33 @@ namespace Simulation.Roles
             {
                 if (_iStatus == 0 || _iStatus == 2)
                 {
-                    SendMessage(this,
-                        this,
-                        message.SenderAgent,
-                        message.SenderAgentId,
-                        BroadcastType.SingleCast,
-                        MessagesContent.ReplyRulerNum,
-                        "-1");
+                    var tempMessage = new Message()
+                    {
+                        SenderAgent = this,
+                        SenderAgentId = AgentId,
+                        CurrentSenderAgent = this,
+                        ReceiverAgent = message.SenderAgent,
+                        ReceiverAgentId = message.SenderAgent.AgentId,
+                        MessageType = BroadcastType.SingleCast,
+                        MessageContent = MessagesContent.ReplyRulerNum,
+                        DataMessageText = "-1"
+                    };
+                    SendMessage(tempMessage);
                 }
                 else
                 {
-                    SendMessage(this,
-                        this,
-                        message.SenderAgent,
-                        message.SenderAgentId,
-                        BroadcastType.SingleCast,
-                        MessagesContent.ReplyRulerNum,
-                        RulerAgent);
+                    var tempMessage = new Message()
+                    {
+                        SenderAgent = this,
+                        SenderAgentId = AgentId,
+                        CurrentSenderAgent = this,
+                        ReceiverAgent = message.SenderAgent,
+                        ReceiverAgentId = message.SenderAgent.AgentId,
+                        MessageType = BroadcastType.SingleCast,
+                        MessageContent = MessagesContent.ReplyRulerNum,
+                        RulerPingReply = RulerAgent
+                    };
+                    SendMessage(tempMessage);
                 }
             }
             else if (message.MessageContent == MessagesContent.ReplyRulerNum)
@@ -225,8 +168,9 @@ namespace Simulation.Roles
             Config.EndOfSimulation = true;
         }
 
-        internal void GetMessage(Message message)
+        public override void OnMessage(Message message)
         {
+            if (Status == State.Failed) return;
             if (message.ReceiverAgentId == AgentId)
             {
                 if (Config.OursExecutionMode)
@@ -247,12 +191,18 @@ namespace Simulation.Roles
             if (RulerAgent != null && _iStatus == 1)
             {
                 _pingTime = Time.GlobalSimulationTime;
-                SendMessage(this,
-                    this,
-                    RulerAgent,
-                    RulerAgent.AgentId,
-                    BroadcastType.SendReceive,
-                    MessagesContent.Ping, "");
+                var tempMessage = new Message()
+                {
+                    SenderAgent = this,
+                    SenderAgentId = AgentId,
+                    CurrentSenderAgent = this,
+                    ReceiverAgent = RulerAgent,
+                    ReceiverAgentId = RulerAgent.AgentId,
+                    MessageType = BroadcastType.SendReceive,
+                    MessageContent = MessagesContent.Ping,
+                    DataMessageText = ""
+                };
+                SendMessage(tempMessage);
                 _iStatus = 3;
             }
         }
@@ -305,7 +255,7 @@ namespace Simulation.Roles
             if (Position.Position.CalculateDistance(TeamBoundary.OrgCenter) > TeamBoundary.Radius)
             {
                 // go back to center slowly
-                Position.Velocity.X *= -1; 
+                Position.Velocity.X *= -1;
                 Position.Velocity.Y *= -1;
                 UpdateVelocity(Position);
             }

@@ -77,7 +77,7 @@ namespace Simulation.Roles
                         var messengerAgent = message.CurrentSenderAgent;
                         replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
                         replyMessage.CurrentReceiverAgent = messengerAgent;
-                        Container.ContainerMedia.SendMessage(this, replyMessage.Copy());
+                        Container.ContainerMedia.SendMessage( replyMessage.Copy());
                     }
                     else
                     {
@@ -103,7 +103,7 @@ namespace Simulation.Roles
 
                         replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
                         replyMessage.CurrentReceiverAgent = messengerAgent;
-                        Container.ContainerMedia.SendMessage(this, replyMessage.Copy());
+                        Container.ContainerMedia.SendMessage(replyMessage.Copy());
                     }
                 }
                 else if (Config.OursExecutionMode && message.MessageContent == MessagesContent.LostRuler)
@@ -154,7 +154,7 @@ namespace Simulation.Roles
                         replyMessage.CurrentReceiverAgentId = messengerAgent.AgentId;
                         replyMessage.CurrentReceiverAgent = messengerAgent;
                     }
-                    Container.ContainerMedia.SendMessage(replyMessage.SenderAgent, replyMessage.Copy());
+                    Container.ContainerMedia.SendMessage(replyMessage.Copy());
                 }
             }
 
@@ -217,6 +217,11 @@ namespace Simulation.Roles
             GL.Vertex2(p6.X, p6.Y);
             GL.Vertex2(p1.X, p1.Y);
             GL.End();
+        }
+
+        public override void OnMessage(Message message)
+        {
+            if (Status == State.Failed) return;
         }
     }
 }

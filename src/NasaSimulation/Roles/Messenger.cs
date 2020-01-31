@@ -85,8 +85,9 @@ namespace Simulation.Roles
             }
         }
 
-        internal void GetMessage(Message message)
+        public override void OnMessage(Message message)
         {
+            if (Status == State.Failed) return;
             if (Config.OursExecutionMode)
             {
                 OursGetMessage(message);
@@ -103,7 +104,7 @@ namespace Simulation.Roles
                     message.CurrentSenderAgent = this;
                     message.CurrentSenderAgentId = AgentId;
                     message.RoutingList.Add(this);
-                    Container.ContainerMedia.SendMessage(this, message.Copy());
+                    Container.ContainerMedia.SendMessage( message.Copy());
                 }
                 else //must route Message
                 {
@@ -114,8 +115,7 @@ namespace Simulation.Roles
                         message.CurrentSenderAgentId = AgentId;
                         message.CurrentSenderAgent = this;
                         message.RoutingList.Add(this);
-                        Container.ContainerMedia.SendMessage(this, message.Copy());
-
+                        Container.ContainerMedia.SendMessage( message);
                     }
                     else
                     {
@@ -123,7 +123,7 @@ namespace Simulation.Roles
                         if (mAgent == null)
                         {
                             RadioRange += 50;
-                            GetMessage(message);
+                            OnMessage(message);
                             return;
                         }
                         message.CurrentReceiverAgentId = mAgent.AgentId;
@@ -131,12 +131,10 @@ namespace Simulation.Roles
                         message.CurrentSenderAgent = this;
                         message.CurrentSenderAgentId = AgentId;
                         message.RoutingList.Add(this);
-                        Container.ContainerMedia.SendMessage(this, message.Copy());
+                        Container.ContainerMedia.SendMessage( message);
                     }
                 }
             }
-
-
         }
 
         private void OursGetMessage(Message message)
@@ -153,7 +151,7 @@ namespace Simulation.Roles
                 message.CurrentSenderAgent = this;
                 message.CurrentSenderAgentId = AgentId;
                 message.RoutingList.Add(this);
-                Container.ContainerMedia.SendMessage(this, message.Copy());
+                Container.ContainerMedia.SendMessage(message.Copy());
             }
 
             else if (Position.Position.CalculateDistance(message.ReceiverAgent.Position.Position) <= RadioRange)
@@ -168,7 +166,7 @@ namespace Simulation.Roles
 
                     message.RoutingList.Add(this);
                     ReplyWaitingList.Add(message.Copy());
-                    Container.ContainerMedia.SendMessage(this, message.Copy());
+                    Container.ContainerMedia.SendMessage( message.Copy());
                 }
                 else if (message.MessageContent == MessagesContent.PingReply)
                 {
@@ -177,7 +175,7 @@ namespace Simulation.Roles
                     message.CurrentSenderAgentId = AgentId;
                     message.CurrentSenderAgent = this;
                     message.RoutingList.Add(this);
-                    Container.ContainerMedia.SendMessage(this, message.Copy());
+                    Container.ContainerMedia.SendMessage( message.Copy());
                     foreach (var pingMessage in ReplyWaitingList)
                     {
                         if (pingMessage.ReceiverAgent == message.SenderAgent)
@@ -195,7 +193,7 @@ namespace Simulation.Roles
                     message.CurrentSenderAgentId = AgentId;
                     message.CurrentSenderAgent = this;
                     message.RoutingList.Add(this);
-                    Container.ContainerMedia.SendMessage(this, message.Copy());
+                    Container.ContainerMedia.SendMessage( message.Copy());
                 }
             }
 
@@ -220,7 +218,7 @@ namespace Simulation.Roles
                 {
                     RadioRange += 50;
                     RadioRange += 50;
-                    GetMessage(message);
+                    OnMessage(message);
                     return;
                 }
                 message.CurrentReceiverAgentId = mAgent.AgentId;
@@ -228,7 +226,7 @@ namespace Simulation.Roles
                 message.CurrentSenderAgent = this;
                 message.CurrentSenderAgentId = AgentId;
                 message.RoutingList.Add(this);
-                Container.ContainerMedia.SendMessage(this, message.Copy());
+                Container.ContainerMedia.SendMessage( message.Copy());
 
             }
         }
@@ -263,7 +261,7 @@ namespace Simulation.Roles
                 message.CurrentReceiverAgentId = temp.AgentId;
             }
 
-            Container.ContainerMedia.SendMessage(message.SenderAgent, message.Copy());
+            Container.ContainerMedia.SendMessage(message.Copy());
         }
 
         public Agent FindNearestMessenger(AgentPosition agentPosition, AgentPosition destPosition, Message message)
@@ -313,7 +311,7 @@ namespace Simulation.Roles
                 CurrentReceiverAgentId = "-1",
                 CurrentReceiverAgent = null
             };
-            Container.ContainerMedia.SendMessage(message.SenderAgent, message.Copy());
+            Container.ContainerMedia.SendMessage(message.Copy());
         }
 
 
