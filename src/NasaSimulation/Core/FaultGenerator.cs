@@ -35,14 +35,11 @@ namespace Simulation.Core
         public void RulerFailure()
         {
             PreFailureProcess();
-            var iRemoveIndex = Config.Rnd.Next(0, Container.RulerList.Count - 1);
-            var lostRuler = Container.RulerList[iRemoveIndex];
 
-            while (lostRuler.LeaderList.Count == 0)
-            {
-                iRemoveIndex = Config.Rnd.Next(0, Container.RulerList.Count - 1);
-                lostRuler = Container.RulerList[iRemoveIndex];
-            }
+            var rulersHasLeader = Container.RulerList.Where(r => r.LeaderList.Any()).ToList();
+            var iRemoveIndex = Config.Rnd.Next(0, rulersHasLeader.Count - 1);
+            var lostRuler = rulersHasLeader[iRemoveIndex];
+
             SetLostAgent(lostRuler);
         }
 
