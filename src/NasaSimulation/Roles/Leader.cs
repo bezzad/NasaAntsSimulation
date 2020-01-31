@@ -398,7 +398,10 @@ namespace Simulation.Roles
         public override void Draw()
         {
             var p = Position.Position;
-            GL.Color3(100f, 0f, 125f);
+            if (Status == State.Failed)
+                GL.Color3(255f, 0f, 0f);
+            else
+                GL.Color3(100f, 0f, 125f);
             GL.PointSize(7);
             GL.Begin(PrimitiveType.Points);
             GL.Vertex2(p.X, p.Y);

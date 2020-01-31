@@ -367,7 +367,10 @@ namespace Simulation.Roles
         public override void Draw()
         {
             var p = Position.Position;
-            GL.Color3(0f, 255f, 0f);
+            if (Status == State.Failed)
+                GL.Color3(255f, 0f, 0f);
+            else
+                GL.Color3(0f, 255f, 0f);
             //
             // +Y
             // |     c________b  l_k  g________h

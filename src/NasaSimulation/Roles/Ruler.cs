@@ -10,7 +10,6 @@ namespace Simulation.Roles
     {
         public Area RulerArea { set; get; }
         public List<Leader> LeaderList { get; set; }
-        public State Status { set; get; }
 
 
         public Ruler(Configuration config, AgentPosition pos, string id, Area area, Container cont)

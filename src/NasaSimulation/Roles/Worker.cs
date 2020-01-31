@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using Simulation.Core;
+using Simulation.Enums;
 using Simulation.Tools;
 
 namespace Simulation.Roles
@@ -80,7 +81,10 @@ namespace Simulation.Roles
         public override void Draw()
         {
             var p = Position.Position;
-            GL.Color3(125f, 125f, 0f);
+            if (Status == State.Failed)
+                GL.Color3(255f, 0f, 0f);
+            else
+                GL.Color3(125f, 125f, 0f);
             GL.Begin(PrimitiveType.Points);
             GL.Vertex2(p.X, p.Y);
             GL.End();

@@ -1,4 +1,5 @@
-﻿using Simulation.Tools;
+﻿using Simulation.Enums;
+using Simulation.Tools;
 
 namespace Simulation.Core
 {
@@ -9,6 +10,7 @@ namespace Simulation.Core
         public string AgentId { set; get; }
         public double RadioRange { set; get; }
         public AgentPosition Position { get; }
+        public State Status { set; get; }
 
 
         protected Agent(Configuration config, AgentPosition position, string id, Container cont)
