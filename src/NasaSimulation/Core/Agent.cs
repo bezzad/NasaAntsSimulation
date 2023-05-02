@@ -43,8 +43,7 @@ namespace Simulation.Core
         }
         protected virtual void FreeMovement()
         {
-            Position.Position.X += Position.Velocity.X / Config.UpperBoarder.X;
-            Position.Position.Y += Position.Velocity.Y / Config.UpperBoarder.Y;
+            Movement();
         }
         protected void UpdateVelocity(AgentPosition position)
         {
@@ -103,8 +102,6 @@ namespace Simulation.Core
             var messengerAgent = FindNearestMessenger(message.ReceiverAgent.Position);
             if (messengerAgent == null)
             {
-                RadioRange += 50; // increase radio range to find messenger again! 
-                SendMessage(message);
                 return;
             }
 
