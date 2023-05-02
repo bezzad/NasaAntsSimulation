@@ -215,14 +215,13 @@ namespace Simulation.Core
         
         #region MessengerInRange
 
-        internal List<Agent> GetMessengersInRange(Agent agent)
+        internal List<Agent> GetAccessableMessengers(Agent agent)
         {
             var listOfAgent = new List<Agent>();
-            var position = agent.Position.Position;
             foreach (var messengerAgent in MessengerList)
             {
                 var tempPosition = messengerAgent.Position.Position;
-                if (CalculateInRange(position, tempPosition, agent.RadioRange))
+                if (CalculateInRange(agent.Position.Position, tempPosition, agent.RadioRange))
                 {
                     if (agent.AgentId != messengerAgent.AgentId)
                     {
@@ -233,7 +232,7 @@ namespace Simulation.Core
             return listOfAgent;
         }
 
-        internal List<Agent> GetLeadersInRange(Agent agent)
+        internal List<Agent> GetAccessableLeaders(Agent agent)
         {
             var listOfAgent = new List<Agent>();
             var position = agent.Position.Position;
@@ -249,7 +248,7 @@ namespace Simulation.Core
             return listOfAgent;
         }
 
-        internal List<Agent> GetRulersInRange(Agent agent)
+        internal List<Agent> GetAccessableRulers(Agent agent)
         {
             var listOfAgent = new List<Agent>();
             var position = agent.Position.Position;
@@ -264,7 +263,7 @@ namespace Simulation.Core
             return listOfAgent;
         }
 
-        internal List<Agent> GetAgentsInRange(Agent agent)
+        internal List<Agent> GetAccessableAgents(Agent agent)
         {
             var listOfAgent = new List<Agent>();
             var position = agent.Position.Position;

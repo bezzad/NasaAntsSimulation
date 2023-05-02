@@ -7,7 +7,7 @@ namespace Simulation.Core
     {
         public Configuration()
         {
-            Rnd = new Random(DateTime.Now.Millisecond);
+            Rnd = new Random(DateTime.Now.GetHashCode());
             LowerBoarder = new Point();
             UpperBoarder = new Point();
             MaxSpeed = 10;

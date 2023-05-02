@@ -53,7 +53,7 @@ namespace Simulation.Tools
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
-                            var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            var agentList = Container.GetAccessableAgents(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
 
@@ -87,7 +87,7 @@ namespace Simulation.Tools
                         {
                             if (tempMsg.NumOfBroadcastSteps == 1)
                             {
-                                var agentList = Container.GetRulersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetAccessableRulers(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
                                     if (agent is Ruler && agent.AgentId != tempMsg.SenderAgentId)
@@ -105,7 +105,7 @@ namespace Simulation.Tools
                             }
                             else if (tempMsg.NumOfBroadcastSteps == 2)
                             {
-                                var agentList = Container.GetRulersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetAccessableRulers(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
                                     if (agent is Ruler && agent.AgentId != tempMsg.SenderAgentId)
@@ -120,7 +120,7 @@ namespace Simulation.Tools
                                         SendMessage(singleMessage, agent);
                                     }
                                 }
-                                var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
+                                var messengerAgentList = Container.GetAccessableMessengers(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
                                     if (agent is Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
@@ -159,7 +159,7 @@ namespace Simulation.Tools
                         {
                             if (tempMsg.NumOfBroadcastSteps == 1)
                             {
-                                var agentList = Container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetAccessableLeaders(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
                                     if (agent is Leader && agent.AgentId != tempMsg.SenderAgentId)
@@ -177,7 +177,7 @@ namespace Simulation.Tools
                             }
                             else if (tempMsg.NumOfBroadcastSteps == 2)
                             {
-                                var agentList = Container.GetLeadersInRange(tempMsg.CurrentSenderAgent);
+                                var agentList = Container.GetAccessableLeaders(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in agentList)
                                 {
                                     if (agent is Leader && agent.AgentId != tempMsg.SenderAgentId)
@@ -192,7 +192,7 @@ namespace Simulation.Tools
                                         SendMessage(singleMessage, agent);
                                     }
                                 }
-                                var messengerAgentList = Container.GetMessengersInRange(tempMsg.CurrentSenderAgent);
+                                var messengerAgentList = Container.GetAccessableMessengers(tempMsg.CurrentSenderAgent);
                                 foreach (var agent in messengerAgentList)
                                 {
                                     if (agent is Messenger && agent.AgentId != tempMsg.CurrentSenderAgentId)
@@ -231,7 +231,7 @@ namespace Simulation.Tools
                     {
                         if (tempMsg.CurrentReceiverAgentId == "-1")
                         {
-                            var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            var agentList = Container.GetAccessableAgents(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
                                 if (agent is Messenger)
@@ -259,7 +259,7 @@ namespace Simulation.Tools
                     {
                         if (tempMsg.ReceiverAgentId == "-1")
                         {
-                            var agentList = Container.GetAgentsInRange(tempMsg.CurrentSenderAgent);
+                            var agentList = Container.GetAccessableAgents(tempMsg.CurrentSenderAgent);
                             foreach (var agent in agentList)
                             {
                                 if (agent is Worker)
